@@ -33,6 +33,9 @@ $TempFull = Resolve-Path $TempDirectory
 $vswhereVersion = "2.3.2"
 $vswherePath = Resolve-Path "$TempFull\vswhere.$vswhereVersion"
 
+$pdb2mdbVersion = "4.2.3.4"
+$pdb2mdbPath = Resolve-Path "$TempFull\mono.unofficial.pdb2mdb.$pdb2mdbVersion"
+
 $UnityBuildFrameworks = @{
     Standalone = "net462";
     AOT = "net462";
@@ -53,6 +56,13 @@ function GetMsBuildPath()
   return join-path $path 'MSBuild\15.0\Bin\MSBuild.exe'
 }
 
+function GenerateMDB($dllFiles) {
+    foreach ($dllFile in $dllFiles) {
+        Write-Host "Converting .pdb for '$dllFile' to .mdb"
+        & $pdb2mdbPath\tools\pdb2mdb.exe $dllFile
+    }
+}
+
 $msbuild = GetMsBuildPath
 
 Write-Host ""
@@ -64,4 +74,8 @@ Write-Host ""
 New-Item $Destination -ItemType Directory -Force | Out-Null
 $DestinationFullPath = Resolve-Path $Destination
 
+# Build
 & $msbuild /t:build $Solution /m /p:Configuration=$Configuration /p:LibraryFrameworks=$Framework /p:OutputPath=$DestinationFullPath /p:UnityBuild=$UnityBuild @Passthrough
+
+# Generate mdb from pdb
+GenerateMDB $(Resolve-Path "$DestinationFullPath\*.dll")

@@ -20,8 +20,20 @@ $Solution = Resolve-Path "$PSScriptRoot\..\..\Src\Newtonsoft.Json\Newtonsoft.Jso
 $DestinationBase = Resolve-Path "$PSScriptRoot\..\..\Src\UnityPackage\Plugins"
 $TempDirectory = "$(Resolve-Path "$PSScriptRoot\..\..")\Temp"
 
+function Clean($Folder) {
+    Write-Host ">> Cleaning up '$Folder'"
+    Remove-Item "$Folder\*.dll" -Force -Verbose
+    Remove-Item "$Folder\*.pdb" -Force -Verbose
+    Remove-Item "$Folder\*.mdb" -Force -Verbose
+    Remove-Item "$Folder\*.xml" -Force -Verbose
+}
+
 function Build($UnityBuild) {
     $Destination = Join-Path $DestinationBase "Newtonsoft.Json $UnityBuild"
+
+    if (Test-Path $Destination) {
+        Clean($Destination)
+    }
 
     $params = @{
         Solution = [string]$Solution

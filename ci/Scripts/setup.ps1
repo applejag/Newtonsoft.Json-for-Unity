@@ -20,6 +20,9 @@ if (-Not $nugetConfig) {
 $vswhereVersion = "2.3.2"
 $vswherePath = Join-Path $TempFull "vswhere.$vswhereVersion"
 
+$pdb2mdbVersion = "4.2.3.4"
+$pdb2mdbPath = Join-Path $TempFull "mono.unofficial.pdb2mdb.$pdb2mdbVersion"
+
 $netCliChannel = "2.0"
 $netCliVersion = "2.2.105"
 
@@ -61,3 +64,4 @@ function EnsureNuGetPackage($packageName, $packagePath, $packageVersion)
 EnsureDotNetCli
 EnsureNuGetExists
 EnsureNuGetPackage "vswhere" $vswherePath $vswhereVersion
+EnsureNuGetPackage "mono.unofficial.pdb2mdb" $pdb2mdbPath $pdb2mdbVersion
