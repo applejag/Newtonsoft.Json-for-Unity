@@ -26,6 +26,8 @@
     <AssemblyName>Newtonsoft.Json</AssemblyName>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <MinClientVersion>2.12</MinClientVersion>
+    <!-- force legacy .pdb format for Mono's pdb2mdb -->
+    <DebugType>Full</DebugType>
     <!-- including PDB files in NuGet for source link because symbolsource.org does not support portable PDBs -->
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
