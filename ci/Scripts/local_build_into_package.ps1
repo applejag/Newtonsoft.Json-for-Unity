@@ -40,6 +40,7 @@ function Build($UnityBuild) {
         Destination = [string]$Destination
         TempDirectory = $TempDirectory
         UnityBuild = $UnityBuild
+        Configuration = $Configuration
     }
     & $BuildScript @params
 }
