@@ -34,7 +34,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !(NET20 || DNXCORE50)
+#if !(NET20 || DNXCORE50 || UNITY_LTS)
     [MetadataType(typeof(OptInClassMetadata))]
     public class OptInClass
     {

@@ -26,7 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-#if !(NET20 || DNXCORE50)
+#if !(NET20 || DNXCORE50 || UNITY_LTS)
 using System.Data.Linq;
 #endif
 #if !DNXCORE50

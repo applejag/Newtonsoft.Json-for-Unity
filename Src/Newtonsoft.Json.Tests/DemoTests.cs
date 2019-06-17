@@ -24,7 +24,7 @@
 #endregion
 
 using System;
-#if !(NET20 || NET35 || NET40 || PORTABLE || PORTABLE40 || DNXCORE50) || NETSTANDARD2_0
+#if !(NET20 || NET35 || NET40 || PORTABLE || PORTABLE40 || DNXCORE50 || UNITY_LTS) || NETSTANDARD2_0
 using System.Buffers;
 #endif
 using System.Collections.Generic;

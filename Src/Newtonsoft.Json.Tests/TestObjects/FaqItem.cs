@@ -33,7 +33,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !(DNXCORE50 || NET20)
+#if !(DNXCORE50 || NET20 || UNITY_LTS)
     [Serializable]
     public partial class FaqItem
     {

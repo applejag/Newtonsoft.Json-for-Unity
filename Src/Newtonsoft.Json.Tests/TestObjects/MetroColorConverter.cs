@@ -30,7 +30,7 @@ using System.Drawing;
 
 namespace Newtonsoft.Json.Tests.TestObjects
 {
-#if !(DNXCORE50)
+#if !(DNXCORE50 || UNITY_LTS)
     public class MetroColorConverter : JsonConverter
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)

@@ -39,7 +39,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.Serialization.Formatters;
 using System.Threading;
 #endif
-#if !(NET20 || DNXCORE50)
+#if !(NET20 || DNXCORE50 || UNITY_LTS)
 using System.Web.Script.Serialization;
 #endif
 using System.Text;
@@ -651,7 +651,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             public string Value { get; }
         }
 
-#if !(DNXCORE50 || NET20)
+#if !(DNXCORE50 || NET20 || UNITY_LTS)
         [Test]
         public void SerializeMetadataType()
         {
@@ -2035,7 +2035,7 @@ keyword such as type of business.""
         {
             string json = @"[""vvv\/vvv\tvvv\""vvv\bvvv\nvvv\rvvv\\vvv\fvvv""]";
 
-#if !(DNXCORE50)
+#if !(DNXCORE50 || UNITY_LTS)
             JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
             List<string> javaScriptSerializerResult = javaScriptSerializer.Deserialize<List<string>>(json);
 #endif
@@ -2047,7 +2047,7 @@ keyword such as type of business.""
 
             Assert.AreEqual(1, jsonNetResult.Count);
             Assert.AreEqual(dataContractResult[0], jsonNetResult[0]);
-#if !(DNXCORE50)
+#if !(DNXCORE50 || UNITY_LTS)
             Assert.AreEqual(javaScriptSerializerResult[0], jsonNetResult[0]);
 #endif
         }
@@ -3115,7 +3115,7 @@ keyword such as type of business.""
             Assert.AreEqual("titleId", n.FidOrder[n.FidOrder.Count - 1]);
         }
 
-#if !(NET20 || DNXCORE50)
+#if !(NET20 || DNXCORE50 || UNITY_LTS)
         [Test]
         public void OptInClassMetadataSerialization()
         {
@@ -5285,7 +5285,7 @@ Path '', line 1, position 1.");
 
         public class CustomClass
         {
-#if !(NET20 || PORTABLE)
+#if !(NET20 || PORTABLE || UNITY_LTS)
             [Required]
 #endif
             public System.Guid? clientId { get; set; }
@@ -5981,7 +5981,7 @@ Path '', line 1, position 1.");
         }
 #endif
 
-#if !(DNXCORE50)
+#if !(DNXCORE50 || UNITY_LTS)
         [Test]
         public void MetroBlogPost()
         {
@@ -7281,7 +7281,7 @@ This is just junk, though.";
 ]", json);
         }
 
-#if !(PORTABLE || PORTABLE40 || DNXCORE50)
+#if !(PORTABLE || PORTABLE40 || DNXCORE50 || UNITY_LTS)
         [Test]
         public void SerializeDictionaryWithStructKey()
         {

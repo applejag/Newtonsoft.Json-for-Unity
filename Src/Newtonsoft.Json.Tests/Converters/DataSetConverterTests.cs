@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD2_0
+#if !(PORTABLE || DNXCORE50 || PORTABLE40 || UNITY_LTS) || NETSTANDARD2_0
 using System;
 using Newtonsoft.Json.Converters;
 #if DNXCORE50

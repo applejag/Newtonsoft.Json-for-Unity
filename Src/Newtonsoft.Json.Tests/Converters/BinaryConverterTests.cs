@@ -25,7 +25,7 @@
 
 using System;
 using System.Collections.Generic;
-#if !(NET20 || DNXCORE50)
+#if !(NET20 || DNXCORE50 || UNITY_LTS)
 using System.Data.Linq;
 #endif
 #if !DNXCORE50 || NETSTANDARD2_0
@@ -55,7 +55,7 @@ namespace Newtonsoft.Json.Tests.Converters
             public byte[] NullByteArray { get; set; }
         }
 
-#if !(NET20 || PORTABLE || PORTABLE40 || DNXCORE50)
+#if !(NET20 || PORTABLE || PORTABLE40 || DNXCORE50 || UNITY_LTS)
         [Test]
         public void DeserializeBinaryClass()
         {
