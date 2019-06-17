@@ -3487,7 +3487,8 @@ Path '', line 1, position 1.");
                 new[]
                 {
                     "Unable to cast object of type 'Newtonsoft.Json.Linq.JArray' to type 'Newtonsoft.Json.Linq.JObject'.",
-                    "Cannot cast from source type to destination type." // mono
+                    "Cannot cast from source type to destination type.", // mono
+                    "Specified cast is not valid." // mono 2nd format
                 });
         }
 
@@ -7848,7 +7849,9 @@ This is just junk, though.";
                         new AttachmentReadConverter(),
                         new EncodingReadConverter());
                 },
-                "Cannot populate list type System.Net.Mime.HeaderCollection. Path 'Headers', line 26, position 14.");
+                "Cannot populate list type System.Net.Mime.HeaderCollection. Path 'Headers', line 26, position 14.",
+                "Error setting value to 'ReplyTo' on 'System.Net.Mail.MailMessage'." // mono
+            );
         }
 #endif
 
