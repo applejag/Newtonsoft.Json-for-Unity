@@ -156,12 +156,14 @@ namespace Newtonsoft.Json.Tests.Converters
             SnakeCase
         }
 
+#if !ENABLE_IL2CPP // IL2CPP does not support attributes with object arguments that are array types.
         [JsonConverter(typeof(StringEnumConverter), typeof(CamelCaseNamingStrategy), new object[0], false)]
         public enum NotAllowIntegerValuesEnum
         {
             Foo = 0,
             Bar = 1
         }
+#endif
 
         [JsonConverter(typeof(StringEnumConverter), typeof(CamelCaseNamingStrategy))]
         public enum AllowIntegerValuesEnum
@@ -302,6 +304,7 @@ Parameter name: namingStrategyType");
             Assert.AreEqual(SnakeCaseEnumNew.SnakeCase, e);
         }
 
+#if !ENABLE_IL2CPP // IL2CPP does not support attributes with object arguments that are array types.
         [Test]
         public void Deserialize_NotAllowIntegerValuesFromAttribute()
         {
@@ -310,6 +313,7 @@ Parameter name: namingStrategyType");
                 NotAllowIntegerValuesEnum e = JsonConvert.DeserializeObject<NotAllowIntegerValuesEnum>(@"""9""");
             });
         }
+#endif
 
         [Test]
         public void CannotPassNullArgumentToConverter()
