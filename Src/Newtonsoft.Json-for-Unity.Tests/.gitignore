@@ -9,6 +9,8 @@
 /[Tt]emp/
 /[Oo]bj/
 /Assets/AssetStoreTools*
+/Assets/InitTestScene*.unity
+/Assets/InitTestScene*.unity.meta
 
 # Visual Studio 2015 cache directory
 .vs/
