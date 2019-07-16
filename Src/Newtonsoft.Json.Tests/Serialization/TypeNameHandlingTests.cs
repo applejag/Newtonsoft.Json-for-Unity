@@ -671,11 +671,12 @@ namespace Newtonsoft.Json.Tests.Serialization
         public void DeserializeGenericTypeName()
         {
             string typeName = typeof(SendHttpRequest).AssemblyQualifiedName;
+            string dictTypeName = typeof(Dictionary<string, string>).AssemblyQualifiedName;
 
             string json = @"{
 ""$type"": """ + typeName + @""",
 ""RequestData"": {
-""$type"": ""System.Collections.Generic.Dictionary`2[[System.String, mscorlib,Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"",
+""$type"": """ + dictTypeName + @""",
 ""Id"": ""siedemnaście"",
 ""X"": ""323""
 },
