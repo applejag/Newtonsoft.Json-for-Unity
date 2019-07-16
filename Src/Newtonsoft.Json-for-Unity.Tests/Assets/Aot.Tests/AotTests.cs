@@ -16,12 +16,14 @@ namespace Aot.Tests
 
         class MyNonAotClass
         {
+#pragma warning disable 649
             public string a;
         }
 
         class MyAotEnsuredClass
         {
             public string b;
+#pragma warning restore 649
         }
 
         [Test]
