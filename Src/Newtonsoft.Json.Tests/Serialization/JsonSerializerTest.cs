@@ -1783,7 +1783,8 @@ namespace Newtonsoft.Json.Tests.Serialization
 
             string jsonText = JsonConvert.SerializeObject(testDictionary);
 
-#if !(NET20 || NET35)
+            // Requires JIT compilation
+#if !(NET20 || NET35 || ENABLE_IL2CPP)
             MemoryStream ms = new MemoryStream();
             DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(Dictionary<string, object>));
             serializer.WriteObject(ms, testDictionary);
@@ -2052,6 +2053,8 @@ keyword such as type of business.""
 #endif
         }
 
+        // Requires JIT
+#if !ENABLE_IL2CPP
         [Test]
         public void DateTimeTest()
         {
@@ -2076,6 +2079,7 @@ keyword such as type of business.""
             string result = JsonConvert.SerializeObject(testDates, new JsonSerializerSettings { DateFormatHandling = DateFormatHandling.MicrosoftDateFormat });
             Assert.AreEqual(expected, result);
         }
+#endif
 
         [Test]
         public void DateTimeOffsetIso()

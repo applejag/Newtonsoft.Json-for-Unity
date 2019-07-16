@@ -26,10 +26,12 @@ namespace Newtonsoft.Json.Tests.Aot
             AotHelper.EnsureDictionary<string, decimal>(); // used in JsonSerializerTest.DeserializeDecimalDictionaryExact
             AotHelper.EnsureDictionary<string, int>(); // used in JsonSerializerCollectionsTests.SerializeCustomReadOnlyDictionary
             AotHelper.EnsureList<double?>(); // used in JsonSerializerTest.DeserializeNullableArray
+            AotHelper.EnsureList<double>(); // used in JsonSerializerTest.ReadStringFloatingPointSymbols
             AotHelper.EnsureList<bool?>(); // used in JsonSerializerTest.DeserializeNullableBooleans
             AotHelper.EnsureList<DateTimeOffset?>(); // used in JsonSerializerTest.ReadForTypeHackFixDateTimeOffset
             AotHelper.EnsureList<float>(); // used in JsonSerializerTest.ReadStringFloatingPointSymbols
             AotHelper.EnsureList<BigInteger>(); // used in JsonSerializerTest.ReadTooLargeInteger
+            AotHelper.EnsureList<long>(); // used in JsonSerializerTest.ReadTooLargeInteger
         }
     }
 }
