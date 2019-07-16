@@ -1812,7 +1812,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual(1, (int)j["MyProperty"]);
         }
 
-#if !(NET35 || NET20 || PORTABLE40)
+#if !(NET35 || NET20 || PORTABLE40 || ENABLE_IL2CPP)
         [Test]
         public void PropertyItemTypeNameHandlingDynamic()
         {
