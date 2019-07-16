@@ -1,0 +1,16 @@
+{
+    "name": "Newtonsoft.Json.Tests.Aot",
+    "references": [
+        "Newtonsoft.Json"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}

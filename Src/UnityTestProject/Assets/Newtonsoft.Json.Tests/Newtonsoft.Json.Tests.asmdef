@@ -1,0 +1,17 @@
+{
+    "name": "Newtonsoft.Json.Tests",
+    "references": [
+        "Newtonsoft.Json",
+        "System.Web"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}
