@@ -212,7 +212,9 @@ namespace Newtonsoft.Json.Tests
 
         public static string ResolvePath(string path)
         {
-#if !DNXCORE50
+#if UNITY_5_3_OR_NEWER
+            return Path.Combine(UnityEngine.Application.streamingAssetsPath, path);
+#elif !DNXCORE50
             return Path.Combine(TestContext.CurrentContext.TestDirectory, path);
 #else
             return path;
