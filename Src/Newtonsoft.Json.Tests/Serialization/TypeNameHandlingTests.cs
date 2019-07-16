@@ -2475,7 +2475,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         public TypeNameHandlingTestObject Data { get; set; }
     }
 
-#if !(NET35 || NET20 || PORTABLE40)
+#if !(NET35 || NET20 || PORTABLE40 || ENABLE_IL2CPP)
     public class PropertyItemTypeNameHandlingDynamic
     {
         [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]

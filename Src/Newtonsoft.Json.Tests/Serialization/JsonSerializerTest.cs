@@ -1544,7 +1544,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             stopWatch.Stop();
         }
 
-#if !(NET20 || NET35)
+#if !(NET20 || NET35 || ENABLE_IL2CPP)
         [Test]
         public void ChildDataContractTestWithHidden()
         {
@@ -3463,7 +3463,7 @@ Path '', line 1, position 1.");
                 @"Unexpected character encountered while parsing value: [. Path '', line 1, position 1.");
         }
 
-#if !(NET35 || NET20 || PORTABLE40)
+#if !(NET35 || NET20 || PORTABLE40 || ENABLE_IL2CPP)
         [Test]
         public void CannotDeserializeArrayIntoDynamic()
         {
@@ -3488,7 +3488,8 @@ Path '', line 1, position 1.");
                 {
                     "Unable to cast object of type 'Newtonsoft.Json.Linq.JArray' to type 'Newtonsoft.Json.Linq.JObject'.",
                     "Cannot cast from source type to destination type.", // mono
-                    "Specified cast is not valid." // mono 2nd format
+                    "Specified cast is not valid.", // mono 2nd format
+                    "Unable to cast object of type 'JArray' to type 'JObject'." // il2cpp format
                 });
         }
 
@@ -3560,7 +3561,7 @@ Path '', line 1, position 1.");
                 {
                     ContractResolver = new DefaultContractResolver
                     {
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD1_3 || NETSTANDARD2_0
+#if !(PORTABLE || DNXCORE50 || PORTABLE40 || ENABLE_IL2CPP) || NETSTANDARD1_3 || NETSTANDARD2_0
                         IgnoreSerializableAttribute = true
 #endif
                     }
@@ -3577,7 +3578,7 @@ Path '', line 1, position 1.");
                 {
                     ContractResolver = new DefaultContractResolver
                     {
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD1_3 || NETSTANDARD2_0
+#if !(PORTABLE || DNXCORE50 || PORTABLE40 || ENABLE_IL2CPP) || NETSTANDARD1_3 || NETSTANDARD2_0
                         IgnoreSerializableAttribute = true
 #endif
                     }
@@ -3594,7 +3595,7 @@ Path '', line 1, position 1.");
                 {
                     ContractResolver = new DefaultContractResolver
                     {
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD1_3 || NETSTANDARD2_0
+#if !(PORTABLE || DNXCORE50 || PORTABLE40 || ENABLE_IL2CPP) || NETSTANDARD1_3 || NETSTANDARD2_0
                         IgnoreSerializableAttribute = true
 #endif
                     }
@@ -3611,7 +3612,7 @@ Path '', line 1, position 1.");
                 {
                     ContractResolver = new DefaultContractResolver
                     {
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD1_3 || NETSTANDARD2_0
+#if !(PORTABLE || DNXCORE50 || PORTABLE40 || ENABLE_IL2CPP) || NETSTANDARD1_3 || NETSTANDARD2_0
                         IgnoreSerializableAttribute = true
 #endif
                     }
@@ -4029,7 +4030,9 @@ Path '', line 1, position 1.");
             Assert.AreEqual(123L, item.Value);
         }
 
-#if !(NET20 || NET35)
+        // Throws on IL2CPP targetting .NET 4.x compatability
+        // https://forum.unity.com/threads/uwp-datacontractserializer-fails-to-load-configuration-section.507801/#post-3618808
+#if !(NET20 || NET35 || ENABLE_IL2CPP)
         [Test]
         public void DataContractJsonSerializerTest()
         {
@@ -4749,7 +4752,7 @@ Path '', line 1, position 1.");
 }", json);
         }
 
-#if !(NET35 || NET20 || PORTABLE40)
+#if !(NET35 || NET20 || PORTABLE40 || ENABLE_IL2CPP)
         [Test]
         public void SerializeExpandoObject()
         {
@@ -5077,7 +5080,7 @@ Path '', line 1, position 1.");
             JsonConvert.DeserializeObject<EnumerableArrayPropertyClass>(json);
         }
 
-#if !(NET20)
+#if !(NET20 || ENABLE_IL2CPP)
         [Test]
         public void ChildDataContractTest()
         {
@@ -5100,6 +5103,9 @@ Path '', line 1, position 1.");
 }", result);
         }
 
+
+        // Throws on IL2CPP targetting .NET 4.x compatability
+        // https://forum.unity.com/threads/uwp-datacontractserializer-fails-to-load-configuration-section.507801/#post-3618808
         [Test]
         public void ChildDataContractTestWithDataContractSerializer()
         {
@@ -7850,7 +7856,8 @@ This is just junk, though.";
                         new EncodingReadConverter());
                 },
                 "Cannot populate list type System.Net.Mime.HeaderCollection. Path 'Headers', line 26, position 14.",
-                "Error setting value to 'ReplyTo' on 'System.Net.Mail.MailMessage'." // mono
+                "Error setting value to 'ReplyTo' on 'System.Net.Mail.MailMessage'.", // mono
+                "Unable to find a constructor to use for type System.Net.Mail.MailMessage. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'From', line 2, position 9." // il2cpp
             );
         }
 #endif

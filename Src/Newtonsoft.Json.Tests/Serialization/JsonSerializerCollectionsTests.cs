@@ -75,7 +75,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
 #endif
 
-#if !(NET20 || NET35)
+#if !(NET20 || NET35 || ENABLE_IL2CPP)
         [Test]
         public void SerializeConcurrentQueue()
         {
@@ -714,7 +714,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             Assert.AreEqual("string!", l[0]);
         }
 
-#if !(NET40 || NET35 || NET20 || PORTABLE40)
+#if !(NET40 || NET35 || NET20 || PORTABLE40) || UNITY_LTS
         [Test]
         public void DeserializeReadOnlyListInterface()
         {
@@ -1147,7 +1147,7 @@ namespace Newtonsoft.Json.Tests.Serialization
             ExceptionAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<IList<KeyValuePair<string, IList<string>>>>(json); }, "Cannot convert null value to KeyValuePair. Path '[0]', line 1, position 6.");
         }
 
-#if !(NET40 || NET35 || NET20 || PORTABLE40)
+#if !(NET40 || NET35 || NET20 || PORTABLE40) || UNITY_LTS
         public class PopulateReadOnlyTestClass
         {
             public IList<int> NonReadOnlyList { get; set; }

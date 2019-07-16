@@ -376,7 +376,7 @@ namespace Newtonsoft.Json.Tests.Schema
             generator.UndefinedSchemaIdHandling = UndefinedSchemaIdHandling.UseTypeName;
             generator.ContractResolver = new CamelCasePropertyNamesContractResolver()
             {
-#if !(PORTABLE || DNXCORE50 || PORTABLE40) || NETSTANDARD1_3 || NETSTANDARD2_0
+#if !(PORTABLE || DNXCORE50 || PORTABLE40 || ENABLE_IL2CPP) || NETSTANDARD1_3 || NETSTANDARD2_0
                 IgnoreSerializableAttribute = true
 #endif
             };

@@ -1399,7 +1399,7 @@ keyword such as type of business.""
             Assert.AreEqual("hi!", (string)a[0]);
         }
 
-#if !(NET35 || NET20)
+#if !(NET35 || NET20 || ENABLE_IL2CPP)
         [Test]
         public void ExceptionFromOverloadWithJValue()
         {

@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(PORTABLE || DNXCORE50)
+#if !(PORTABLE || DNXCORE50 || ENABLE_IL2CPP)
 using System.Reflection;
 using System.Reflection.Emit;
 using Newtonsoft.Json.Serialization;

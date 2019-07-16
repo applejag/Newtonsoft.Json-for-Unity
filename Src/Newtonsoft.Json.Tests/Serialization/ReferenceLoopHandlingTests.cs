@@ -212,7 +212,7 @@ namespace Newtonsoft.Json.Tests.Serialization
         }
 #endif
 
-#if !(NET20 || NET35 || PORTABLE40)
+#if !(NET20 || NET35 || PORTABLE40 || ENABLE_IL2CPP)
         public class DictionaryDynamicObject : DynamicObject
         {
             public IDictionary<string, object> Values { get; private set; }

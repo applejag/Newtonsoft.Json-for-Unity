@@ -23,7 +23,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(NET20 || NET35 || PORTABLE40)
+// dynamic is not supported in IL2CPP
+#if !(NET20 || NET35 || PORTABLE40 || ENABLE_IL2CPP)
 
 using System;
 using System.Collections.Generic;

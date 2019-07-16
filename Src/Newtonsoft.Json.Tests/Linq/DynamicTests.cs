@@ -24,7 +24,7 @@
 #endregion
 
 using System.Diagnostics;
-#if !(NET35 || NET20 || PORTABLE40)
+#if !(NET35 || NET20 || PORTABLE40 || ENABLE_IL2CPP)
 using System;
 using System.Collections.Generic;
 using System.Dynamic;

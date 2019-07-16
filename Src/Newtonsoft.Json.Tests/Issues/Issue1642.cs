@@ -23,7 +23,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-#if !(PORTABLE || PORTABLE40 || DNXCORE50)
+// dynamic assembly definitions are not supported in IL2CPP
+#if !(PORTABLE || PORTABLE40 || DNXCORE50 || ENABLE_IL2CPP)
 using System;
 using System.Collections;
 using System.Collections.Generic;
