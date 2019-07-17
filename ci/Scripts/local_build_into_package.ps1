@@ -17,7 +17,8 @@ $SetupScript = Resolve-Path "$PSScriptRoot\setup.ps1"
 $BuildScript = Resolve-Path "$PSScriptRoot\build.ps1"
 
 $Solution = Resolve-Path "$PSScriptRoot\..\..\Src\Newtonsoft.Json\Newtonsoft.Json.csproj"
-$DestinationBase = Resolve-Path "$PSScriptRoot\..\..\Src\Newtonsoft.Json-for-Unity\Plugins"
+$Package = Resolve-Path "$PSScriptRoot\..\..\Src\Newtonsoft.Json-for-Unity"
+$DestinationBase = Resolve-Path "$Package\Plugins"
 $TempDirectory = "$(Resolve-Path "$PSScriptRoot\..\..")\Temp"
 
 function GetVersion($versionFile = "$PSScriptRoot\version.json")
@@ -39,6 +40,24 @@ function GetVersion($versionFile = "$PSScriptRoot\version.json")
 }
 
 $Version = GetVersion
+
+function UpdatePackageJson($packageJson = "$Package\package.json") {
+    $package = Get-Content $packageJson | Out-String | ConvertFrom-Json
+
+    $package.version = $Version.ToString()
+    $package.displayName = "Json.NET for Unity " + $Version.ToString(3)
+
+    ConvertTo-Json $package -Compress | PrettifyJson | Set-Content $packageJson
+}
+
+function PrettifyJson(
+    [Parameter(ValueFromPipeline)][string] $json)
+{
+    $jsonDll = Resolve-Path "$DestinationBase\Newtonsoft.Json Standalone\Newtonsoft.Json.dll"
+    $jsonBin = Get-Content $jsonDll -Encoding Byte -Raw
+    [System.Reflection.Assembly]::Load($jsonBin) | Out-Null
+    [Newtonsoft.Json.Linq.JToken]::Parse($json).ToString()
+}
 
 function Clean($Folder) {
     Write-Host ">> Cleaning up '$Folder'"
@@ -71,3 +90,4 @@ Build "AOT"
 Build "Standalone"
 Build "Portable"
 Build "Editor"
+UpdatePackageJson

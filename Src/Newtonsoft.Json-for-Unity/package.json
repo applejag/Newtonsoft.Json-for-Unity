@@ -1,10 +1,15 @@
 {
   "name": "se.jillejr.json-net-unity",
-  "displayName": "Json.NET for Unity",
-  "version": "12.0.1",
+  "displayName": "Json.NET for Unity 12.0.1",
+  "version": "12.0.1.23517",
   "unity": "2018.1",
   "description": "Json.NET is a popular high-performance JSON framework for .NET\n\nThis package is a fork of Newtonsoft.Json containing custom builds targeting standalone, portable (UWP, WP8), and AOT targets such as all IL2CPP builds (iOS, WebGL, Android, Windows, Mac OS X, et.al).\n\nThis package is licensed under The MIT License (MIT)\n\nCopyright (c) 2019 Kalle Jillheden (jilleJr)\nhttps://github.com/jilleJr/Newtonsoft.Json\n\nCopyright (c) 2007 James Newton-King\nhttps://github.com/JamesNK/Newtonsoft.Json\n\nSee full copyrights in LICENSE.md inside package",
-  "keywords": ["json", "json.net", "newtonsoft"],
+  "keywords": [
+    "json",
+    "json.net",
+    "newtonsoft",
+    "unity"
+  ],
   "category": "Utility",
   "dependencies": {}
 }
