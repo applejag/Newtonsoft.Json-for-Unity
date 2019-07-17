@@ -16,7 +16,7 @@ param (
     [ValidateSet('Release', 'Debug', IgnoreCase = $false)]
     [string] $Configuration = "Release",
     
-    [ValidateSet('Standalone', 'AOT', 'Portable', IgnoreCase = $false)]
+    [ValidateSet('Standalone', 'AOT', 'Portable', 'Editor', IgnoreCase = $false)]
     [string] $UnityBuild = "Standalone",
     
     [string] $Framework,
@@ -40,6 +40,7 @@ $UnityBuildFrameworks = @{
     Standalone = "net462";
     AOT = "net462";
     Portable = "portable-net45+win8+wpa81+wp8";
+    Editor = "net45";
 }
 
 if ([string]::IsNullOrWhiteSpace($Framework))

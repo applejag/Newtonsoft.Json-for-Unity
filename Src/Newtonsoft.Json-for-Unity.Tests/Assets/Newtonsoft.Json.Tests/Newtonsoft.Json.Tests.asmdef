@@ -1,7 +1,6 @@
 {
     "name": "Newtonsoft.Json.Tests",
     "references": [
-        "Newtonsoft.Json",
         "System.Web"
     ],
     "optionalUnityReferences": [

@@ -1,8 +1,6 @@
 {
     "name": "Newtonsoft.Json.Tests.Aot",
-    "references": [
-        "Newtonsoft.Json"
-    ],
+    "references": [],
     "optionalUnityReferences": [
         "TestAssemblies"
     ],

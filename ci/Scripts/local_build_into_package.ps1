@@ -8,7 +8,7 @@ param (
     [ValidateSet('Release', 'Debug', IgnoreCase = $false)]
     [string] $Configuration = "Release",
 
-    [string[]] $UnityBuilds = @('AOT', 'Standalone', 'Portable')
+    [string[]] $UnityBuilds = @('AOT', 'Standalone', 'Portable', 'Editor')
 )
 
 $ErrorActionPreference = "Stop"
@@ -49,3 +49,4 @@ function Build($UnityBuild) {
 Build "AOT"
 Build "Standalone"
 Build "Portable"
+Build "Editor"
