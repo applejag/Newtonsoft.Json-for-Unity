@@ -44,8 +44,7 @@ $Version = GetVersion
 function UpdatePackageJson($packageJson = "$Package\package.json") {
     $package = Get-Content $packageJson | Out-String | ConvertFrom-Json
 
-    $package.version = $Version.ToString()
-    $package.displayName = "Json.NET for Unity " + $Version.ToString(3)
+    $package.version = $Version.ToString(3)
 
     ConvertTo-Json $package -Compress | PrettifyJson | Set-Content $packageJson
 }
