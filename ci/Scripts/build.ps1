@@ -22,7 +22,10 @@ param (
     [string] $Framework,
 
     [Parameter(ValueFromRemainingArguments = $true)]
-    [string[]] $Passthrough
+    [string[]] $Passthrough,
+
+    [version] $Version = [version]::new(),
+    [string] $VersionSuffix
 )
 
 $ErrorActionPreference = "Stop"
@@ -64,19 +67,41 @@ function GenerateMDB($dllFiles) {
     }
 }
 
+$VersionShort
+if ($Version.Build -ne -1) {
+    $VersionShort = $Version.ToString(3)
+} else {
+    $VersionShort = $Version.ToString()
+}
+
 $msbuild = GetMsBuildPath
 
 Write-Host ""
 Write-Host "Configuration: $Configuration"
 Write-Host "UnityBuild: $UnityBuild"
 Write-Host "Framework: $Framework"
+if ($VersionSuffix) {
+    Write-Host "Version: $Version-$VersionSuffix"
+} else {
+    Write-Host "Version: $Version"
+}
 Write-Host ""
 
 New-Item $Destination -ItemType Directory -Force | Out-Null
 $DestinationFullPath = Resolve-Path $Destination
 
 # Build
-& $msbuild /t:build $Solution /m /p:Configuration=$Configuration /p:LibraryFrameworks=$Framework /p:OutputPath=$DestinationFullPath /p:UnityBuild=$UnityBuild @Passthrough
+& $msbuild /t:build $Solution `
+    /m `
+    /p:Configuration=$Configuration `
+    /p:LibraryFrameworks=$Framework `
+    /p:OutputPath=$DestinationFullPath `
+    /p:UnityBuild=$UnityBuild `
+    /p:VersionPrefix=$($VersionShort) `
+    /p:VersionSuffix=$VersionSuffix `
+    /p:AssemblyVersion=$($VersionShort) `
+    /p:FileVersion=$Version `
+    @Passthrough
 
 # Generate mdb from pdb
 GenerateMDB $(Resolve-Path "$DestinationFullPath\*.dll")

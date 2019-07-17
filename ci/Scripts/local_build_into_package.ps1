@@ -20,6 +20,26 @@ $Solution = Resolve-Path "$PSScriptRoot\..\..\Src\Newtonsoft.Json\Newtonsoft.Jso
 $DestinationBase = Resolve-Path "$PSScriptRoot\..\..\Src\Newtonsoft.Json-for-Unity\Plugins"
 $TempDirectory = "$(Resolve-Path "$PSScriptRoot\..\..")\Temp"
 
+function GetVersion($versionFile = "$PSScriptRoot\version.json")
+{
+    $version = Get-Content $versionFile | Out-String | ConvertFrom-Json
+    $major = if ($null -ne $version.Major) {$version.Major} else {throw "Missing 'Major' field in version.json"}
+    $minor = if ($null -ne $version.Minor) {$version.Minor} else {0}
+    $build = if ($null -ne $version.Build) {$version.Build} else {0}
+
+    $now = [DateTime]::Now
+
+    $year = $now.Year - 2000
+    $month = $now.Month
+    $totalMonthsSince2000 = ($year * 12) + $month
+    $day = $now.Day
+    $revision = "{0}{1:00}" -f $totalMonthsSince2000, $day
+
+    return [System.Version]::new($major, $minor, $build, $revision)
+}
+
+$Version = GetVersion
+
 function Clean($Folder) {
     Write-Host ">> Cleaning up '$Folder'"
     Remove-Item "$Folder\*.dll" -Force -Verbose
@@ -41,6 +61,7 @@ function Build($UnityBuild) {
         TempDirectory = $TempDirectory
         UnityBuild = $UnityBuild
         Configuration = $Configuration
+        Version = $Version
     }
     & $BuildScript @params
 }
