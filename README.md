@@ -8,13 +8,15 @@ for regular standalone, but more importantly AOT targets such as all **IL2CPP bu
 
 Available for installation with
 
-- **Unity Package Manager** `new!`
-- Unity Asset packages
-- ~~Unity Asset Store~~ _(coming soon)_.
+- **Unity Package Manager (UPM)** `new!`
+- ~~Unity Asset packages~~ _(coming soon)_
+- ~~Unity Asset Store~~ _(coming soon)_
 
 [newtonsoft.json.git]: https://github.com/JamesNK/Newtonsoft.Json
 
-## Installation via Unity Package Manager
+## Installation via UPM
+
+> Requires Unity Editor `2018.1` or above, as UPM was first shipped with `2018.1`.
 
 Open `<project>/Packages/manifest.json`, add scope for `jillejr`, then add the package in the list of dependencies.
 
@@ -55,7 +57,9 @@ Followed by pressing the update button on the `jillejr.json-for-unity` package
 
 ![preview of update button](https://i.imgur.com/H6LhK2n.png)
 
-### Updating via the manifest file
+### Updating manually via the manifest file
+
+> _(This is an alternative for updating. Following the guide above will suffice if your Package Manager is functional)_
 
 Change the version field. You have to know the new version beforehand.
 
@@ -89,6 +93,40 @@ Change the version field. You have to know the new version beforehand.
 - [Contributing Guidelines](CONTRIBUTING.md)
 - [License](LICENSE.md)
 - [Stack Overflow](https://stackoverflow.com/questions/tagged/json.net)
+
+## Alternative solutions
+
+Using `2017.*` or below? Here are some alternative projects that may suffice for your Unity project:
+
+- **Newtonsoft Json.NET for Unity3D** by SaladLab  
+  [github.com/SaladLab/Json.Net.Unity3D](https://github.com/SaladLab/Json.Net.Unity3D#readme)
+
+- **JSON .NET for Unity** by ParentElement  
+  [parentelement.com/assets/json_net_unity](https://www.parentelement.com/assets/json_net_unity)  
+  [assetstore.unity.com/packages/tools/input-management/json-net-for-unity](https://assetstore.unity.com/packages/tools/input-management/json-net-for-unity-11347)
+
+## But why another solution
+
+> SaladLab and ParentElement, among other unmentioned coders,
+> have done great work in making Json.NET work in Unity. _So why do we need mine?_
+>
+> Both mentioned projects are discontinued, and outdated by some margin in result.
+> SaladLab's latest release targets Json.NET 9, and ParentElement's Json.NET 8.
+> We're at Json.NET 12 now! _(at time of writing)_
+>
+> Changeset, compared to SaladLabs and ParentElements solutions:
+>
+> - Json.NET version 12 _(let's see how long I can keep up with James repo)_
+> - Release available via Unity Package Manager
+> - Unit testing in Unity Editor
+> - Unit testing in IL2CPP built platforms _(ex: StandaloneWindows)_
+>
+> A rework is in this case easier than jumping into SaladLabs project to update it. Sorry Salad champ.
+>
+> _Although, in the future this may also be old stuff too,
+> with the upcoming new [System.Text.Json](https://devblogs.microsoft.com/dotnet/try-the-new-system-text-json-apis/)
+> namespace and need to keep the project up-to-date with Newtonsoft.Json.
+> But not for now!_
 
 ---
 
