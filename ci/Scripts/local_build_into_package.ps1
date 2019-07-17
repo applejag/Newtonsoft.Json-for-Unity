@@ -2,7 +2,7 @@
 # Run this script to build the
 # <repo>/Src/Newtonsoft.Json/Newtonsoft.Json.csproj
 # into
-# <repo>/Src/UnityPackage/Plugins/*
+# <repo>/Src/Newtonsoft.Json-for-Unity/Plugins/*
 
 param (
     [ValidateSet('Release', 'Debug', IgnoreCase = $false)]
@@ -17,7 +17,7 @@ $SetupScript = Resolve-Path "$PSScriptRoot\setup.ps1"
 $BuildScript = Resolve-Path "$PSScriptRoot\build.ps1"
 
 $Solution = Resolve-Path "$PSScriptRoot\..\..\Src\Newtonsoft.Json\Newtonsoft.Json.csproj"
-$DestinationBase = Resolve-Path "$PSScriptRoot\..\..\Src\UnityPackage\Plugins"
+$DestinationBase = Resolve-Path "$PSScriptRoot\..\..\Src\Newtonsoft.Json-for-Unity\Plugins"
 $TempDirectory = "$(Resolve-Path "$PSScriptRoot\..\..")\Temp"
 
 function Clean($Folder) {

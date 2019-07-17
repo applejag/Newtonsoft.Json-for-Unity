@@ -4,19 +4,26 @@ This folder, `Newtonsoft.Json-for-Unity.Tests`, contains the folder structure of
 
 ## Setup
 
-**Copy** all files, except the `bin` and `obj` folders, from the source .NET projects into their folders inside the Assets folder. À la:
+**Copy** all files, except the `bin` and `obj` folders, from `Newtonsoft.Json.Tests` into its folder inside the Assets folder. À la:
 
-```none
-<repo>/Src/Newtonsoft.Json/*
-=> <repo>/Src/Newtonsoft.Json-for-Unity.Tests/Assets/Newtonsoft.Json/*
+```ps
+> Copy-Item -Recurse $REPO/Src/Newtonsoft.Json.Tests/. $REPO/Src/Newtonsoft.Json-for-Unity.Tests/Assets/Newtonsoft.Json.Tests/
 
-<repo>/Src/Newtonsoft.Json.Tests/*
-=> <repo>/Src/Newtonsoft.Json-for-Unity.Tests/Assets/Newtonsoft.Json.Tests/*
+> Remove-Item -Recurse -Force $REPO/Src/Newtonsoft.Json-for-Unity.Tests/Assets/Newtonsoft.Json.Tests/bin
+> Remove-Item -Recurse -Force $REPO/Src/Newtonsoft.Json-for-Unity.Tests/Assets/Newtonsoft.Json.Tests/obj
+```
+
+**Build** the Unity package by running the script
+
+```ps
+> &$REPO/ci/Scripts/local_build_into_package.ps1
 ```
 
 ## Running from command line
 
 ```ps
+> $PATH_TO_YOUR_PROJECT=$REPO/Src/Newtonsoft.Json-for-Unity.Tests
+
 > Unity.exe -runTests -projectPath $PATH_TO_YOUR_PROJECT -testResults results.xml -testPlatform editmode
 ```
 
