@@ -1,5 +1,7 @@
 # ![Logo](Doc/icons/logo-with-unity.png) Newtonsoft.Json for Unity
 
+![npm](https://img.shields.io/npm/v/jillejr.newtonsoft.json-for-unity.svg?style=flat-square)
+
 Json.NET is a popular high-performance JSON framework for .NET
 
 This repo is a **fork** of [Newtonsoft.Json][newtonsoft.json.git] containing custom builds
