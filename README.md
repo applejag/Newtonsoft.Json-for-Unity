@@ -32,7 +32,7 @@ Open `<project>/Packages/manifest.json`, add scope for `jillejr`, then add the p
     }
   ],
   "dependencies": {
-    "jillejr.json-for-unity": "12.0.1",
+    "jillejr.json-net-unity": "12.0.1",
 
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
@@ -53,7 +53,7 @@ Open the Package Manager UI `Window > Package Manager`
 
 ![preview of where window button is](https://i.imgur.com/0FvA5W6.png)
 
-Followed by pressing the update button on the `jillejr.json-for-unity` package
+Followed by pressing the update button on the `jillejr.json-net-unity` package
 
 ![preview of update button](https://i.imgur.com/H6LhK2n.png)
 
@@ -68,7 +68,7 @@ Change the version field. You have to know the new version beforehand.
 > ```json
 > {
 >   "dependencies": {
->     "jillejr.json-for-unity": "12.0.1"
+>     "jillejr.json-net-unity": "12.0.1"
 >   }
 > }
 > ```
@@ -78,7 +78,7 @@ Change the version field. You have to know the new version beforehand.
 > ```json
 > {
 >   "dependencies": {
->     "jillejr.json-for-unity": "12.0.3"
+>     "jillejr.json-net-unity": "12.0.3"
 >   }
 > }
 > ```
