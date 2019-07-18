@@ -21,20 +21,39 @@ $Package = Resolve-Path "$PSScriptRoot\..\..\Src\Newtonsoft.Json-for-Unity"
 $DestinationBase = Resolve-Path "$Package\Plugins"
 $TempDirectory = "$(Resolve-Path "$PSScriptRoot\..\..")\Temp"
 
-function GetVersion($versionFile = "$PSScriptRoot\version.json")
+function Get-Version($versionFile = "$PSScriptRoot\version.json")
 {
     $version = Get-Content $versionFile | Out-String | ConvertFrom-Json
-    $major = if ($null -ne $version.Major) {$version.Major} else {throw "Missing 'Major' field in version.json"}
-    $minor = if ($null -ne $version.Minor) {$version.Minor} else {0}
-    $build = if ($null -ne $version.Build) {$version.Build} else {0}
-    $revision = if ($null -ne $version.Revision) {$version.Revision} else {-1}
 
-    return [System.Version]::new($major, $minor, $build, $revision)
+    $now = [DateTime]::Now
+
+    $year = $now.Year - 2000
+    $month = $now.Month
+    $totalMonthsSince2000 = ($year * 12) + $month
+    $day = $now.Day
+    $revision = "{0}{1:00}" -f $totalMonthsSince2000, $day
+
+    return @{
+        Major = if ($null -ne $version.Major) {$version.Major} else {throw "Missing 'Major' field in version.json"};
+        Minor = if ($null -ne $version.Minor) {$version.Minor} else {0};
+        Build = if ($null -ne $version.Build) {$version.Build} else {0};
+        Revision = $revision;
+        Suffix = $version.Suffix
+    }
 }
 
-$Version = GetVersion
+function ConvertTo-Version($obj) {
+    if ($obj.Revision -ge 0) {
+        return [System.Version]::new($obj.Major, $obj.Minor, $obj.Build, $obj.Revision)
+    } else {
+        return [System.Version]::new($obj.Major, $obj.Minor, $obj.Build)
+    }
+}
+
+$VersionJson = Get-Version
+$Version = ConvertTo-Version $VersionJson
 $VersionPrefix = $Version.ToString(3)
-$VersionSuffix = if ($Version.Revision -ne -1) {"r" + $Version.Revision} else {$null}
+$VersionSuffix = $VersionJson.Suffix
 $VersionFull = if ($VersionSuffix) {"$VersionPrefix-$VersionSuffix"} else {$VersionPrefix}
 
 function UpdatePackageJson($packageJson = "$Package\package.json") {
