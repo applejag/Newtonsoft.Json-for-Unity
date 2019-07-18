@@ -27,24 +27,20 @@ function GetVersion($versionFile = "$PSScriptRoot\version.json")
     $major = if ($null -ne $version.Major) {$version.Major} else {throw "Missing 'Major' field in version.json"}
     $minor = if ($null -ne $version.Minor) {$version.Minor} else {0}
     $build = if ($null -ne $version.Build) {$version.Build} else {0}
-
-    $now = [DateTime]::Now
-
-    $year = $now.Year - 2000
-    $month = $now.Month
-    $totalMonthsSince2000 = ($year * 12) + $month
-    $day = $now.Day
-    $revision = "{0}{1:00}" -f $totalMonthsSince2000, $day
+    $revision = if ($null -ne $version.Revision) {$version.Revision} else {-1}
 
     return [System.Version]::new($major, $minor, $build, $revision)
 }
 
 $Version = GetVersion
+$VersionPrefix = $Version.ToString(3)
+$VersionSuffix = if ($Version.Revision -ne -1) {"r" + $Version.Revision} else {$null}
+$VersionFull = if ($VersionSuffix) {"$VersionPrefix-$VersionSuffix"} else {$VersionPrefix}
 
 function UpdatePackageJson($packageJson = "$Package\package.json") {
     $package = Get-Content $packageJson | Out-String | ConvertFrom-Json
 
-    $package.version = $Version.ToString(3)
+    $package.version = $VersionFull
 
     ConvertTo-Json $package -Compress | PrettifyJson | Set-Content $packageJson
 }
@@ -80,6 +76,7 @@ function Build($UnityBuild) {
         UnityBuild = $UnityBuild
         Configuration = $Configuration
         Version = $Version
+        VersionSuffix = $VersionSuffix
     }
     & $BuildScript @params
 }
