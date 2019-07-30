@@ -20,7 +20,7 @@ Open `<project>/Packages/manifest.json`, add scope for `jillejr`, then add the p
         }
     ],
     "dependencies": {
-        "jillejr.newtonsoft.json-for-unity": "12.0.1",
+        "jillejr.newtonsoft.json-for-unity": "12.0.1-patch-001",
 
         "com.unity.modules.ai": "1.0.0",
         "com.unity.modules.animation": "1.0.0",
@@ -64,7 +64,7 @@ Change the version field. You have to know the new version beforehand.
 > ```json
 > {
 >     "dependencies": {
->         "jillejr.newtonsoft.json-for-unity": "12.0.3"
+>         "jillejr.newtonsoft.json-for-unity": "12.0.1-patch-001"
 >     }
 > }
 > ```
