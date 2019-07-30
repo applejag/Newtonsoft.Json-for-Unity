@@ -102,7 +102,7 @@ function Build($UnityBuild) {
 
 & $SetupScript -TempDirectory $TempDirectory
 Build "AOT"
-Build "Standalone"
+# Build "Standalone"
 Build "Portable"
 Build "Editor"
 UpdatePackageJson

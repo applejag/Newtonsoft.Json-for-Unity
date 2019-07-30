@@ -5,8 +5,7 @@ PluginImporter:
   serializedVersion: 2
   iconMap: {}
   executionOrder: {}
-  defineConstraints:
-  - ENABLE_IL2CPP
+  defineConstraints: []
   isPreloaded: 0
   isOverridable: 1
   isExplicitlyReferenced: 0
@@ -18,7 +17,7 @@ PluginImporter:
       enabled: 0
       settings:
         Exclude Android: 0
-        Exclude Editor: 0
+        Exclude Editor: 1
         Exclude Linux: 0
         Exclude Linux64: 0
         Exclude LinuxUniversal: 0
@@ -43,7 +42,7 @@ PluginImporter:
   - first:
       Editor: Editor
     second:
-      enabled: 1
+      enabled: 0
       settings:
         CPU: AnyCPU
         DefaultValueInitialized: true
