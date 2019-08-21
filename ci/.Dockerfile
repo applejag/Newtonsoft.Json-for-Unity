@@ -53,3 +53,9 @@ RUN echo "\n>>> Installing PowerShell\n" \
     && echo "\n>>> Cleaning up apt-get cache\n" \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+COPY setup.ps1 /tmp/setup.ps1
+RUN pwsh /tmp/setup.ps1 -TempDirectory /tmp -PackageDirectory ~/nuget \
+    # Cleanup
+    && rm -rf ~/tmp \
+    && rm /tmp/setup.ps1

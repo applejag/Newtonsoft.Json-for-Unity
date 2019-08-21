@@ -1,5 +1,6 @@
 
 param (
+    [System.IO.FileInfo] $PackageDirectory = $(Join-Path "." "Temp"),
     [System.IO.FileInfo] $TempDirectory = $(Join-Path "." "Temp"),
 
     # Properties
@@ -10,6 +11,8 @@ $ErrorActionPreference = "Stop"
 
 New-Item $TempDirectory -ItemType Directory -Force | Out-Null
 $TempFull = Resolve-Path $TempDirectory
+New-Item $PackageDirectory -ItemType Directory -Force | Out-Null
+$PackageFull = Resolve-Path $PackageDirectory
 
 $dotnet = if ($IsWindows) { "dotnet" } else { "~/.dotnet/dotnet" }
 
@@ -100,14 +103,14 @@ function nuget([Parameter(ValueFromRemainingArguments = $true)] $Passthrough)
 
 function EnsureNuGetPackage($packageName, $packageVersion)
 {
-    $packagePath = Join-Path $TempFull "$($packageName).$packageVersion"
+    $packagePath = Join-Path $PackageFull "$($packageName).$packageVersion"
     if (!(Test-Path $packagePath))
     {
         Write-Host "Couldn't find $packagePath. Downloading with NuGet"
         if ($nugetConfig) {
-            nuget install $packageName -OutputDirectory $TempFull -Version $packageVersion -ConfigFile $nugetConfig | Out-Default
+            nuget install $packageName -OutputDirectory $PackageFull -Version $packageVersion -ConfigFile $nugetConfig | Out-Default
         } else {
-            nuget install $packageName -OutputDirectory $TempFull -Version $packageVersion | Out-Default
+            nuget install $packageName -OutputDirectory $PackageFull -Version $packageVersion | Out-Default
         }
         Write-Host "Installed $packageName ($packageVersion) installed at '$packagePath'" -ForegroundColor Green
     } else {

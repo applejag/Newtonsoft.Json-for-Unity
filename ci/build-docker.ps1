@@ -8,17 +8,16 @@ param(
     # Docker image account
     [string]
     $account = "applejag",
-    
+
+    [string]
+    $tag = "newtonsoft.json-for-unity",
+
+    $file = ".Dockerfile",
+
     # Docker images
-    [string[]]
-    $images = @(
-        # "unity",
-        "devkit"
-    ),
+    $folder = $(Resolve-Path $($PSCommandPath | Split-Path -Parent)),
 
-    $folder = $(Resolve-Path $(Join-Path $($PSCommandPath | Split-Path -Parent) "Docker")),
-
-    # Unity version, also used as Docker image tag
+    # Unity version, also used as Docker image tag label
     [string]
     $UnityVersion = "2019.1.14f1",
 
@@ -29,26 +28,25 @@ Write-Host ">>> Building" -BackgroundColor Green -ForegroundColor Black
 $step = 0
 $steps = $images.Count * 2
 
-foreach ($image in $images) {
+Push-Location $folder
+try
+{
     $step++;
-    $imageFullName = "$account/$($image):$UnityVersion"
-    $file = "$(Join-Path $folder $image).Dockerfile"
+    $imageFullName = "$account/$($tag):$UnityVersion"
     Write-Host "> Building $imageFullName docker image (step $step/$steps)" -BackgroundColor DarkGreen -ForegroundColor Black
     Write-Host ""
     Write-Host "ARG UNITY_VERSION=$UnityVersion"
-    docker build $folder -t $imageFullName -f $file --build-arg UNITY_VERSION=$UnityVersion
+    docker build . -t $imageFullName -f $file --build-arg UNITY_VERSION=$UnityVersion
     if (-not $?) {
         throw "Failed to build $imageFullName (step $step/$steps)"
     }
     Write-Host ""
-}
 
-if ($push) {
-    Write-Host ">>> Pushing" -BackgroundColor Blue -ForegroundColor Black
+    if ($push) {
+        Write-Host ">>> Pushing" -BackgroundColor Blue -ForegroundColor Black
 
-    foreach ($image in $images) {
         $step++;
-        $imageFullName = "$account/$($image):$UnityVersion"
+        $imageFullName = "$account/$($tag):$UnityVersion"
         Write-Host "> Pushing $imageFullName docker image (step $step/$steps)" -BackgroundColor DarkBlue -ForegroundColor Black
         Write-Host ""
         docker push $imageFullName
@@ -56,9 +54,12 @@ if ($push) {
             throw "Failed to push $imageFullName (step $step/$steps)"
         }
         Write-Host ""
+        Write-Host "<<< Build and push complete" -BackgroundColor Cyan -ForegroundColor Black
+    } else {
+        Write-Host "<<< Build complete" -BackgroundColor Cyan -ForegroundColor Black
     }
-    Write-Host "<<< Build and push complete" -BackgroundColor Cyan -ForegroundColor Black
-} else {
-    Write-Host "<<< Build complete" -BackgroundColor Cyan -ForegroundColor Black
 }
-
+finally
+{
+    Pop-Location
+}
