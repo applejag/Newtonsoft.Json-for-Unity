@@ -11,7 +11,7 @@ param (
     [Parameter(Mandatory)]
     [System.IO.FileInfo] $Destination,
 
-    [System.IO.FileInfo] $TempDirectory = ".\Temp",
+    [System.IO.FileInfo] $TempDirectory = $(Join-Path "." "Temp"),
 
     [ValidateSet('Release', 'Debug', IgnoreCase = $false)]
     [string] $Configuration = "Release",
@@ -34,10 +34,12 @@ New-Item $TempDirectory -ItemType Directory -Force | Out-Null
 $TempFull = Resolve-Path $TempDirectory
 
 $vswhereVersion = "2.3.2"
-$vswherePath = Resolve-Path "$TempFull\vswhere.$vswhereVersion"
+$vswherePath = Resolve-Path $(Join-Path $TempFull "vswhere.$vswhereVersion")
 
 $pdb2mdbVersion = "4.2.3.4"
-$pdb2mdbPath = Resolve-Path "$TempFull\mono.unofficial.pdb2mdb.$pdb2mdbVersion"
+$pdb2mdbPath = Resolve-Path $(Join-Path $TempFull "mono.unofficial.pdb2mdb.$pdb2mdbVersion")
+
+$dotnet = if ($IsWindows) { "dotnet" } else { "~/.dotnet/dotnet" }
 
 $UnityBuildFrameworks = @{
     Standalone = "net462";
@@ -53,17 +55,17 @@ if ([string]::IsNullOrWhiteSpace($Framework))
 
 function GetMsBuildPath()
 {
-  $path = & $vswherePath\tools\vswhere.exe -latest -products * -requires Microsoft.Component.MSBuild -property installationPath
+  $path = & (Join-Path $vswherePath "tools" "vswhere.exe") -latest -products * -requires Microsoft.Component.MSBuild -property installationPath
   if (!($path)) {
     throw "Could not find Visual Studio install path"
   }
-  return join-path $path 'MSBuild\15.0\Bin\MSBuild.exe'
+  return Join-Path $path 'MSBuild' '15.0' 'Bin' 'MSBuild.exe'
 }
 
 function GenerateMDB($dllFiles) {
     foreach ($dllFile in $dllFiles) {
         Write-Host "Converting .pdb for '$dllFile' to .mdb"
-        & $pdb2mdbPath\tools\pdb2mdb.exe $dllFile
+        & (Join-Path $pdb2mdbPath "tools" "pdb2mdb.exe") $dllFile
         Write-Host "Success on '$dllFile'" -ForegroundColor Green
     }
 }
@@ -105,4 +107,4 @@ $DestinationFullPath = Resolve-Path $Destination
     @Passthrough
 
 # Generate mdb from pdb
-GenerateMDB $(Resolve-Path "$DestinationFullPath\*.dll")
+GenerateMDB $(Resolve-Path $(Join-Path $DestinationFullPath "*.dll"))
