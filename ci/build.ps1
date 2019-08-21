@@ -64,6 +64,7 @@ function GenerateMDB($dllFiles) {
     foreach ($dllFile in $dllFiles) {
         Write-Host "Converting .pdb for '$dllFile' to .mdb"
         & $pdb2mdbPath\tools\pdb2mdb.exe $dllFile
+        Write-Host "Success on '$dllFile'" -ForegroundColor Green
     }
 }
 
