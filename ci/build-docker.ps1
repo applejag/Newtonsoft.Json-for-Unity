@@ -12,7 +12,7 @@ param(
     [string]
     $tag = "newtonsoft.json-for-unity",
 
-    $file = ".Dockerfile",
+    $file = "Dockerfile",
 
     # Docker images
     $folder = $(Resolve-Path $($PSCommandPath | Split-Path -Parent)),
@@ -21,22 +21,36 @@ param(
     [string]
     $UnityVersion = "2019.1.14f1",
 
-    [bool] $push = $false
+    [bool] $push = $false,
+    [bool] $latest = $true
 )
 
 Write-Host ">>> Building" -BackgroundColor Green -ForegroundColor Black
 $step = 0
-$steps = $images.Count * 2
+$steps = 2
 
 Push-Location $folder
 try
 {
     $step++;
     $imageFullName = "$account/$($tag):$UnityVersion"
+    $args = @(
+        , "."
+        , "-t", $imageFullName
+        , "-f", $file
+        , "--build-arg", "UNITY_VERSION=$UnityVersion"
+    )
+    if ($latest) {
+        $args += @(
+            , "-t", "$account/$($tag):latest"
+        )
+    }
+
     Write-Host "> Building $imageFullName docker image (step $step/$steps)" -BackgroundColor DarkGreen -ForegroundColor Black
     Write-Host ""
     Write-Host "ARG UNITY_VERSION=$UnityVersion"
-    docker build . -t $imageFullName -f $file --build-arg UNITY_VERSION=$UnityVersion
+
+    docker build @args
     if (-not $?) {
         throw "Failed to build $imageFullName (step $step/$steps)"
     }
@@ -50,6 +64,10 @@ try
         Write-Host "> Pushing $imageFullName docker image (step $step/$steps)" -BackgroundColor DarkBlue -ForegroundColor Black
         Write-Host ""
         docker push $imageFullName
+        if ($latest) {
+            $imageLatestName = "$account/$($tag):latest"
+            docker push $imageLatestName
+        }
         if (-not $?) {
             throw "Failed to push $imageFullName (step $step/$steps)"
         }

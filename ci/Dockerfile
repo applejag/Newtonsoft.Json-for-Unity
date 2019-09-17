@@ -24,11 +24,11 @@ RUN echo "\n>>> Installing tools\n" \
         mono-devel=4.6.2.7+dfsg-1ubuntu1 \
         git=1:2.17.1-1ubuntu0.4 \
         ssh=1:7.6p1-4ubuntu0.3 \
-        curl=7.58.0-2ubuntu3.7 \
+        curl=7.58.0-2ubuntu3.8 \
         xmlstarlet=1.6.1-2 \
         jq=1.5+dfsg-2 \
         # Required for Powershell installation
-        apt-transport-https=1.6.11 \
+        apt-transport-https=1.6.12 \
         ca-certificates=20180409 \
     # Special requirement for Unity 2019.1 and above
     && ([ -z "$(echo '${UNITY_VERSION}' | egrep '2018.*|2017.*|5.*')" ] || exit 0 \
@@ -36,13 +36,7 @@ RUN echo "\n>>> Installing tools\n" \
         && apt-get install --no-install-recommends -y \
             libunwind-dev=* \
     ) \
-    # Cleanup
-    && echo "\n>>> Cleaning up apt-get cache\n" \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install powershell
-RUN echo "\n>>> Installing PowerShell\n" \
+    && echo "\n>>> Installing PowerShell\n" \
     && wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb \
     && dpkg -i packages-microsoft-prod.deb \
     && rm packages-microsoft-prod.deb \
@@ -55,7 +49,8 @@ RUN echo "\n>>> Installing PowerShell\n" \
     && rm -rf /var/lib/apt/lists/*
 
 COPY setup.ps1 /tmp/setup.ps1
-RUN pwsh /tmp/setup.ps1 -TempDirectory /tmp -PackageDirectory ~/nuget \
+RUN chmod +x /tmp/setup.ps1 \
+    && pwsh /tmp/setup.ps1 -TempDirectory /tmp -PackageDirectory ~/nuget \
     # Cleanup
     && rm -rf ~/tmp \
     && rm /tmp/setup.ps1
