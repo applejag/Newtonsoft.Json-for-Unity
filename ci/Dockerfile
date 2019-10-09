@@ -21,13 +21,12 @@ RUN mkdir -p ~/.ssh \
 RUN echo "\n>>> Installing tools\n" \
     && apt-get update \
     && apt-get install --no-install-recommends -y \
-        mono-devel=4.6.2.7+dfsg-1ubuntu1 \
         git=1:2.17.1-1ubuntu0.4 \
         ssh=1:7.6p1-4ubuntu0.3 \
         curl=7.58.0-2ubuntu3.8 \
         xmlstarlet=1.6.1-2 \
         jq=1.5+dfsg-2 \
-        # Required for Powershell installation
+        # Required for Powershell & Mono installation 
         apt-transport-https=1.6.12 \
         ca-certificates=20180409 \
     # Special requirement for Unity 2019.1 and above
@@ -36,13 +35,20 @@ RUN echo "\n>>> Installing tools\n" \
         && apt-get install --no-install-recommends -y \
             libunwind-dev=* \
     ) \
-    && echo "\n>>> Installing PowerShell\n" \
+    && echo "\n>>> Adding apt-get sources for Microsoft & Mono\n" \
+    # Mono
+    && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
+    && echo "deb https://download.mono-project.com/repo/ubuntu stable-bionic main" | tee /etc/apt/sources.list.d/mono-official-stable.list \
+    # Microsoft
     && wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb \
     && dpkg -i packages-microsoft-prod.deb \
     && rm packages-microsoft-prod.deb \
+    && echo "\n>>> Installing PowerShell & Mono\n" \
     && apt-get update \
     && apt-get install --no-install-recommends -y \
         powershell=6.2.2-1.ubuntu.18.04 \
+        mono-complete=6.4.0.198-0xamarin3+ubuntu1804b1 \
+        dotnet-sdk-3.0=3.0.100-1 \
     # Cleanup
     && echo "\n>>> Cleaning up apt-get cache\n" \
     && apt-get clean \
