@@ -6,11 +6,11 @@ set -o errexit
 set -o pipefail
 
 jsonFile="${1?Path to JSON required.}"
-output="${2:-full}"
+output="${2:-FULL}"
 # output types
-# - full    (major.minor.build-suffix)
-# - short   (major.minor.build)
-# - suffix  (suffix)
+# - FULL    (major.minor.build-SUFFIX)
+# - SHORT   (major.minor.build)
+# - SUFFIX  (SUFFIX)
 
 error() {
     >&2 echo "$0: $@"
@@ -39,8 +39,8 @@ jq2() {
     fi
 }
 
-case $output in
-full)
+case "$output" in
+FULL)
     suffix="$(jq2 -er '.Suffix // empty' "$jsonFile")"
 
     if [ -z "$suffix" ]
@@ -50,15 +50,15 @@ full)
         jq2 -er '(.Major // 0|tostring) + "." + (.Minor // 0|tostring) + "." + (.Build // 0|tostring) + "-" + (.Suffix // 0|tostring)' "$jsonFile"
     fi
     ;;
-short)
-    jq2 -er '(.Major // 0|tostring) + "." + (.Minor // 0|tostring)' "$jsonFile"
+SHORT)
+    jq2 -er '(.Major // 0|tostring) + "." + (.Minor // 0|tostring) + "." + (.Build // 0|tostring)' "$jsonFile"
     ;;
-suffix)
+SUFFIX)
     jq2 -er '.Suffix // empty' "$jsonFile"
     ;;
 *)
     error "Error: Unknown output type '$output'
-    Possible values: full, short, suffix"
+    Possible values: FULL, SHORT, SUFFIX"
     exit 3
     ;;
 esac
