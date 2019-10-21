@@ -20,3 +20,8 @@ _ReSharper.*
 *.nuget.targets
 *.orig
 .DS_Store
+
+# License files
+*.ulf
+*.ilf
+*.alf
