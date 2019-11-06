@@ -1,7 +1,6 @@
 {
     "name": "Newtonsoft.Json.Tests",
     "references": [
-        "System.Web"
     ],
     "optionalUnityReferences": [
         "TestAssemblies"
