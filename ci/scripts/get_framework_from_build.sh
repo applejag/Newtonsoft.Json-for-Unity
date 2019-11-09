@@ -5,19 +5,12 @@ set -o nounset
 set -o errexit
 set -o pipefail
 
-build="${1?"Build name required. Possible values: 'Standalone', 'AOT', 'Portable', 'Editor', ''."}"
-framework="${BUILD_FRAMEWORK:-}"
+build="${1?"Build name required. Possible values: 'Standalone', 'AOT', 'Portable', 'Editor'."}"
 
 error() {
     >&2 echo "$0: $@"
+    exit 1
 }
-
-if ! [ -z "$framework" ]
-then
-    # Build framework already defined
-    echo "$framework"
-    exit 0
-fi
 
 case "$build" in
 Standalone)
@@ -34,8 +27,7 @@ Editor)
     ;;
 *)
     error "Invalid build name.
-    Possible values: 'Standalone', 'AOT', 'Portable', 'Editor', ''."
-    exit 1
+    Possible values: 'Standalone', 'AOT', 'Portable', 'Editor'."
     ;;
 esac
 

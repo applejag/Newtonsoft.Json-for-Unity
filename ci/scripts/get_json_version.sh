@@ -8,9 +8,12 @@ set -o pipefail
 jsonFile="${1?Path to JSON required.}"
 output="${2:-FULL}"
 # output types
-# - FULL    (major.minor.build-SUFFIX)
-# - SHORT   (major.minor.build)
-# - SUFFIX  (SUFFIX)
+# - FULL        "{major}.0.{release}.{patch}"
+# - SHORT       "{major}.0.{release}"
+# - SUFFIX  if {patch}:
+#               "patch-{patch}" (3 digit left padded)
+#           else:
+#               <no output>
 
 error() {
     >&2 echo "$0: $@"
@@ -41,20 +44,21 @@ jq2() {
 
 case "$output" in
 FULL)
-    suffix="$(jq2 -er '.Suffix // empty' "$jsonFile")"
-
-    if [ -z "$suffix" ]
-    then
-        jq2 -er '(.Major // 0|tostring) + "." + (.Minor // 0|tostring) + "." + (.Build // 0|tostring)' "$jsonFile"
-    else
-        jq2 -er '(.Major // 0|tostring) + "." + (.Minor // 0|tostring) + "." + (.Build // 0|tostring) + "-" + (.Suffix // 0|tostring)' "$jsonFile"
-    fi
+    jq2 -er '(.Major // 0|tostring) + ".0." + (.Release // 0|tostring) + "." + (.Patch // 0|tostring)' "$jsonFile"
     ;;
 SHORT)
-    jq2 -er '(.Major // 0|tostring) + "." + (.Minor // 0|tostring) + "." + (.Build // 0|tostring)' "$jsonFile"
+    jq2 -er '(.Major // 0|tostring) + ".0." + (.Release // 0|tostring)' "$jsonFile"
     ;;
 SUFFIX)
-    jq2 -er '.Suffix // empty' "$jsonFile"
+    patch="$(jq2 -er '.Patch // empty' "$jsonFile")"
+    
+    if [ -z "$patch" ]
+    then
+        # No suffix
+        echo ""
+    else
+        printf "patch-%03d" "$patch"
+    fi
     ;;
 *)
     error "Error: Unknown output type '$output'

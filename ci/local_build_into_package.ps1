@@ -76,7 +76,12 @@ function PrettifyJson(
 {
     $jsonDll = Resolve-Path "$DestinationBase\Newtonsoft.Json Portable\Newtonsoft.Json.dll"
     Write-Host "Using Newtonsoft.Json to prettify .json via '$jsonDll'" -ForegroundColor Gray
-    $jsonBin = Get-Content $jsonDll -Encoding Byte -Raw
+    $jsonBin = ""
+    if ($IsWindows) {
+        $jsonBin = Get-Content $jsonDll -Encoding Byte -Raw
+    } else {
+        $jsonBin = [System.IO.File]::ReadAllBytes($jsonDll)
+    }
     [System.Reflection.Assembly]::Load($jsonBin) | Out-Null
     [Newtonsoft.Json.Linq.JToken]::Parse($json).ToString()
 }

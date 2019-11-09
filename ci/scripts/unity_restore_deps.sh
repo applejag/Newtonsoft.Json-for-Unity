@@ -37,17 +37,26 @@ echo
 
 echo ">>>>>> Running Unity to update UPM packages and compile sources"
 echo
+rm -f ~/.config/unity3d/Editor.log
 
 ${UNITY_EXECUTABLE:-xvfb-run -as '-screen 0 640x480x24' /opt/Unity/Editor/Unity} \
         -projectPath $PROJECT \
-        -buildTarget Linux \
+        -buildTarget Linux64 \
         -batchmode \
         -quit \
-        -logfile
+        -logfile /dev/stdout
 
 EXIT_STATUS=$?
 
+echo "[LOGS FROM ~/.config/unity3d/Editor.log]"
+cat ~/.config/unity3d/Editor.log
 echo
-echo ">>>>>> Compilation finished successfully"
 
-exit $EXIT_STATUS
+if [ $EXIT_STATUS -ne 0 ]
+then
+    echo ">>>>>> Compilation failed"
+    exit $EXIT_STATUS
+else
+    echo ">>>>>> Compilation finished successfully"
+fi
+

@@ -19,7 +19,7 @@ param(
 
     # Unity version, also used as Docker image tag label
     [string]
-    $UnityVersion = "2019.1.14f1",
+    $UnityVersion = "2019.2.11f1",
 
     [bool] $push = $false,
     [bool] $latest = $true

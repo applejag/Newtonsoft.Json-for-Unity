@@ -51,7 +51,7 @@ do
         -testResults $test_results_file \
         -buildTarget Linux \
         -batchmode \
-        -logfile
+        -logfile /dev/stdout
 
     UNITY_EXIT_CODE=$?
 

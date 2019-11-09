@@ -8,7 +8,7 @@
 # 2018.3.11f1-android       : Android module
 # 2018.3.11f1-webgl         : WebGL module
 # 2018.3.11f1-facebook      : Facebook module
-ARG UNITY_VERSION=2019.1.14f1
+ARG UNITY_VERSION=2019.2.11f1
 FROM gableroux/unity3d:${UNITY_VERSION}
 
 # Add trusted sources

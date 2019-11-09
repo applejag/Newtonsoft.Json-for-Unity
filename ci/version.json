@@ -1,6 +1,6 @@
 {
   "Major": 12,
-  "Minor": 0,
-  "Build": 1,
-  "Suffix": "patch-001"
+  "Release": 1,
+
+  "Patch": 1
 }

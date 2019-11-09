@@ -55,17 +55,34 @@ if ([string]::IsNullOrWhiteSpace($Framework))
 
 function GetMsBuildPath()
 {
-  $path = & (Join-Path $vswherePath "tools" "vswhere.exe") -latest -products * -requires Microsoft.Component.MSBuild -property installationPath
-  if (!($path)) {
-    throw "Could not find Visual Studio install path"
-  }
-  return Join-Path $path 'MSBuild' '15.0' 'Bin' 'MSBuild.exe'
+    if ($IsWindows) {
+        $path = & (Join-Path $vswherePath (Join-Path "tools" "vswhere.exe")) -latest -products * -requires Microsoft.Component.MSBuild -property installationPath
+        if (!($path)) {
+            throw "Could not find Visual Studio install path"
+        }
+        return Join-Path $path (Join-Path 'MSBuild' (Join-Path '15.0' (Join-Path 'Bin' 'MSBuild.exe')))
+    } else {
+        return "msbuild"
+    }
+}
+
+function GetPdb2MdbPath() {
+    if ($IsWindows) {
+        return Join-Path $pdb2mdbPath (Join-Path "tools" "pdb2mdb.exe")
+    } else {
+        return "pdb2mdb"
+    }
 }
 
 function GenerateMDB($dllFiles) {
+    $pdb2mdb = GetPdb2MdbPath
     foreach ($dllFile in $dllFiles) {
         Write-Host "Converting .pdb for '$dllFile' to .mdb"
-        & (Join-Path $pdb2mdbPath "tools" "pdb2mdb.exe") $dllFile
+        & $pdb2mdb $dllFile
+        if ($LASTEXITCODE -ne 0 -and $LASTEXITCODE -ne 2) {
+            # 0=success, 2=it's a portable, will still work as-is
+            throw "Error converting pdb to mdb for $dllFile, exit code: $LASTEXITCODE"
+        }
         Write-Host "Success on '$dllFile'" -ForegroundColor Green
     }
 }
@@ -93,9 +110,8 @@ Write-Host ""
 New-Item $Destination -ItemType Directory -Force | Out-Null
 $DestinationFullPath = Resolve-Path $Destination
 
-# Build
-& $msbuild /t:build $Solution `
-    /m `
+# Build & Restore
+& $msbuild /t:build /restore $Solution `
     /p:Configuration=$Configuration `
     /p:LibraryFrameworks=$Framework `
     /p:OutputPath=$DestinationFullPath `
@@ -105,6 +121,10 @@ $DestinationFullPath = Resolve-Path $Destination
     /p:AssemblyVersion=$($VersionShort) `
     /p:FileVersion=$Version `
     @Passthrough
+
+if ($LASTEXITCODE -ne 0) {
+    throw "Failed building $UnityBuild on $Solution, exit code: $LASTEXITCODE"
+}
 
 # Generate mdb from pdb
 GenerateMDB $(Resolve-Path $(Join-Path $DestinationFullPath "*.dll"))
