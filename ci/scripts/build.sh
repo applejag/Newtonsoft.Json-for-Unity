@@ -10,7 +10,7 @@ BUILD_SOLUTION=${2:-${BUILD_SOLUTION:?"Build solution required. Example: .csproj
 BUILD_DESTINATION=${3:-${BUILD_DESTINATION:-"${BUILD_DESTINATION_BASE:?"Build output path required."}/Newtonsoft.Json $BUILD_UNITY"}}
 
 : ${VERSION:?"Full version required."}
-: ${VERSION_SHORT:?"Short version required."}
+: ${VERSION_JSON_NET:?"Json.NET version required."}
 : ${VERSION_SUFFIX:?"Version suffix required."}
 : ${BUILD_CONFIGURATION:="Release"}
 
@@ -38,9 +38,9 @@ msbuild -t:build "$BUILD_SOLUTION" \
     -p:LibraryFrameworks="$BUILD_FRAMEWORK" \
     -p:OutputPath="$BUILD_DESTINATION" \
     -p:UnityBuild="$BUILD_UNITY" \
-    -p:VersionPrefix="$VERSION_SHORT" \
+    -p:VersionPrefix="$VERSION_JSON_NET" \
     -p:VersionSuffix="$VERSION_SUFFIX" \
-    -p:AssemblyVersion="$VERSION_SHORT" \
+    -p:AssemblyVersion="$VERSION_JSON_NET" \
     -p:FileVersion="$VERSION"
 
 echo
