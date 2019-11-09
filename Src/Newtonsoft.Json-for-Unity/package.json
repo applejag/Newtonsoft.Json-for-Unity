@@ -27,5 +27,6 @@
   },
   "homepage": "https://github.com/jilleJr/Newtonsoft.Json-for-Unity#readme",
   "category": "Utility",
-  "dependencies": {}
+  "dependencies": {},
+  "type": "library"
 }
