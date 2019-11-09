@@ -9,7 +9,7 @@ set -o pipefail
 
 PROJECT=${1?Project path}
 TEST_RESULTS_FOLDER=${2:-$PROJECT}
-PLATFORMS="editmode\nplaymode"
+: ${PLATFORMS:="editmode\nplaymode"}
 
 passed=$((0))
 failed=$((0))
@@ -49,7 +49,7 @@ do
         -runTests \
         -testPlatform $platform \
         -testResults $test_results_file \
-        -buildTarget Linux \
+        -buildTarget Linux64 \
         -batchmode \
         -logfile /dev/stdout
 
@@ -103,7 +103,7 @@ do
         name="$(xmlstarlet sel -T -t -v "//test-case[@id=$id]/@name" -n $test_results_file)"
         message="$(xmlstarlet sel -T -t -v "//test-case[@id=$id]/failure/message/text()" -n $test_results_file)"
         # stacktrace="$(xmlstarlet sel -T -t -v "//test-case[@id=$id]/failure/stack-trace/text()" -n $test_results_file)"
-        echo "Found failed test: $name$($'\n\t')$message"
+        echo "Found failed test: $name$(echo $'\n\t')$message"
 
         if [ "$errors" ]
         then
@@ -118,7 +118,7 @@ do
     do
         name="$(xmlstarlet sel -T -t -v "//test-case[@id=$id]/@name" -n $test_results_file)"
         message="$(xmlstarlet sel -T -t -v "//test-case[@id=$id]/reason/message/text()" -n $test_results_file)"
-        echo "Found inconclusive test: $name$($'\n\t')$message"
+        echo "Found inconclusive test: $name$(echo $'\n\t')$message"
         
         if [ "$errors" ]
         then
