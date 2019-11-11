@@ -7,15 +7,18 @@
 # 2018.3.11f1-android		: Android module
 # 2018.3.11f1-webgl			: WebGL module
 # 2018.3.11f1-facebook		: Facebook module
-ARG UNITY_VERSION=2019.2.8f1
+ARG UNITY_VERSION=2019.2.11f1
 FROM gableroux/unity3d:${UNITY_VERSION}
+
+# newtonsoft.json-for-unity.package-unity-tester:v1
 
 # Should correspond to the image tag
 ENV IMAGE_VERSION=v1
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        jq \
+        jq=1.5+dfsg-2 \
+        xmlstarlet=1.6.1-2 \
     # Cleanup cache
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
