@@ -13,7 +13,7 @@ param(
 
     # Docker image
     [string]
-    $DockerImage = "applejag/newtonsoft.json-for-unity:latest",
+    $DockerImage = "applejag/newtonsoft.json-for-unity.package-unity-tester:latest",
 
     [ValidateScript({
         if(-Not ($_ | Test-Path) ){

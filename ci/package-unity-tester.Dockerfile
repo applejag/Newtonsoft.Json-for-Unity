@@ -10,7 +10,7 @@
 ARG UNITY_VERSION=2019.2.11f1
 FROM gableroux/unity3d:${UNITY_VERSION}
 
-# newtonsoft.json-for-unity.package-unity-tester:v1
+# applejag/newtonsoft.json-for-unity.package-unity-tester:v1
 
 # Should correspond to the image tag
 ENV IMAGE_VERSION=v1
