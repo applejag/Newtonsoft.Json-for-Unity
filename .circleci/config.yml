@@ -1,0 +1,169 @@
+version: 2.1
+
+preset-filter1: &WORKFLOW_BUILD_TEST_FILTER
+  only:
+    - develop
+    - /feature.*/
+    
+preset-filter2: &WORKFLOW_BUILD_TEST_DEPLOY_FILTER
+  only:
+    - master
+
+jobs:
+  build-package:
+    working_directory: ~/repo
+    
+    environment:
+      SCRIPTS: /root/repo/ci/scripts
+      BUILD_SOLUTION: /root/repo/Src/Newtonsoft.Json/Newtonsoft.Json.csproj
+      BUILD_DESTINATION_BASE: /root/repo/Src/Newtonsoft.Json-for-Unity/Plugins
+
+    docker:
+      # docker run --rm -itv /c/Projekt/Newtonsoft.Json:/root/repo applejag/json.net.unity-builder:v1
+      - image: applejag/json.net.unity-builder:v1
+
+    steps:
+      # Checkout repo -> ~/repo
+      - checkout
+
+      - run:
+          name: Enable permissions on scripts
+          command: chmod +x $SCRIPTS/**.sh -v
+
+      - run:
+          name: Setup variables
+          command: |
+            env() {
+              # echo "export '$1=$2'" >> $BASH_ENV
+              echo "$1='$2'"
+              export "$1=$2"
+            }
+            echo ">>> OBTAINING VERSION FROM $(pwd)/ci/version.json"
+            env VERSION "$($SCRIPTS/get_json_version.sh ./ci/version.json FULL)"
+            env VERSION_SUFFIX "$($SCRIPTS/get_json_version.sh ./ci/version.json SUFFIX)"
+            env VERSION_JSON_NET "$($SCRIPTS/get_json_version.sh ./ci/version.json JSON_NET)"
+            echo
+
+            echo ">>> UPDATING VERSION IN $(pwd)/Src/Newtonsoft.Json-for-Unity/package.json"
+            echo "BEFORE:"
+            echo ".version=$(jq ".version" Src/Newtonsoft.Json-for-Unity/package.json)"
+            echo ".displayName=$(jq ".displayName" Src/Newtonsoft.Json-for-Unity/package.json)"
+            echo "$(jq ".version=\"$VERSION\" | .displayName=\"Json.NET $VERSION_JSON_NET for Unity\"" Src/Newtonsoft.Json-for-Unity/package.json)" > Src/Newtonsoft.Json-for-Unity/package.json
+            echo "AFTER:"
+            echo ".version=$(jq ".version" Src/Newtonsoft.Json-for-Unity/package.json)"
+            echo ".displayName=$(jq ".displayName" Src/Newtonsoft.Json-for-Unity/package.json)"
+
+      - run:
+          name: NuGet restore
+          command: msbuild -t:restore "$BUILD_SOLUTION"
+
+      - run:
+          name: Build Editor
+          command: $SCRIPTS/build.sh Editor
+
+      - run:
+          name: Build AOT
+          command: $SCRIPTS/build.sh AOT
+
+      - run:
+          name: Build Portable
+          command: $SCRIPTS/build.sh Portable
+
+      - run:
+          name: Build Testing library
+          command: BUILD_CONFIGURATION=Debug BUILD_DESTINATION=/workspace/testlib $SCRIPTS/build.sh Editor "$BUILD_SOLUTION"
+
+      - run:
+          name: Move resulting package into workspace
+          command: |
+            mkdir -pv /workspace/package
+            cp -rv Src/Newtonsoft.Json-for-Unity/. /workspace/package/
+
+      - run:
+          name: Fix meta files
+          command: |
+            $SCRIPTS/generate_metafiles.sh /workspace/package
+            echo
+            $SCRIPTS/generate_metafiles.sh /workspace/testlib
+
+      - persist_to_workspace:
+          root: /workspace
+          paths:
+            - testlib
+            - package
+
+  test-mono:
+    working_directory: ~/repo
+    
+    environment:
+      SCRIPTS: /root/repo/ci/scripts
+      BUILD_SOLUTION: /root/repo/Src/Newtonsoft.Json/Newtonsoft.Json.csproj
+      BUILD_DESTINATION_BASE: /root/repo/Src/Newtonsoft.Json-for-Unity/Plugins
+
+    docker:
+      - image: applejag/json.net.unity-builder:v1
+
+    steps:
+      # Checkout repo -> ~/repo
+      - checkout
+
+      - run:
+          name: Enable permissions on scripts
+          command: chmod +x $SCRIPTS/**.sh -v
+
+      - attach_workspace:
+          at: /workspace
+
+  test-unity:
+    working_directory: ~/repo
+    
+    environment:
+      export SCRIPTS=/root/repo/ci/scripts
+      export PACKAGE_FOLDER=/root/repo/Src/Newtonsoft.Json-for-Unity
+      export TEST_PROJECT=/root/repo/Src/Newtonsoft.Json-for-Unity.Tests
+      export PLATFORMS=playmode
+
+    docker:
+      - image: applejag/newtonsoft.json-for-unity:2019.2.11f1
+
+    steps:
+      # Checkout repo -> ~/repo
+      - checkout
+
+      - run:
+          name: Enable permissions on scripts
+          command: chmod +x $SCRIPTS/**.sh -v
+
+      - run:
+          name: Setup Unity license
+          command: |
+            # Requires UNITY_LICENSE_CONTENT_B64 environment variable to be filled in inside CircleCI
+            $SCRIPTS/unity_login.sh
+
+      - attach_workspace:
+          at: /workspace
+
+      - run:
+          name: Copy Newtonsoft.Json.Tests into Unity testing project
+          command: cp -vur Src/Newtonsoft.Json.Tests/. $TEST_PROJECT/Assets/Newtonsoft.Json.Tests/
+
+      - run:
+          name: Copy Plugins into Unity testing project
+          command: cp -vfr /workspace/package/. $PACKAGE_FOLDER/
+
+      - run:
+          name: Overriding Editor dll's with testing dll's
+          command: cp -vfr /workspace/testlib/. "$PACKAGE_FOLDER/Plugins/Newtonsoft.Json Editor/"
+
+      - run:
+          name: Run tests
+          command: $SCRIPTS/unity_test.sh $TEST_PROJECT ~/tests/nunit
+
+      - run:
+          name: Convert NUnit to JUnit xml
+          when: always
+          command: $SCRIPTS/nunit2junit.sh ~/tests/nunit ~/tests/junit/
+
+      - store_test_results:
+          name: store test results -> ~/tests/junit
+          path: ~/tests/junit
