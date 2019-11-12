@@ -10,10 +10,9 @@
 ARG UNITY_VERSION=2019.2.11f1
 FROM gableroux/unity3d:${UNITY_VERSION}
 
-# applejag/newtonsoft.json-for-unity.package-unity-tester:v1
-
 # Should correspond to the image tag
-ENV IMAGE_VERSION=v1
+ARG IMAGE_VERSION
+ENV IMAGE_VERSION=${IMAGE_VERSION}
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \

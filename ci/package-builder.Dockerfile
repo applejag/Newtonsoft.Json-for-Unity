@@ -1,14 +1,14 @@
 FROM mono:6.4.0.198
 
 # Should correspond to the image tag
-ENV IMAGE_VERSION=v1
+ARG IMAGE_VERSION
+ENV IMAGE_VERSION=${IMAGE_VERSION}
 
-RUN apt-get update
-
-RUN apt-get install -y --no-install-recommends \
-        jq
-
-# Cleanup cache
-RUN apt-get clean \
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        jq \
+    # Cleanup cache
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+WORKDIR /root/repo
