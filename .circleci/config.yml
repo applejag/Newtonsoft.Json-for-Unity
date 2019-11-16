@@ -28,6 +28,10 @@ jobs:
       # Checkout repo -> ~/repo
       - checkout
 
+      - restore_cache:
+          keys:
+            - build-package-nuget
+
       - run:
           name: Enable permissions on scripts
           command: chmod +x $SCRIPTS/**.sh -v
@@ -58,6 +62,11 @@ jobs:
       - run:
           name: NuGet restore
           command: msbuild -t:restore "$BUILD_SOLUTION"
+
+      - save_cache:
+          key: build-package-nuget
+          paths:
+            - /root/.nuget/packages
 
       - run:
           name: Build Editor
@@ -96,9 +105,13 @@ jobs:
 
   test-windows:
     executor: win/vs2019
-    
+
     steps:
       - checkout
+
+      - restore_cache:
+          keys:
+            - test-windows-nuget
 
       - attach_workspace:
           at: /workspace
@@ -119,6 +132,11 @@ jobs:
           name: Run tests (profile 2, portable)
           command: dotnet test -f net452 Src/Newtonsoft.Json.Tests/Newtonsoft.Json.Tests.csproj
 
+      - save_cache:
+          key: test-windows-nuget
+          paths:
+            - C:\Users\circleci\.nuget\packages
+
   test-unity:
     working_directory: ~/repo
     
@@ -135,6 +153,14 @@ jobs:
       # Checkout repo -> ~/repo
       - checkout
 
+      - restore_cache:
+          keys:
+            - test-unity-upm-manifest-{{ checksum "/root/repo/Src/Newtonsoft.Json-for-Unity.Tests/Packages/manifest.json" }}
+
+      - restore_cache:
+          keys:
+            - test-unity-upm-global
+
       - run:
           name: Enable permissions on scripts
           command: chmod +x $SCRIPTS/**.sh -v
@@ -150,7 +176,10 @@ jobs:
 
       - run:
           name: Copy Newtonsoft.Json.Tests into Unity testing project
-          command: cp -vur Src/Newtonsoft.Json.Tests/. $TEST_PROJECT/Assets/Newtonsoft.Json.Tests/
+          command: |
+            rm -rfv Src/Newtonsoft.Json.Tests/obj
+            rm -rfv Src/Newtonsoft.Json.Tests/bin
+            cp -vur Src/Newtonsoft.Json.Tests/. $TEST_PROJECT/Assets/Newtonsoft.Json.Tests/
 
       - run:
           name: Copy Plugins into Unity testing project
@@ -172,3 +201,13 @@ jobs:
       - store_test_results:
           name: store test results -> ~/tests/junit
           path: ~/tests/junit
+
+      - save_cache:
+          key: test-unity-upm-manifest-{{ checksum "/root/repo/Src/Newtonsoft.Json-for-Unity.Tests/Packages/manifest.json" }}
+          paths:
+            - /root/repo/Src/Newtonsoft.Json-for-Unity.Tests/Library/PackageCache
+
+      - save_cache:
+          key: test-unity-upm-global
+          paths:
+            - /root/.config/unity3d/cache
