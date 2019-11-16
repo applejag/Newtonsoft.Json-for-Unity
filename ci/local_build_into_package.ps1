@@ -10,146 +10,100 @@ param (
 
     [string[]] $UnityBuilds = @(
         ,'AOT'
-        ## Removed 'Standalone' due to issue #3
-        ## https://github.com/jilleJr/Newtonsoft.Json-for-Unity/issues/3
-        #,'Standalone'
         ,'Portable'
         ,'Editor'
-    )
+    ),
+
+    [string] $VolumeSource = "/c/Projekt/Newtonsoft.Json",
+
+    [string] $Image = "applejag/json.net.unity-builder:v1",
+
+    [string] $WorkingDirectory = "/root/repo"
 )
 
 $ErrorActionPreference = "Stop"
 
-$SetupScript = Resolve-Path "$PSScriptRoot\setup.ps1"
-$BuildScript = Resolve-Path "$PSScriptRoot\build.ps1"
+Write-Host ">> Starting $Image" -BackgroundColor DarkRed
+$watch = [System.Diagnostics.Stopwatch]::StartNew()
 
-$Solution = Resolve-Path "$PSScriptRoot\..\Src\Newtonsoft.Json\Newtonsoft.Json.csproj"
-$Package = Resolve-Path "$PSScriptRoot\..\Src\Newtonsoft.Json-for-Unity"
-$DestinationBase = Resolve-Path "$Package\Plugins"
-$TempDirectory = "$(Resolve-Path "$PSScriptRoot\..")\Temp"
+$container = docker run -dit `
+    -v "${VolumeSource}:/root/repo" `
+    -e SCRIPTS=/root/repo/ci/scripts `
+    -e BUILD_SOLUTION=/root/repo/Src/Newtonsoft.Json/Newtonsoft.Json.csproj `
+    -e BUILD_DESTINATION_BASE=/root/repo/Src/Newtonsoft.Json-for-Unity/Plugins `
+    -e BASH_ENV=/.bash_env `
+    $Image
 
-function Get-Version($versionFile = "$PSScriptRoot\version.json")
-{
-    $version = Get-Content $versionFile | Out-String | ConvertFrom-Json
+if ($LASTEXITCODE -ne 0) {
+    throw "Failed to create container"
+}
 
-    $now = [DateTime]::Now
+function Invoke-DockerCommand ([string] $name, [string] $command) {
+    Write-Host ">> $name " -BackgroundColor DarkCyan -ForegroundColor White
+    Write-Host $command -ForegroundColor DarkGray
+    @"
+    set -o nounset
+    set -o errexit
+    set -o pipefail
+    touch `$BASH_ENV
+    chmod +x `$BASH_ENV
+    `$BASH_ENV
 
-    $year = $now.Year - 2000
-    $month = $now.Month
-    $totalMonthsSince2000 = ($year * 12) + $month
-    $day = $now.Day
-    $revision = "{0}{1:00}" -f $totalMonthsSince2000, $day
-
-    return @{
-        Major = if ($null -ne $version.Major) {$version.Major} else {throw "Missing 'Major' field in version.json"};
-        Minor = if ($null -ne $version.Minor) {$version.Minor} else {0};
-        Build = if ($null -ne $version.Build) {$version.Build} else {0};
-        Revision = $revision;
-        Suffix = $version.Suffix
+    $command
+    echo 
+"@ | docker exec -iw $WorkingDirectory $container bash
+    if ($LASTEXITCODE -ne 0) {
+        throw "Failed to run command '$name'"
     }
+    Write-Host ''
 }
 
-function ConvertTo-Version($obj) {
-    if ($obj.Revision -ge 0) {
-        return [System.Version]::new($obj.Major, $obj.Minor, $obj.Build, $obj.Revision)
-    } else {
-        return [System.Version]::new($obj.Major, $obj.Minor, $obj.Build)
+try {
+    Invoke-DockerCommand "Setup variables" @'
+    env() {
+        echo "export '$1=$2'" >> $BASH_ENV
+        echo "$1='$2'"
+        export "$1=$2"
     }
+    echo ">>> OBTAINING VERSION FROM $(pwd)/ci/version.json"
+    env VERSION "$($SCRIPTS/get_json_version.sh ./ci/version.json FULL)"
+    env VERSION_SUFFIX "$($SCRIPTS/get_json_version.sh ./ci/version.json SUFFIX)"
+    env VERSION_JSON_NET "$($SCRIPTS/get_json_version.sh ./ci/version.json JSON_NET)"
+    echo
+    
+    echo ">>> UPDATING VERSION IN $(pwd)/Src/Newtonsoft.Json-for-Unity/package.json"
+    echo "BEFORE:"
+    echo ".version=$(jq ".version" Src/Newtonsoft.Json-for-Unity/package.json)"
+    echo ".displayName=$(jq ".displayName" Src/Newtonsoft.Json-for-Unity/package.json)"
+    echo "$(jq ".version=\"$VERSION\" | .displayName=\"Json.NET $VERSION_JSON_NET for Unity\"" Src/Newtonsoft.Json-for-Unity/package.json)" > Src/Newtonsoft.Json-for-Unity/package.json
+    echo "AFTER:"
+    echo ".version=$(jq ".version" Src/Newtonsoft.Json-for-Unity/package.json)"
+    echo ".displayName=$(jq ".displayName" Src/Newtonsoft.Json-for-Unity/package.json)"
+'@
+
+    Invoke-DockerCommand 'NuGet restore' `
+        'msbuild -t:restore "$BUILD_SOLUTION"'
+
+    Invoke-DockerCommand 'Build Editor' `
+        '$SCRIPTS/build.sh Editor'
+
+    Invoke-DockerCommand 'Build AOT' `
+        '$SCRIPTS/build.sh AOT'
+
+    Invoke-DockerCommand 'Build Portable' `
+        '$SCRIPTS/build.sh Portable'
+
+    Invoke-DockerCommand 'Fix meta files' `
+        '$SCRIPTS/generate_metafiles.sh $BUILD_DESTINATION_BASE'
+
+    Write-Host '>> Done!' -BackgroundColor DarkGreen -ForegroundColor White
+
+} finally {
+    $watch.Stop()
+    Write-Host ">> Stopping $container" -BackgroundColor DarkGray
+    docker kill $container | Out-Null
 }
 
-$VersionJson = Get-Version
-$Version = ConvertTo-Version $VersionJson
-$VersionPrefix = $Version.ToString(3)
-$VersionSuffix = $VersionJson.Suffix
-$VersionFull = if ($VersionSuffix) {"$VersionPrefix-$VersionSuffix"} else {$VersionPrefix}
-
-function UpdatePackageJson($packageJson = "$Package\package.json") {
-    $package = Get-Content $packageJson | Out-String | ConvertFrom-Json
-
-    $package.version = $VersionFull
-
-    ConvertTo-Json $package -Compress | PrettifyJson | Set-Content $packageJson
-}
-
-function PrettifyJson(
-    [Parameter(ValueFromPipeline)][string] $json)
-{
-    $jsonDll = Resolve-Path "$DestinationBase\Newtonsoft.Json Portable\Newtonsoft.Json.dll"
-    Write-Host "Using Newtonsoft.Json to prettify .json via '$jsonDll'" -ForegroundColor Gray
-    $jsonBin = ""
-    if ($IsWindows) {
-        $jsonBin = Get-Content $jsonDll -Encoding Byte -Raw
-    } else {
-        $jsonBin = [System.IO.File]::ReadAllBytes($jsonDll)
-    }
-    [System.Reflection.Assembly]::Load($jsonBin) | Out-Null
-    [Newtonsoft.Json.Linq.JToken]::Parse($json).ToString()
-}
-
-function Clean($Folder) {
-    Write-Host ">> Cleaning up '$Folder'"
-    Remove-Item "$Folder\*.dll" -Force -Verbose
-    Remove-Item "$Folder\*.pdb" -Force -Verbose
-    Remove-Item "$Folder\*.mdb" -Force -Verbose
-    Remove-Item "$Folder\*.xml" -Force -Verbose
-}
-
-function Build($UnityBuild) {
-    $Destination = Join-Path $DestinationBase "Newtonsoft.Json $UnityBuild"
-
-    if (Test-Path $Destination) {
-        Clean($Destination)
-    }
-
-    $params = @{
-        Solution = [string]$Solution
-        Destination = [string]$Destination
-        TempDirectory = $TempDirectory
-        UnityBuild = $UnityBuild
-        Configuration = $Configuration
-        Version = $Version
-        VersionSuffix = $VersionSuffix
-    }
-    & $BuildScript @params
-}
-
-function PromptYN ([String] $Prompt) {
-    $confirmation = $null
-    while ($true)
-    {
-        $confirmation = Read-Host "$Prompt [y/n]"
-        if ($null -eq $confirmation)
-        {
-            continue
-        }
-        $confirmation = $confirmation.Substring(0,1).ToLowerInvariant()
-        if ($confirmation -eq 'y') {
-            return $true
-        }
-        elseif ($confirmation -eq 'n') {
-            return $false
-        }
-        else {
-            Write-Host "Only [Y]es or [N]o are valid responses." -ForegroundColor DarkYellow
-        }
-    }
-}
-
-$builds = ($UnityBuilds | % {"'$_'"}) -join ', '
-Write-Host "Building for " -NoNewline
-Write-Host $builds -ForegroundColor Cyan
-Write-Host "Into folder " -NoNewline
-Write-Host $DestinationBase -ForegroundColor Cyan
-
-if (-not (PromptYN "Ready?")) {
-    Write-Host "Aborting." -ForegroundColor DarkYellow
-    exit
-}
-
-& $SetupScript -TempDirectory $TempDirectory
-
-foreach ($build in $UnityBuilds) {
-    Build $build
-}
-
-UpdatePackageJson
+Write-Host ''
+Write-Host "Full script completed in: $('{0:#,##}' -f $watch.ElapsedMilliseconds) ms" -ForegroundColor DarkGray
+Write-Host ''

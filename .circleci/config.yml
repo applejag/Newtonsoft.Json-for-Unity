@@ -34,7 +34,7 @@ jobs:
           name: Setup variables
           command: |
             env() {
-              # echo "export '$1=$2'" >> $BASH_ENV
+              echo "export '$1=$2'" >> $BASH_ENV
               echo "$1='$2'"
               export "$1=$2"
             }
@@ -124,7 +124,7 @@ jobs:
       export PLATFORMS=playmode
 
     docker:
-      - image: applejag/newtonsoft.json-for-unity:2019.2.11f1
+      - image: applejag/newtonsoft.json-for-unity.package-unity-tester:v1
 
     steps:
       # Checkout repo -> ~/repo
