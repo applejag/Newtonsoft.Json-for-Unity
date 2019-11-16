@@ -9,6 +9,9 @@ preset-filter2: &WORKFLOW_BUILD_TEST_DEPLOY_FILTER
   only:
     - master
 
+orbs:
+  win: circleci/windows@1.0.0
+
 jobs:
   build-package:
     working_directory: ~/repo
@@ -91,40 +94,30 @@ jobs:
             - testlib
             - package
 
-  test-mono:
-    working_directory: ~/repo
+  test-windows:
+    executor: win/vs2019
     
-    environment:
-      TEST_PROJECT: /root/repo/Src/Newtonsoft.Json.Tests/Newtonsoft.Json.Tests.csproj
-
-    docker:
-      - image: applejag/newtonsoft.json-for-unity.package-builder:v1
-
     steps:
-      # Checkout repo -> ~/repo
       - checkout
-
-      - run:
-          name: Enable permissions on scripts
-          command: chmod +x $SCRIPTS/**.sh -v
 
       - attach_workspace:
           at: /workspace
 
       - run:
           name: NuGet restore
-          command: msbuild -t:restore "$TEST_PROJECT"
+          command: dotnet restore Src/Newtonsoft.Json.Tests/Newtonsoft.Json.Tests.csproj
 
       - run:
-          name: Build
-          command: |
-            msbuild -t:build "$TEST_PROJECT" \
-              -p:Configuration=Debug \
-              -p:TargetFrameworks=net46;net452
+          name: Run Build step
+          command: dotnet build -c Debug Src/Newtonsoft.Json.Tests/Newtonsoft.Json.Tests.csproj
 
       - run:
-          name: Run tests net452
-          command: msbuild -t:test "$TEST_PROJECT"
+          name: Run tests (profile 1)
+          command: dotnet test -f net46 Src/Newtonsoft.Json.Tests/Newtonsoft.Json.Tests.csproj
+
+      - run:
+          name: Run tests (profile 2, portable)
+          command: dotnet test -f net452 Src/Newtonsoft.Json.Tests/Newtonsoft.Json.Tests.csproj
 
   test-unity:
     working_directory: ~/repo
