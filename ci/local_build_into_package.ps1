@@ -16,7 +16,7 @@ param (
 
     [string] $VolumeSource = "/c/Projekt/Newtonsoft.Json",
 
-    [string] $Image = "applejag/json.net.unity-builder:v1",
+    [string] $Image = "applejag/newtonsoft.json-for-unity.package-builder:v1",
 
     [string] $WorkingDirectory = "/root/repo"
 )

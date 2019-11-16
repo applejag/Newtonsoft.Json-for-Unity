@@ -19,8 +19,7 @@ jobs:
       BUILD_DESTINATION_BASE: /root/repo/Src/Newtonsoft.Json-for-Unity/Plugins
 
     docker:
-      # docker run --rm -itv /c/Projekt/Newtonsoft.Json:/root/repo applejag/json.net.unity-builder:v1
-      - image: applejag/json.net.unity-builder:v1
+      - image: applejag/newtonsoft.json-for-unity.package-builder:v1
 
     steps:
       # Checkout repo -> ~/repo
@@ -101,7 +100,7 @@ jobs:
       BUILD_DESTINATION_BASE: /root/repo/Src/Newtonsoft.Json-for-Unity/Plugins
 
     docker:
-      - image: applejag/json.net.unity-builder:v1
+      - image: applejag/newtonsoft.json-for-unity.package-builder:v1
 
     steps:
       # Checkout repo -> ~/repo
@@ -113,6 +112,10 @@ jobs:
 
       - attach_workspace:
           at: /workspace
+
+      - run:
+          name: foo
+          command: bar
 
   test-unity:
     working_directory: ~/repo
