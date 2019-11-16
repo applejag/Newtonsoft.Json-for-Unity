@@ -95,9 +95,7 @@ jobs:
     working_directory: ~/repo
     
     environment:
-      SCRIPTS: /root/repo/ci/scripts
-      BUILD_SOLUTION: /root/repo/Src/Newtonsoft.Json/Newtonsoft.Json.csproj
-      BUILD_DESTINATION_BASE: /root/repo/Src/Newtonsoft.Json-for-Unity/Plugins
+      TEST_PROJECT: /root/repo/Src/Newtonsoft.Json.Tests/Newtonsoft.Json.Tests.csproj
 
     docker:
       - image: applejag/newtonsoft.json-for-unity.package-builder:v1
@@ -114,17 +112,28 @@ jobs:
           at: /workspace
 
       - run:
-          name: foo
-          command: bar
+          name: NuGet restore
+          command: msbuild -t:restore "$TEST_PROJECT"
+
+      - run:
+          name: Build
+          command: |
+            msbuild -t:build "$TEST_PROJECT" \
+              -p:Configuration=Debug \
+              -p:TargetFrameworks=net46;net452
+
+      - run:
+          name: Run tests net452
+          command: msbuild -t:test "$TEST_PROJECT"
 
   test-unity:
     working_directory: ~/repo
     
     environment:
-      export SCRIPTS=/root/repo/ci/scripts
-      export PACKAGE_FOLDER=/root/repo/Src/Newtonsoft.Json-for-Unity
-      export TEST_PROJECT=/root/repo/Src/Newtonsoft.Json-for-Unity.Tests
-      export PLATFORMS=playmode
+      SCRIPTS: /root/repo/ci/scripts
+      PACKAGE_FOLDER: /root/repo/Src/Newtonsoft.Json-for-Unity
+      TEST_PROJECT: /root/repo/Src/Newtonsoft.Json-for-Unity.Tests
+      PLATFORMS: playmode
 
     docker:
       - image: applejag/newtonsoft.json-for-unity.package-unity-tester:v1
