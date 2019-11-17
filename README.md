@@ -1,6 +1,6 @@
 # ![Logo](Doc/icons/logo-with-unity.png) Newtonsoft.Json for Unity
 
-![npm](https://img.shields.io/npm/v/jillejr.newtonsoft.json-for-unity.svg?style=flat-square)
+[![Latest Version @ Cloudsmith](https://api-prd.cloudsmith.io/badges/version/jillejr/newtonsoft-json-for-unity/npm/jillejr.newtonsoft.json-for-unity/latest/x/?render=true&badge_token=gAAAAABd0U7AyWhLGu6xjEAHz70w9zWbSk6ogsTrw3xvVpa2NXe7HJg_ua7r-G2cbWECxfM51y4uYgOdFOquHNoTQti080JM6w%3D%3D)](https://cloudsmith.io/~jillejr/repos/newtonsoft-json-for-unity/packages/detail/npm/jillejr.newtonsoft.json-for-unity/latest/)
 
 Json.NET is a popular high-performance JSON framework for .NET
 
