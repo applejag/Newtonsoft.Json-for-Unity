@@ -16,6 +16,14 @@ Available for installation with
 
 [newtonsoft.json.git]: https://github.com/JamesNK/Newtonsoft.Json
 
+## Versioning format
+
+_Staying with JamesNK's version syntax, but with a twist :dizzy:_
+
+To allow deployment of patches of the package itself, and keep confusion to a low, I'm only appending a double digit for versioning of this repository. Deployment of Newtonsoft.Json version `12.0.1` will be deployed with the UPM version `12.0.100`, `12.0.101`, `12.0.102` etc. It's still `12.0.1` version of the assembly, but some other stuff around the package will have changed. See the [releases](https://github.com/jilleJr/Newtonsoft.Json-for-Unity/releases) tab for version-specific information.
+
+![explanation of version](Doc/version-explanation.png)
+
 ## Installation via UPM
 
 > Requires Unity Editor `2018.1` or above, as UPM was first shipped with `2018.1`.
@@ -34,7 +42,7 @@ Open `<project>/Packages/manifest.json`, add scope for `jillejr`, then add the p
     }
   ],
   "dependencies": {
-    "jillejr.newtonsoft.json-for-unity": "12.0.1-patch-001",
+    "jillejr.newtonsoft.json-for-unity": "12.0.101",
 
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
@@ -70,7 +78,7 @@ Change the version field. You have to know the new version beforehand.
 > ```json
 > {
 >   "dependencies": {
->     "jillejr.newtonsoft.json-for-unity": "12.0.1"
+>     "jillejr.newtonsoft.json-for-unity": "12.0.100"
 >   }
 > }
 > ```
@@ -80,7 +88,7 @@ Change the version field. You have to know the new version beforehand.
 > ```json
 > {
 >   "dependencies": {
->     "jillejr.newtonsoft.json-for-unity": "12.0.1-patch-001"
+>     "jillejr.newtonsoft.json-for-unity": "12.0.101"
 >   }
 > }
 > ```

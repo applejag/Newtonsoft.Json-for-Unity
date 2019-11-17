@@ -7,13 +7,6 @@ set -o pipefail
 
 jsonFile="${1?Path to JSON required.}"
 output="${2:-FULL}"
-# output types
-# - FULL        "{major}.{release}.{patch}"
-# - JSON_NET    "{major}.0.{release}"
-# - SUFFIX  if {patch}:
-#               "patch-{patch}" (3 digit left padded)
-#           else:
-#               <no output>
 
 error() {
     >&2 echo "$0: $@"
@@ -44,20 +37,23 @@ jq2() {
 
 case "$output" in
 FULL)
-    jq2 -er '(.Major // 0|tostring) + "." + (.Release // 0|tostring) + "." + (.Patch // 0|tostring)' "$jsonFile"
+    jsonnet=`jq2 -er '(.Major // 0|tostring) + "." + (.Minor // 0|tostring) + "." + (.Patch // 0|tostring)' "$jsonFile"`
+    release=`jq2 -er '.Release // 0' "$jsonFile"`
+
+    printf "%s%02d" "$jsonnet" "$release"
     ;;
 JSON_NET)
-    jq2 -er '(.Major // 0|tostring) + ".0." + (.Release // 0|tostring)' "$jsonFile"
+    jq2 -er '(.Major // 0|tostring) + "." + (.Minor // 0|tostring) + "." + (.Patch // 0|tostring)' "$jsonFile"
     ;;
 SUFFIX)
-    patch="$(jq2 -er '.Patch // empty' "$jsonFile")"
+    release="$(jq2 -er '.Release // empty' "$jsonFile")"
     
-    if [ -z "$patch" ]
+    if [ -z "$release" ]
     then
         # No suffix
         echo ""
     else
-        printf "patch-%03d" "$patch"
+        printf "r%02d" "$release"
     fi
     ;;
 *)
