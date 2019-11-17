@@ -37,7 +37,7 @@ Open `<project>/Packages/manifest.json`, add scope for `jillejr`, then add the p
   "scopedRegistries": [
     {
       "name": "Packages from jillejr",
-      "url": "https://registry.npmjs.org/",
+      "url": "https://npm.cloudsmith.io/jillejr/newtonsoft-json-for-unity/",
       "scopes": ["jillejr"]
     }
   ],
