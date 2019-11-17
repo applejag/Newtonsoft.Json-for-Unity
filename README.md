@@ -20,7 +20,7 @@ Available for installation with
 
 _Staying with JamesNK's version syntax, but with a twist :dizzy:_
 
-To allow deployment of patches of the package itself, and keep confusion to a low, I'm only appending a double digit for versioning of this repository. Deployment of Newtonsoft.Json version `12.0.1` will be deployed with the UPM version `12.0.100`, `12.0.101`, `12.0.102` etc. It's still `12.0.1` version of the assembly, but some other stuff around the package will have changed. See the [releases](https://github.com/jilleJr/Newtonsoft.Json-for-Unity/releases) tab for version-specific information.
+To allow deployment of patches of the package itself, and keep confusion to a low, I'm only appending a double digit for versioning of this repository. Deployment of Newtonsoft.Json version `12.0.1` will be deployed with the UPM version `12.0.100`, `12.0.101`, `12.0.102` etc. It's still `12.0.1` version of the assembly, but some other stuff around the package will have changed. See the [releases](https://github.com/jilleJr/Newtonsoft.Json-for-Unity/releases) tab for version-specific changelogs.
 
 ![explanation of version](Doc/version-explanation.png)
 
