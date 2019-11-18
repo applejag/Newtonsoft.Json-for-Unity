@@ -113,9 +113,6 @@ jobs:
           keys:
             - test-windows-nuget
 
-      - attach_workspace:
-          at: /workspace
-
       - run:
           name: NuGet restore
           command: dotnet restore Src/Newtonsoft.Json.Tests/Newtonsoft.Json.Tests.csproj
