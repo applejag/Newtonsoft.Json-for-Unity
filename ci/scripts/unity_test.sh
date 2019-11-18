@@ -17,24 +17,6 @@ inconclusive=$((0))
 skipped=$((0))
 total=$((0))
 
-errors=""
-
-function escapeJson {
-    : ${1?}
-    local val=${1//\\/\\\\} # \ 
-    # val=${val//\//\\\/} # / 
-    # val=${val//\'/\\\'} # ' (not strictly needed ?)
-    val=${val//\"/\\\"} # " 
-    val=${val//	/\\t} # \t (tab)
-    # val=${val//^M/\\\r} # \r (carriage return)
-    val="$(echo "$val" | tr -d '\r')" # \r (carrige return)
-    val=${val//
-/\\\n} # \n (newline)
-    val=${val//^L/\\\f} # \f (form feed)
-    val=${val//^H/\\\b} # \b (backspace)
-    echo -n "$val"
-}
-
 while read platform
 do
     echo
@@ -102,16 +84,7 @@ do
     do
         name="$(xmlstarlet sel -T -t -v "//test-case[@id=$id]/@name" -n $test_results_file)"
         message="$(xmlstarlet sel -T -t -v "//test-case[@id=$id]/failure/message/text()" -n $test_results_file)"
-        # stacktrace="$(xmlstarlet sel -T -t -v "//test-case[@id=$id]/failure/stack-trace/text()" -n $test_results_file)"
         echo "Found failed test: $name$(echo $'\n\t')$message"
-
-        if [ "$errors" ]
-        then
-            errors="$errors\n> :small_red_triangle_down: \`$platform\` *Failed* $name"
-        else
-            errors="> :small_red_triangle_down: \`$platform\` *Failed* $name"
-        fi
-        errors="$errors\n> \`\`\`\n$(escapeJson "$message")\n\`\`\`"
     done < <(xmlstarlet sel -T -t -m //test-case[failure] -v @id -n $test_results_file)
     
     while read id
@@ -119,14 +92,6 @@ do
         name="$(xmlstarlet sel -T -t -v "//test-case[@id=$id]/@name" -n $test_results_file)"
         message="$(xmlstarlet sel -T -t -v "//test-case[@id=$id]/reason/message/text()" -n $test_results_file)"
         echo "Found inconclusive test: $name$(echo $'\n\t')$message"
-        
-        if [ "$errors" ]
-        then
-            errors="$errors\n> :small_orange_diamond: \`$platform\` *Inconclusive* $name"
-        else
-            errors="> :small_orange_diamond: \`$platform\` *Inconclusive* $name"
-        fi
-        errors="$errors\n> \`\`\`\n$(escapeJson "$message")\n\`\`\`"
     done < <(xmlstarlet sel -T -t -m "//test-case[@result='Inconclusive']" -v @id -n $test_results_file)
 
 done < <(echo -e "$PLATFORMS")
@@ -142,17 +107,12 @@ echo "Total skipped: $skipped"
 echo
 echo "Total num of tests: $total"
 echo
-echo "Found errors:"
-echo -e "$errors"
-echo
 
 echo "export TEST_PASSED=\$(($passed))" >> $BASH_ENV
 echo "export TEST_FAILED=\$(($failed))" >> $BASH_ENV
 echo "export TEST_INCONCLUSIVE=\$(($inconclusive))" >> $BASH_ENV
 echo "export TEST_SKIPPED=\$(($skipped))" >> $BASH_ENV
 echo "export TEST_TOTAL=\$(($total))" >> $BASH_ENV
-echo -e "read -rd '' TEST_ERRORS <<'ERROR_STRINGS'\n$errors\nERROR_STRINGS\n" >> $BASH_ENV
-echo "export TEST_ERRORS" >> $BASH_ENV
 
 exitCode=$((failed+inconclusive))
 exit $exitCode
