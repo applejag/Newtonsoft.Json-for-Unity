@@ -35,7 +35,11 @@ Start-DockerBuild -ImageVersion v1 `
     -f $PSScriptRoot\package-builder.Dockerfile
 
 Start-DockerBuild -ImageVersion v1 `
-    -ImageName applejag/newtonsoft.json-for-unity.package-deployer `
-    -f $PSScriptRoot\package-deployer.Dockerfile
+    -ImageName applejag/newtonsoft.json-for-unity.package-deploy-npm `
+    -f $PSScriptRoot\package-deploy-npm.Dockerfile
+
+Start-DockerBuild -ImageVersion v1 `
+    -ImageName applejag/newtonsoft.json-for-unity.package-deploy-github `
+    -f $PSScriptRoot\package-deploy-github.Dockerfile
 
 Write-Host ">> Done! " -BackgroundColor DarkGreen -ForegroundColor Gray

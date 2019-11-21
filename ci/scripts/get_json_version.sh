@@ -56,9 +56,12 @@ SUFFIX)
         printf "r%02d" "$release"
     fi
     ;;
+RELEASE)
+    jq2 -er '.Release // 0' "$jsonFile"
+    ;;
 *)
     error "Error: Unknown output type '$output'
-    Possible values: FULL, JSON_NET, SUFFIX"
+    Possible values: FULL, JSON_NET, SUFFIX, RELEASE"
     exit 3
     ;;
 esac

@@ -232,10 +232,58 @@ jobs:
             echo "//npm.cloudsmith.io/jillejr/newtonsoft-json-for-unity/:_authToken=$NPM_AUTH_TOKEN" >> ~/.npmrc
             echo "registry=$NPM_REGISTRY" >> ~/.npmrc
             echo "always-auth=true" >> ~/.npmrc
-        
+
       - run:
           name: NPM Publish
           command: npm publish
+
+  deploy-github:
+    working_directory: /root/repo
+    
+    docker:
+      - image: applejag/newtonsoft.json-for-unity.package-deploy-github:v1
+    
+    steps:
+      - checkout
+
+      - add_ssh_keys:
+          fingerprints:
+            # GitHub auth SSH
+            - "66:2e:95:ff:42:e9:21:9d:79:1f:b6:b5:68:58:a7:bd"
+
+      - attach_workspace:
+          at: /workspace
+
+      - run:
+          name: Enable permissions on scripts
+          command: chmod +x $SCRIPTS/**.sh -v
+
+      - run:
+          name: Git Login
+          command: $SCRIPTS/git_login.sh
+
+      - run:
+          name: Setup Variables
+          command: |
+            env() {
+              echo "export '$1=$2'" >> $BASH_ENV
+              echo "$1='$2'"
+              export "$1=$2"
+            }
+            echo ">>> OBTAINING VERSION FROM $(pwd)/ci/version.json"
+            env VERSION "$($SCRIPTS/get_json_version.sh ./ci/version.json FULL)"
+            env VERSION_RELEASE "$($SCRIPTS/get_json_version.sh ./ci/version.json RELEASE)"
+            env VERSION_JSON_NET "$($SCRIPTS/get_json_version.sh ./ci/version.json JSON_NET)"
+            echo
+
+      - run:
+          name: Ensure tag exists
+          command: |
+            if ! [ git tag --list | egrep -q "^$1$" ]
+            then
+              git tag $VERSION -m "Json.NET $VERSION_JSON_NET, release $VERSION_RELEASE"
+              git push --tags
+            fi
 
 workflows:
   version: 2
@@ -262,5 +310,8 @@ workflows:
             - test-windows
             - test-unity
       - deploy-package:
+          requires:
+            - hold
+      - deploy-github:
           requires:
             - hold

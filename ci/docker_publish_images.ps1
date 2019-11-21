@@ -20,5 +20,8 @@ Publish-DockerImage applejag/newtonsoft.json-for-unity.package-unity-tester:late
 Publish-DockerImage applejag/newtonsoft.json-for-unity.package-builder:v1
 Publish-DockerImage applejag/newtonsoft.json-for-unity.package-builder:latest
 
-Publish-DockerImage applejag/newtonsoft.json-for-unity.package-deployer:v1
-Publish-DockerImage applejag/newtonsoft.json-for-unity.package-deployer:latest
+Publish-DockerImage applejag/newtonsoft.json-for-unity.package-deploy-npm:v1
+Publish-DockerImage applejag/newtonsoft.json-for-unity.package-deploy-npm:latest
+
+Publish-DockerImage applejag/newtonsoft.json-for-unity.package-deploy-github:v1
+Publish-DockerImage applejag/newtonsoft.json-for-unity.package-deploy-github:latest
