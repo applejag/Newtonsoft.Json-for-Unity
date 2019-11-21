@@ -129,6 +129,10 @@ jobs:
           name: Run tests (profile 2, portable)
           command: dotnet test -f net452 Src/Newtonsoft.Json.Tests/Newtonsoft.Json.Tests.csproj
 
+      - run:
+          name: Look for test results
+          command: ls Src/Newtonsoft.Json/bin/Debug/net46/
+
       - save_cache:
           key: test-windows-nuget
           paths:
@@ -196,7 +200,7 @@ jobs:
           command: $SCRIPTS/nunit2junit.sh ~/tests/nunit ~/tests/junit/
 
       - store_test_results:
-          name: store test results -> ~/tests/junit
+          name: Store test results -> ~/tests/junit
           path: ~/tests/junit
 
       - save_cache:
@@ -208,3 +212,55 @@ jobs:
           key: test-unity-upm-global
           paths:
             - /root/.config/unity3d/cache
+
+  deploy-package:
+    working_directory: /workspace/package
+    
+    docker:
+      - image: applejag/newtonsoft.json-for-unity.package-deployer:v1
+
+    environment:
+      NPM_REGISTRY: https://npm.cloudsmith.io/jillejr/newtonsoft-json-for-unity/
+
+    steps:
+      - attach_workspace:
+          at: /workspace
+
+      - run:
+          name: NPM Login
+          command: |
+            echo "//npm.cloudsmith.io/jillejr/newtonsoft-json-for-unity/:_authToken=$NPM_AUTH_TOKEN" >> ~/.npmrc
+            echo "registry=$NPM_REGISTRY" >> ~/.npmrc
+            echo "always-auth=true" >> ~/.npmrc
+        
+      - run:
+          name: NPM Publish
+          command: npm publish
+
+workflows:
+  version: 2
+  build-test:
+    jobs:
+      - build-package
+      - test-windows:
+          requires:
+            - build-package
+      - test-unity:
+          requires:
+            - build-package
+  build-test-deploy:
+    jobs:
+      - build-package
+      - test-windows:
+          requires:
+            - build-package
+      - test-unity:
+          requires:
+            - build-package
+      - hold:
+          requires:
+            - test-windows
+            - test-unity
+      - deploy-package:
+          requires:
+            - hold

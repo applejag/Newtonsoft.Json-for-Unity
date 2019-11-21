@@ -12,7 +12,7 @@ function Start-DockerBuild  {
         [string[]]$Passthrough
     )
 
-    Write-Host ">> Building ${ImageName}:${ImageVersion}" -BackgroundColor DarkGreen -ForegroundColor White
+    Write-Host ">> Building ${ImageName}:${ImageVersion} " -BackgroundColor DarkGreen -ForegroundColor White
     docker build `
         --build-arg IMAGE_VERSION=${ImageVersion} `
         -t ${ImageName}:${ImageVersion} `
@@ -33,3 +33,9 @@ Start-DockerBuild -ImageVersion v1 `
 Start-DockerBuild -ImageVersion v1 `
     -ImageName applejag/newtonsoft.json-for-unity.package-builder `
     -f $PSScriptRoot\package-builder.Dockerfile
+
+Start-DockerBuild -ImageVersion v1 `
+    -ImageName applejag/newtonsoft.json-for-unity.package-deployer `
+    -f $PSScriptRoot\package-deployer.Dockerfile
+
+Write-Host ">> Done! " -BackgroundColor DarkGreen -ForegroundColor Gray
