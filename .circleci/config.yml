@@ -151,7 +151,7 @@ jobs:
       - run:
           name: Convert NUnit to JUnit xml
           when: always
-          command: bash ci/scripts/nunit2junit.sh Tests/NUnit/ Tests/JUnit/
+          command: ci/scripts/nunit2junit.ps1 Tests/NUnit/ Tests/JUnit/
           
       - store_test_results:
           name: Store test results -> ~/Tests/JUnit
