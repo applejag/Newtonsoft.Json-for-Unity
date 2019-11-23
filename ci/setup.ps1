@@ -3,6 +3,7 @@
 
 $nugetUrl = 'https://dist.nuget.org/win-x86-commandline/latest/nuget.exe'
 $nugetPath = '.\Temp\nuget.exe'
+$nugetSource = 'https://api.nuget.org/v3/index.json'
 $vswhereVersion = '2.3.2'
 $vswherePath = ".\Temp\vswhere.$vswhereVersion"
 $nunitConsoleVersion = '3.8.0'
@@ -10,6 +11,7 @@ $nunitConsolePath = ".\Temp\NUnit.ConsoleRunner.$nunitConsoleVersion"
 
 function Install-AllTheThingsINeed()
 {
+    New-Item Temp -ItemType Directory -ErrorAction SilentlyContinue
     EnsureNuGetExists
     EnsureNuGetPackage "vswhere" $vswherePath $vswhereVersion
     EnsureNuGetPackage "NUnit.ConsoleRunner" $nunitConsolePath $nunitConsoleVersion
@@ -75,7 +77,7 @@ function EnsureNuGetPackage($packageName, $packagePath, $packageVersion)
     if (!(Test-Path $packagePath))
     {
         Write-Host "Couldn't find $packagePath. Downloading with NuGet"
-        &$nugetPath install $packageName -OutputDirectory .\Temp -Version $packageVersion -ConfigFile "$sourceDir\nuget.config"
+        &$nugetPath install $packageName -OutputDirectory .\Temp -Version $packageVersion -Source $nugetSource
     }
     else
     {
