@@ -42,8 +42,9 @@
 *.fs text
 *.fsx text
 *.hs text
-*.ps1 text
+*.ps1 text eol=lf
 *.psm1 text
+*.sh text eol=lf
 
 *.csproj text merge=union 
 *.vbproj text merge=union 
