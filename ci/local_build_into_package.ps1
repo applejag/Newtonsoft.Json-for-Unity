@@ -14,16 +14,16 @@ param (
         ,'Editor'
     ),
 
-    [string] $VolumeSource = "/c/Projekt/Newtonsoft.Json",
+    [string] $VolumeSource = "/c/Projekt/Newtonsoft.Json-for-Unity",
 
-    [string] $Image = "applejag/newtonsoft.json-for-unity.package-builder:v1",
+    [string] $DockerImage = "applejag/newtonsoft.json-for-unity.package-builder:v1",
 
     [string] $WorkingDirectory = "/root/repo"
 )
 
 $ErrorActionPreference = "Stop"
 
-Write-Host ">> Starting $Image" -BackgroundColor DarkRed
+Write-Host ">> Starting $DockerImage" -BackgroundColor DarkRed
 $watch = [System.Diagnostics.Stopwatch]::StartNew()
 
 $container = docker run -dit `
@@ -31,8 +31,9 @@ $container = docker run -dit `
     -e SCRIPTS=/root/repo/ci/scripts `
     -e BUILD_SOLUTION=/root/repo/Src/Newtonsoft.Json/Newtonsoft.Json.csproj `
     -e BUILD_DESTINATION_BASE=/root/repo/Src/Newtonsoft.Json-for-Unity/Plugins `
+    -e BUILD_CONFIGURATION=$Configuration `
     -e BASH_ENV=/.bash_env `
-    $Image
+    $DockerImage
 
 if ($LASTEXITCODE -ne 0) {
     throw "Failed to create container"
@@ -84,14 +85,10 @@ try {
     Invoke-DockerCommand 'NuGet restore' `
         'msbuild -t:restore "$BUILD_SOLUTION"'
 
-    Invoke-DockerCommand 'Build Editor' `
-        '$SCRIPTS/build.sh Editor'
-
-    Invoke-DockerCommand 'Build AOT' `
-        '$SCRIPTS/build.sh AOT'
-
-    Invoke-DockerCommand 'Build Portable' `
-        '$SCRIPTS/build.sh Portable'
+    foreach ($build in $UnityBuilds) {
+        Invoke-DockerCommand "Build $build" `
+            "`$SCRIPTS/build.sh $build"
+    }
 
     Invoke-DockerCommand 'Fix meta files' `
         '$SCRIPTS/generate_metafiles.sh $BUILD_DESTINATION_BASE'
