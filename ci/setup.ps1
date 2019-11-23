@@ -75,7 +75,7 @@ function EnsureNuGetPackage($packageName, $packagePath, $packageVersion)
     if (!(Test-Path $packagePath))
     {
         Write-Host "Couldn't find $packagePath. Downloading with NuGet"
-        exec { & $nugetPath install $packageName -OutputDirectory .\Temp -Version $packageVersion -ConfigFile "$sourceDir\nuget.config" | Out-Default } "Error restoring $packagePath"
+        &$nugetPath install $packageName -OutputDirectory .\Temp -Version $packageVersion -ConfigFile "$sourceDir\nuget.config"
     }
     else
     {
