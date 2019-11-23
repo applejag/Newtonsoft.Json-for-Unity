@@ -314,6 +314,7 @@ workflows:
           requires:
             - build-package
       - hold:
+          type: approval
           requires:
             - test-windows
             - test-unity
