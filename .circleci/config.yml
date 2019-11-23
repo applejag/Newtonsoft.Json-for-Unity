@@ -121,7 +121,7 @@ jobs:
 
       - run:
           name: Install tools -> Temp/profile.ps1
-          command: ci/setup.ps1
+          command: ci/scripts/install_tools.ps1
 
       - run:
           name: NuGet restore
