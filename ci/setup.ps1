@@ -1,5 +1,6 @@
 # Put together from script originally by JamesNK
 # https://github.com/JamesNK/Newtonsoft.Json/blob/c89d6addf118745c4c14536ce64fd69566ebd644/Build/build.ps1
+$ErrorActionPreference = "Stop"
 
 $nugetUrl = 'https://dist.nuget.org/win-x86-commandline/latest/nuget.exe'
 $nugetPath = '.\Temp\nuget.exe'
@@ -20,6 +21,7 @@ function Install-AllTheThingsINeed()
     Write-Host "MSBuild path $msBuildPath"
 
 @"
+`$ErrorActionPreference = "Stop"
 `$nuget = '$(Resolve-Path $nugetPath)'
 `$msbuild = '$msBuildPath'
 `$vswhere = '$(Resolve-Path $vswherePath\tools\vswhere.exe)'
@@ -64,6 +66,7 @@ function EnsureNuGetExists()
     if (!(Test-Path $nugetPath))
     {
         Write-Host "Couldn't find nuget.exe. Downloading from $nugetUrl to $nugetPath"
+        $ProgressPreference = "SilentlyContinue"
         Invoke-WebRequest -Uri $nugetUrl -OutFile $nugetPath
     }
     else
