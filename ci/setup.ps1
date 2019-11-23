@@ -26,38 +26,6 @@ function Install-AllTheThingsINeed()
 `$msbuild = '$msBuildPath'
 `$vswhere = '$(Resolve-Path $vswherePath\tools\vswhere.exe)'
 `$nunit3console = '$(Resolve-Path $nunitConsolePath\tools\nunit3-console.exe)'
-
-function nuget {
-    Param (
-        [parameter(ValueFromRemainingArguments = `$true)]
-        [string[]]`$Passthrough
-    )
-    &`$nuget @Passthrough
-}
-
-function msbuild {
-    Param (
-        [parameter(ValueFromRemainingArguments = `$true)]
-        [string[]]`$Passthrough
-    )
-    &`$msbuild @Passthrough
-}
-
-function vswhere {
-    Param (
-        [parameter(ValueFromRemainingArguments = `$true)]
-        [string[]]`$Passthrough
-    )
-    &`$vswhere @Passthrough
-}
-
-function nunit3console {
-    Param (
-        [parameter(ValueFromRemainingArguments = `$true)]
-        [string[]]`$Passthrough
-    )
-    &`$nunit3console @Passthrough
-}
 "@ > .\Temp\profile.ps1
 }
 

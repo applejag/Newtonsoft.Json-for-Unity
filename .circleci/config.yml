@@ -127,25 +127,25 @@ jobs:
           name: NuGet restore
           command: |
             .'Temp/profile.ps1'
-            nuget restore Src/Newtonsoft.Json.Tests/Newtonsoft.Json.Tests.csproj
+            &$nuget restore Src/Newtonsoft.Json.Tests/Newtonsoft.Json.Tests.csproj
 
       - run:
           name: Run Build step
           command: |
             .'Temp/profile.ps1'
-            msbuild -t:build -restore -p:Configuration=Debug Src/Newtonsoft.Json.Tests/Newtonsoft.Json.Tests.csproj
+            &$msbuild -t:build -restore -p:Configuration=Debug Src/Newtonsoft.Json.Tests/Newtonsoft.Json.Tests.csproj
 
       - run:
           name: Run tests (profile 1)
           command: |
             .'Temp/profile.ps1'
-            nunit3console Src/Newtonsoft.Json.Tests/bin/Debug/net46/Newtonsoft.Json.Tests.dll --framework=net46 --result=tests/nunit/net46.xml
+            &$nunit3console Src/Newtonsoft.Json.Tests/bin/Debug/net46/Newtonsoft.Json.Tests.dll --framework=net46 --result=tests/nunit/net46.xml
 
       - run:
           name: Run tests (profile 2, portable)
           command: |
             .'Temp/profile.ps1'
-            nunit3console Src/Newtonsoft.Json.Tests/bin/Debug/net452/Newtonsoft.Json.Tests.dll --framework=net452 --result=tests/nunit/net452.xml
+            &$nunit3console Src/Newtonsoft.Json.Tests/bin/Debug/net452/Newtonsoft.Json.Tests.dll --framework=net452 --result=tests/nunit/net452.xml
 
       - run:
           name: Convert NUnit to JUnit xml
