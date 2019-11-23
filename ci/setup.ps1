@@ -62,7 +62,7 @@ function EnsureNuGetExists()
     if (!(Test-Path $nugetPath))
     {
         Write-Host "Couldn't find nuget.exe. Downloading from $nugetUrl to $nugetPath"
-        (New-Object System.Net.WebClient).DownloadFile($nugetUrl, $nugetPath)
+        Invoke-WebRequest -Uri $nugetUrl -OutFile $nugetPath
     }
     else
     {
