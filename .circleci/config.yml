@@ -213,7 +213,7 @@ jobs:
           paths:
             - /root/.config/unity3d/cache
 
-  deploy-package:
+  deploy-cloudsmith:
     working_directory: /workspace/package
     
     docker:
@@ -309,7 +309,7 @@ workflows:
           requires:
             - test-windows
             - test-unity
-      - deploy-package:
+      - deploy-cloudsmith:
           requires:
             - hold
       - deploy-github:
