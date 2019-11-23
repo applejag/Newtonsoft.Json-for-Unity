@@ -1,11 +1,13 @@
 version: 2.1
 
-preset-filter1: &WORKFLOW_BUILD_TEST_FILTER
+preset-filter-test: &WORKFLOW_BUILD_TEST_FILTER
   only:
     - develop
-    - /feature.*/
-    
-preset-filter2: &WORKFLOW_BUILD_TEST_DEPLOY_FILTER
+    - /^feature.*/
+    - /^hotfix.*/
+    - /^release.*/
+
+preset-filter-deploy: &WORKFLOW_BUILD_TEST_DEPLOY_FILTER
   only:
     - master
 
@@ -289,7 +291,10 @@ workflows:
   version: 2
   build-test:
     jobs:
-      - build-package
+      - build-package:
+          filters:
+            branches:
+              <<: *WORKFLOW_BUILD_TEST_FILTER
       - test-windows:
           requires:
             - build-package
@@ -298,7 +303,10 @@ workflows:
             - build-package
   build-test-deploy:
     jobs:
-      - build-package
+      - build-package:
+          filters:
+            branches:
+              <<: *WORKFLOW_BUILD_TEST_DEPLOY_FILTER
       - test-windows:
           requires:
             - build-package
