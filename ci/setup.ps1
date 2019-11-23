@@ -25,7 +25,7 @@ function Install-AllTheThingsINeed()
 
 function nuget {
     Param (
-        [parameter(ValueFromRemainingArguments = $true)]
+        [parameter(ValueFromRemainingArguments = `$true)]
         [string[]]`$Passthrough
     )
     &`$nuget @Passthrough
@@ -33,7 +33,7 @@ function nuget {
 
 function msbuild {
     Param (
-        [parameter(ValueFromRemainingArguments = $true)]
+        [parameter(ValueFromRemainingArguments = `$true)]
         [string[]]`$Passthrough
     )
     &`$msbuild @Passthrough
@@ -41,7 +41,7 @@ function msbuild {
 
 function vswhere {
     Param (
-        [parameter(ValueFromRemainingArguments = $true)]
+        [parameter(ValueFromRemainingArguments = `$true)]
         [string[]]`$Passthrough
     )
     &`$vswhere @Passthrough
@@ -49,12 +49,12 @@ function vswhere {
 
 function nunit3console {
     Param (
-        [parameter(ValueFromRemainingArguments = $true)]
+        [parameter(ValueFromRemainingArguments = `$true)]
         [string[]]`$Passthrough
     )
     &`$nunit3console @Passthrough
 }
-"@ >> .\Temp\profile.ps1
+"@ > .\Temp\profile.ps1
 }
 
 function EnsureNuGetExists()
@@ -64,6 +64,10 @@ function EnsureNuGetExists()
         Write-Host "Couldn't find nuget.exe. Downloading from $nugetUrl to $nugetPath"
         (New-Object System.Net.WebClient).DownloadFile($nugetUrl, $nugetPath)
     }
+    else
+    {
+        Write-Host "nuget.exe was already installed."
+    }
 }
 
 function EnsureNuGetPackage($packageName, $packagePath, $packageVersion)
@@ -72,6 +76,10 @@ function EnsureNuGetPackage($packageName, $packagePath, $packageVersion)
     {
         Write-Host "Couldn't find $packagePath. Downloading with NuGet"
         exec { & $nugetPath install $packageName -OutputDirectory .\Temp -Version $packageVersion -ConfigFile "$sourceDir\nuget.config" | Out-Default } "Error restoring $packagePath"
+    }
+    else
+    {
+        Write-Host "Package $packagePath. Was already installed"
     }
 }
 
@@ -98,4 +106,4 @@ function GetMsBuildPath()
     throw "Could not find MSBuild path"
 }
 
-Install-AllTheThingsINeed()
+Install-AllTheThingsINeed
