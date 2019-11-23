@@ -139,22 +139,23 @@ jobs:
           name: Run tests (profile 1)
           command: |
             .'Temp/profile.ps1'
-            &$nunit3console Src/Newtonsoft.Json.Tests/bin/Debug/net46/Newtonsoft.Json.Tests.dll --framework=net46 --result=tests/nunit/net46.xml
+            New-Item Tests/NUnit -ItemType Directory -ErrorAction SilentlyContinue
+            &$nunit3console Src/Newtonsoft.Json.Tests/bin/Debug/net46/Newtonsoft.Json.Tests.dll --framework=net-4.0 --result=Tests/NUnit/net46.xml
 
       - run:
           name: Run tests (profile 2, portable)
           command: |
             .'Temp/profile.ps1'
-            &$nunit3console Src/Newtonsoft.Json.Tests/bin/Debug/net452/Newtonsoft.Json.Tests.dll --framework=net452 --result=tests/nunit/net452.xml
+            &$nunit3console Src/Newtonsoft.Json.Tests/bin/Debug/net452/Newtonsoft.Json.Tests.dll --framework=net-4.0 --result=Tests/NUnit/net452.xml
 
       - run:
           name: Convert NUnit to JUnit xml
           when: always
-          command: bash ci/scripts/nunit2junit.sh tests/nunit/ tests/junit/
+          command: bash ci/scripts/nunit2junit.sh Tests/NUnit/ Tests/JUnit/
           
       - store_test_results:
-          name: Store test results -> ~/tests/junit
-          path: tests/junit
+          name: Store test results -> ~/Tests/JUnit
+          path: Tests/JUnit
 
       - save_cache:
           key: test-windows-nuget
