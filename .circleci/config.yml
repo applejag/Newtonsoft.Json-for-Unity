@@ -109,6 +109,10 @@ jobs:
     executor: win/vs2019
 
     steps:
+      - run:
+          name: Dotnet installs
+          command: dotnet --info
+
       - checkout
 
       - restore_cache:
@@ -116,24 +120,41 @@ jobs:
             - test-windows-nuget
 
       - run:
+          name: Install tools -> Temp/profile.ps1
+          command: ci/setup.ps1
+
+      - run:
           name: NuGet restore
-          command: dotnet restore Src/Newtonsoft.Json.Tests/Newtonsoft.Json.Tests.csproj
+          command: |
+            .'Temp/profile.ps1'
+            nuget restore Src/Newtonsoft.Json.Tests/Newtonsoft.Json.Tests.csproj
 
       - run:
           name: Run Build step
-          command: dotnet build -c Debug Src/Newtonsoft.Json.Tests/Newtonsoft.Json.Tests.csproj
+          command: |
+            .'Temp/profile.ps1'
+            msbuild -t:build -restore -p:Configuration=Debug Src/Newtonsoft.Json.Tests/Newtonsoft.Json.Tests.csproj
 
       - run:
           name: Run tests (profile 1)
-          command: dotnet test -f net46 Src/Newtonsoft.Json.Tests/Newtonsoft.Json.Tests.csproj
+          command: |
+            .'Temp/profile.ps1'
+            nunit3console Src/Newtonsoft.Json.Tests/bin/Debug/net46/Newtonsoft.Json.Tests.dll --framework=net46 --result=tests/nunit/net46.xml
 
       - run:
           name: Run tests (profile 2, portable)
-          command: dotnet test -f net452 Src/Newtonsoft.Json.Tests/Newtonsoft.Json.Tests.csproj
+          command: |
+            .'Temp/profile.ps1'
+            nunit3console Src/Newtonsoft.Json.Tests/bin/Debug/net452/Newtonsoft.Json.Tests.dll --framework=net452 --result=tests/nunit/net452.xml
 
       - run:
-          name: Look for test results
-          command: ls Src/Newtonsoft.Json/bin/Debug/net46/
+          name: Convert NUnit to JUnit xml
+          when: always
+          command: bash ci/scripts/nunit2junit.sh tests/nunit/ tests/junit/
+          
+      - store_test_results:
+          name: Store test results -> ~/tests/junit
+          path: tests/junit
 
       - save_cache:
           key: test-windows-nuget
