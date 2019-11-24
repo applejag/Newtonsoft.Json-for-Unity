@@ -28,7 +28,7 @@ namespace Aot.Tests
         {
             var ex = Assert.Throws<TargetInvocationException>(delegate
             {
-                IList<MyNonAotClass> l = CreateListOfType<MyNonAotClass>();
+                _ = CreateListOfType<MyNonAotClass>();
             });
 
             Assert.IsInstanceOf<TypeInitializationException>(ex.InnerException);
@@ -37,7 +37,7 @@ namespace Aot.Tests
         [Test]
         public void PassesOnAOTGenerated()
         {
-            IList<MyNonAotClass> l = CreateListOfType<MyNonAotClass>();
+            _ = CreateListOfType<MyNonAotClass>();
 
             Assert.Pass();
         }
