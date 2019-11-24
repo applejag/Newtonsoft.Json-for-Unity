@@ -101,7 +101,15 @@ namespace Newtonsoft.Json.Tests.Documentation
             serializer.Converters.Add(new JavaScriptDateTimeConverter());
             serializer.NullValueHandling = NullValueHandling.Ignore;
 
-            using (StreamWriter sw = new StreamWriter(@"c:\json.txt"))
+            const string path =
+#if UNITY_EDITOR_LINUX || UNITY_EDITOR_OSX || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX
+                "/tmp/json.txt"
+#else
+                @"c:\json.txt"
+#endif
+            ;
+
+            using (StreamWriter sw = new StreamWriter(path))
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 serializer.Serialize(writer, product);

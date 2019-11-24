@@ -41,13 +41,20 @@ namespace Newtonsoft.Json.Tests.Issues
         [Test]
         public void Test()
         {
+            const string folder =
+#if UNITY_EDITOR_LINUX || UNITY_EDITOR_OSX || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX
+                    "/tmp";
+#else
+                    @"c:\temp";
+#endif
+
             Foo value = new Foo
             {
-                Bar = new DirectoryInfo(@"c:\temp")
+                Bar = new DirectoryInfo(folder)
             };
 
             string json = JsonConvert.SerializeObject(value, new DirectoryInfoJsonConverter());
-            Assert.AreEqual(@"{""Bar"":""c:\\temp""}", json);
+            Assert.AreEqual($"{{\"Bar\":\"{folder}\"}}", json);
         }
 
         public class Foo
