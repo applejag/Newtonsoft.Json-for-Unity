@@ -301,7 +301,7 @@ Newtonsoft.Json Error: 0 : Error!
 2012-11-11T12:08:42.797 Info Started serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
 2012-11-11T12:08:42.798 Info Finished serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
 2012-11-11T12:08:42.799 Info Finished serializing Newtonsoft.Json.Tests.Serialization.Staff. Path ''.
-2013-05-19T00:07:24.360 Verbose Deserialized JSON: 
+2013-05-19T00:07:24.360 Verbose Serialized JSON: 
 {
   ""Name"": ""Arnie Admin"",
   ""StartDate"": new Date(
@@ -315,22 +315,6 @@ Newtonsoft.Json Error: 0 : Error!
             Console.WriteLine(output);
             StringAssert.AreEqualExceptTimestamps(expectedLogs, output);
             Assert.AreEqual(7, memoryTraceWriter.GetTraceMessages().Count());
-
-            string json = @"Serialized JSON: 
-{
-  ""Name"": ""Arnie Admin"",
-  ""StartDate"": new Date(
-    976623132000
-  ),
-  ""Roles"": [
-    ""Administrator""
-  ]
-}";
-
-            json = StringAssert.Normalize(json);
-            output = StringAssert.Normalize(output);
-
-            Assert.IsTrue(output.Contains(json));
         }
 
         [Test]
@@ -369,7 +353,7 @@ Newtonsoft.Json Error: 0 : Error!
 2019-11-23T19:21:38.966 Info Started deserializing System.Collections.Generic.IList`1[System.String]. Path 'Roles', line 6, position 12.
 2019-11-23T19:21:38.966 Info Finished deserializing System.Collections.Generic.IList`1[System.String]. Path 'Roles', line 8, position 3.
 2019-11-23T19:21:38.967 Info Finished deserializing Newtonsoft.Json.Tests.Serialization.Staff. Path '', line 9, position 1.
-2019-11-23T19:21:38.967 Verbose Deserialized JSON:
+2019-11-23T19:21:38.967 Verbose Deserialized JSON: 
 {
   ""Name"": ""Arnie Admin"",
   ""StartDate"": new Date(
@@ -386,11 +370,6 @@ Newtonsoft.Json Error: 0 : Error!
 
             StringAssert.AreEqualExceptTimestamps(expectedLogs, output);
             Assert.AreEqual(7, memoryTraceWriter.GetTraceMessages().Count());
-
-            json = StringAssert.Normalize(json);
-            output = StringAssert.Normalize(output);
-
-            Assert.IsTrue(output.Contains(json));
         }
 
         [Test]
