@@ -23,6 +23,7 @@ namespace Aot.Tests
 #pragma warning restore 649 // Field is never assigned to, and will always have its default value `null'
         }
 
+#if ENABLE_IL2CPP
         [Test]
         public void ThrowsOnNoAOTGenerated()
         {
@@ -33,6 +34,7 @@ namespace Aot.Tests
 
             Assert.IsInstanceOf<TypeInitializationException>(ex.InnerException);
         }
+#endif
 
         [Test]
         public void PassesOnAOTGenerated()
