@@ -294,14 +294,14 @@ Newtonsoft.Json Error: 0 : Error!
             MemoryTraceWriter memoryTraceWriter = (MemoryTraceWriter)traceWriter;
             string output = memoryTraceWriter.ToString();
 
-            const string expectedLogs = 
-@"2019-11-23T19:21:38.966 Info Started deserializing Newtonsoft.Json.Tests.Serialization.Staff. Path 'Name', line 2, position 9.
-2019-11-23T19:21:38.966 Info Started deserializing System.DateTime with converter Newtonsoft.Json.Converters.JavaScriptDateTimeConverter. Path 'StartDate', line 3, position 24.
-2019-11-23T19:21:38.966 Info Finished deserializing System.DateTime with converter Newtonsoft.Json.Converters.JavaScriptDateTimeConverter. Path 'StartDate', line 5, position 3.
-2019-11-23T19:21:38.966 Info Started deserializing System.Collections.Generic.IList`1[System.String]. Path 'Roles', line 6, position 12.
-2019-11-23T19:21:38.966 Info Finished deserializing System.Collections.Generic.IList`1[System.String]. Path 'Roles', line 8, position 3.
-2019-11-23T19:21:38.967 Info Finished deserializing Newtonsoft.Json.Tests.Serialization.Staff. Path '', line 9, position 1.
-2019-11-23T19:21:38.967 Verbose Deserialized JSON:
+            const string expectedLogs =
+@"2012-11-11T12:08:42.761 Info Started serializing Newtonsoft.Json.Tests.Serialization.Staff. Path ''.
+2012-11-11T12:08:42.785 Info Started serializing System.DateTime with converter Newtonsoft.Json.Converters.JavaScriptDateTimeConverter. Path 'StartDate'.
+2012-11-11T12:08:42.791 Info Finished serializing System.DateTime with converter Newtonsoft.Json.Converters.JavaScriptDateTimeConverter. Path 'StartDate'.
+2012-11-11T12:08:42.797 Info Started serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
+2012-11-11T12:08:42.798 Info Finished serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
+2012-11-11T12:08:42.799 Info Finished serializing Newtonsoft.Json.Tests.Serialization.Staff. Path ''.
+2013-05-19T00:07:24.360 Verbose Deserialized JSON: 
 {
   ""Name"": ""Arnie Admin"",
   ""StartDate"": new Date(
@@ -362,14 +362,14 @@ Newtonsoft.Json Error: 0 : Error!
                     MetadataPropertyHandling = MetadataPropertyHandling.Default
                 });
 
-            const string expectedLogs =
-@"2012-11-11T12:08:42.761 Info Started serializing Newtonsoft.Json.Tests.Serialization.Staff. Path ''.
-2012-11-11T12:08:42.785 Info Started serializing System.DateTime with converter Newtonsoft.Json.Converters.JavaScriptDateTimeConverter. Path 'StartDate'.
-2012-11-11T12:08:42.791 Info Finished serializing System.DateTime with converter Newtonsoft.Json.Converters.JavaScriptDateTimeConverter. Path 'StartDate'.
-2012-11-11T12:08:42.797 Info Started serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
-2012-11-11T12:08:42.798 Info Finished serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
-2012-11-11T12:08:42.799 Info Finished serializing Newtonsoft.Json.Tests.Serialization.Staff. Path ''.
-2013-05-19T00:07:24.360 Verbose Deserialized JSON: 
+            const string expectedLogs = 
+@"2019-11-23T19:21:38.966 Info Started deserializing Newtonsoft.Json.Tests.Serialization.Staff. Path 'Name', line 2, position 9.
+2019-11-23T19:21:38.966 Info Started deserializing System.DateTime with converter Newtonsoft.Json.Converters.JavaScriptDateTimeConverter. Path 'StartDate', line 3, position 24.
+2019-11-23T19:21:38.966 Info Finished deserializing System.DateTime with converter Newtonsoft.Json.Converters.JavaScriptDateTimeConverter. Path 'StartDate', line 5, position 3.
+2019-11-23T19:21:38.966 Info Started deserializing System.Collections.Generic.IList`1[System.String]. Path 'Roles', line 6, position 12.
+2019-11-23T19:21:38.966 Info Finished deserializing System.Collections.Generic.IList`1[System.String]. Path 'Roles', line 8, position 3.
+2019-11-23T19:21:38.967 Info Finished deserializing Newtonsoft.Json.Tests.Serialization.Staff. Path '', line 9, position 1.
+2019-11-23T19:21:38.967 Verbose Deserialized JSON:
 {
   ""Name"": ""Arnie Admin"",
   ""StartDate"": new Date(
