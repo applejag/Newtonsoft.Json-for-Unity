@@ -317,6 +317,7 @@ workflows:
           filters:
             branches:
               <<: *WORKFLOW_BUILD_TEST_DEPLOY_FILTER
+              # <<: *WORKFLOW_BUILD_TEST_FILTER
       - test-windows:
           requires:
             - build-package
@@ -328,7 +329,8 @@ workflows:
       - build-package:
           filters:
             branches:
-              <<: *WORKFLOW_BUILD_TEST_DEPLOY_FILTER
+              <<: *WORKFLOW_BUILD_TEST_FILTER
+              # <<: *WORKFLOW_BUILD_TEST_DEPLOY_FILTER
       - test-windows:
           requires:
             - build-package
