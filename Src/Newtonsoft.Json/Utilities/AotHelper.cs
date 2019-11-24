@@ -31,7 +31,7 @@ namespace Newtonsoft.Json.Utilities
     /// <summary>
     /// 
     /// </summary>
-    public class AotHelper
+    public static class AotHelper
     {
         /// <summary>
         /// Don't run action but let a compiler detect the code in action as an executable block.
