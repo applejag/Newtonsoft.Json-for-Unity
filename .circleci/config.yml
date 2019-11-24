@@ -329,8 +329,10 @@ jobs:
       - run:
           name: Ensure tag exists
           command: |
-            if ! [ git tag --list | egrep -q "^$1$" ]
+            if git tag --list | egrep -q "^$VERSION$"
             then
+              echo "Tag $VERSION already existed. Skipping the tagging"
+            else
               git tag $VERSION -m "Json.NET $VERSION_JSON_NET, release $VERSION_RELEASE"
               git push --tags
             fi
