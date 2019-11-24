@@ -241,7 +241,7 @@ jobs:
     working_directory: /workspace/package
     
     docker:
-      - image: applejag/newtonsoft.json-for-unity.package-deployer:v1
+      - image: applejag/newtonsoft.json-for-unity.package-deploy-npm:v2
 
     environment:
       NPM_REGISTRY: https://npm.cloudsmith.io/jillejr/newtonsoft-json-for-unity/
@@ -265,7 +265,7 @@ jobs:
     working_directory: /root/repo
     
     docker:
-      - image: applejag/newtonsoft.json-for-unity.package-deploy-github:v1
+      - image: applejag/newtonsoft.json-for-unity.package-deploy-github:v2
     
     steps:
       - checkout

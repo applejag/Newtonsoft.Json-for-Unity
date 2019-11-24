@@ -70,9 +70,9 @@ $Builds = [DockerBuild[]] @(
 
     , [DockerBuild]::new('package-builder', 'v1')
 
-    , [DockerBuild]::new('package-deploy-npm', 'v1')
+    , [DockerBuild]::new('package-deploy-npm', 'v2')
 
-    , [DockerBuild]::new('package-deploy-github', 'v1')
+    , [DockerBuild]::new('package-deploy-github', 'v2')
 )
 
 $Builds | Start-DockerBuild
