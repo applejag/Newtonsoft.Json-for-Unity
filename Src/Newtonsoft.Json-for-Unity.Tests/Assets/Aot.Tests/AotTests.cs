@@ -5,25 +5,22 @@ using NUnit.Framework;
 
 namespace Aot.Tests
 {
+    /// <summary>
+    /// Tests are only relevant for AOT builds, such as when using IL2CPP
+    /// </summary>
     [TestFixture]
     public class AotTests
     {
-#if ENABLE_IL2CPP
-        static AotTests()
+        private class MyNonAotClass
         {
-            var myAotEnsuredList = new List<MyAotEnsuredClass>();
-        }
-
-        class MyNonAotClass
-        {
-#pragma warning disable 649
+#pragma warning disable 649 // Field is never assigned to, and will always have its default value `null'
             public string a;
         }
 
-        class MyAotEnsuredClass
+        private class MyAotEnsuredClass
         {
             public string b;
-#pragma warning restore 649
+#pragma warning restore 649 // Field is never assigned to, and will always have its default value `null'
         }
 
         [Test]
@@ -44,7 +41,6 @@ namespace Aot.Tests
 
             Assert.Pass();
         }
-#endif
 
         static object CreateListOfType(Type type)
         {
