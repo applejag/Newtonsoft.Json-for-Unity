@@ -267,7 +267,7 @@ namespace Newtonsoft.Json.Tests.Converters
 
             string json = JsonConvert.SerializeXmlNode(xmlNode, Formatting.Indented, true);
 
-            Assert.AreEqual(initialJson, json);
+            StringAssert.AreEqual(initialJson, json);
         }
 
         [Test]
@@ -422,7 +422,7 @@ namespace Newtonsoft.Json.Tests.Converters
 
             string json = JsonConvert.SerializeXNode(xmlNode, Formatting.Indented, true);
 
-            Assert.AreEqual(initialJson, json);
+            StringAssert.AreEqual(initialJson, json);
         }
 
         [Test]
@@ -452,7 +452,7 @@ namespace Newtonsoft.Json.Tests.Converters
 
             string json = JsonConvert.SerializeXNode(xmlNode, Formatting.Indented, true);
 
-            Assert.AreEqual(initialJson, json);
+            StringAssert.AreEqual(initialJson, json);
         }
 
         [Test]
