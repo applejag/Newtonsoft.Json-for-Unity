@@ -339,8 +339,10 @@ namespace Newtonsoft.Json.Tests
 
     public static class StringAssert
     {
-        private static readonly Regex NewlinesPattern = new Regex(@"\r\n|\n\r|\n|\r", RegexOptions.CultureInvariant);
-        private static readonly Regex TimestampPattern = new Regex(@"^\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\.\d\d\d ", RegexOptions.Multiline);
+        private static readonly Regex NewlinesPattern = new Regex(@"\r\n|\n\r|\n|\r",
+            RegexOptions.CultureInvariant | RegexOptions.Compiled);
+        private static readonly Regex TimestampPattern = new Regex(@"^\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\.\d\d\d ",
+            RegexOptions.Multiline | RegexOptions.Compiled);
 
         public static void AreEqual(string expected, string actual)
         {
