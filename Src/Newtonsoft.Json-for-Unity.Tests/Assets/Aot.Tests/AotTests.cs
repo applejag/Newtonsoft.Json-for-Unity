@@ -11,19 +11,27 @@ namespace Aot.Tests
     [TestFixture]
     public class AotTests
     {
+        static AotTests()
+        {
+            // Ensure it's generated
+            _ = new List<MyAotEnsuredClass>();
+        }
+
         private class MyNonAotClass
         {
 #pragma warning disable 649 // Field is never assigned to, and will always have its default value `null'
             public string a;
-        }
-
-        private class MyAotEnsuredClass
-        {
-            public string b;
 #pragma warning restore 649 // Field is never assigned to, and will always have its default value `null'
         }
 
 #if ENABLE_IL2CPP
+        private class MyAotEnsuredClass
+        {
+#pragma warning disable 649 // Field is never assigned to, and will always have its default value `null'
+            public string b;
+#pragma warning restore 649 // Field is never assigned to, and will always have its default value `null'
+        }
+
         [Test]
         public void ThrowsOnNoAOTGenerated()
         {
@@ -39,7 +47,7 @@ namespace Aot.Tests
         [Test]
         public void PassesOnAOTGenerated()
         {
-            _ = CreateListOfType<MyNonAotClass>();
+            _ = CreateListOfType<MyAotEnsuredClass>();
 
             Assert.Pass();
         }
