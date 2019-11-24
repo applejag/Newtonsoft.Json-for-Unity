@@ -1,45 +1,80 @@
+
+[CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact='Medium')]
+Param ()
+
 $ErrorActionPreference = "Stop"
 
-function Start-DockerBuild  {
-    Param (
-        [string]
-        $ImageVersion = "v1",
+if (-not $PSBoundParameters.ContainsKey('Confirm')) {
+    $ConfirmPreference = $PSCmdlet.SessionState.PSVariable.GetValue('ConfirmPreference')
+}
+if (-not $PSBoundParameters.ContainsKey('WhatIf')) {
+    $WhatIfPreference = $PSCmdlet.SessionState.PSVariable.GetValue('WhatIfPreference')
+}
 
-        [string]
-        $ImageName,
+class DockerBuild {
+    [string] $ImageNameKey
+    [string] $ImageVersion
+    [System.Collections.Generic.List[string]] $ExtraArgs
 
-        [parameter(ValueFromRemainingArguments = $true)]
-        [string[]]$Passthrough
-    )
+    DockerBuild([string] $ImageNameKey, [string] $ImageVersion) {
+        $this.ImageNameKey = $ImageNameKey
+        $this.ImageVersion = $ImageVersion
+        $this.ExtraArgs = [System.Collections.Generic.List[string]]::new()
+    }
 
-    Write-Host ">> Building ${ImageName}:${ImageVersion} " -BackgroundColor DarkGreen -ForegroundColor White
-    docker build `
-        --build-arg IMAGE_VERSION=${ImageVersion} `
-        -t ${ImageName}:${ImageVersion} `
-        -t ${ImageName}:latest `
-        @Passthrough `
-        $PSScriptRoot
-
-    if ($LASTEXITCODE -ne 0) {
-        throw "Failed to build with args $Passthrough";
+    [DockerBuild] WithExtraArg([string] $ExtraSwitch) {
+        $this.ExtraArgs.Add($ExtraSwitch)
+        return $this
+    }
+    [DockerBuild] WithExtraArg([string] $ExtraKey, [string] $ExtraValue) {
+        $this.ExtraArgs.Add($ExtraKey)
+        $this.ExtraArgs.Add($ExtraValue)
+        return $this
     }
 }
 
-Start-DockerBuild -ImageVersion v1 `
-    -ImageName applejag/newtonsoft.json-for-unity.package-unity-tester `
-    -f $PSScriptRoot\package-unity-tester.Dockerfile `
-    --build-arg UNITY_VERSION=2019.2.11f1
+function Start-DockerBuild  {
+    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact='Medium')]
+    Param (
+        [parameter(ValueFromPipeline=$true)]
+        [DockerBuild] $Build
+    )
 
-Start-DockerBuild -ImageVersion v1 `
-    -ImageName applejag/newtonsoft.json-for-unity.package-builder `
-    -f $PSScriptRoot\package-builder.Dockerfile
+    Process {
+        $ImageName = "applejag/newtonsoft.json-for-unity.$($Build.ImageNameKey)"
+        $DockerFile = "$PSScriptRoot\$($Build.ImageNameKey).Dockerfile"
+        $ImageVersion = $Build.ImageVersion
+        $ExtraArgs = $Build.ExtraArgs
+        if ($PSCmdlet.ShouldProcess("${ImageName}:${ImageVersion}")) {
+            Write-Host ">> Building ${ImageName}:${ImageVersion} " -BackgroundColor DarkGreen -ForegroundColor White
+            docker build `
+                -f $DockerFile `
+                --build-arg IMAGE_VERSION=${ImageVersion} `
+                -t ${ImageName}:${ImageVersion} `
+                -t ${ImageName}:latest `
+                @ExtraArgs `
+                $PSScriptRoot
+            
+            if ($LASTEXITCODE -ne 0) {
+                throw "Failed to build with args $ExtraArgs";
+            }
+        } else {
+            Write-Host ">> Skipping building ${ImageName}:${ImageVersion} " -ForegroundColor DarkGray
+        }
+    }
+}
 
-Start-DockerBuild -ImageVersion v1 `
-    -ImageName applejag/newtonsoft.json-for-unity.package-deploy-npm `
-    -f $PSScriptRoot\package-deploy-npm.Dockerfile
+$Builds = [DockerBuild[]] @(
+    , [DockerBuild]::new('package-unity-tester', 'v1').
+        WithExtraArg('--build-arg', 'UNITY_VERSION=2019.2.11f1')
 
-Start-DockerBuild -ImageVersion v1 `
-    -ImageName applejag/newtonsoft.json-for-unity.package-deploy-github `
-    -f $PSScriptRoot\package-deploy-github.Dockerfile
+    , [DockerBuild]::new('package-builder', 'v1')
+
+    , [DockerBuild]::new('package-deploy-npm', 'v1')
+
+    , [DockerBuild]::new('package-deploy-github', 'v1')
+)
+
+$Builds | Start-DockerBuild
 
 Write-Host ">> Done! " -BackgroundColor DarkGreen -ForegroundColor Gray
