@@ -17,18 +17,18 @@ namespace Aot.Tests
             _ = new List<MyAotEnsuredClass>();
         }
 
-        private class MyNonAotClass
-        {
-#pragma warning disable 649 // Field is never assigned to, and will always have its default value `null'
-            public string a;
-#pragma warning restore 649 // Field is never assigned to, and will always have its default value `null'
-        }
-
-#if ENABLE_IL2CPP
         private class MyAotEnsuredClass
         {
 #pragma warning disable 649 // Field is never assigned to, and will always have its default value `null'
             public string b;
+#pragma warning restore 649 // Field is never assigned to, and will always have its default value `null'
+        }
+
+#if ENABLE_IL2CPP
+        private class MyNonAotClass
+        {
+#pragma warning disable 649 // Field is never assigned to, and will always have its default value `null'
+            public string a;
 #pragma warning restore 649 // Field is never assigned to, and will always have its default value `null'
         }
 
