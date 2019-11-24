@@ -3,8 +3,6 @@ from many glorious other open source projects.
 
 Without those this repository would never been created. Much love.
 
-[repo-url]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity
-
 ---
 
 <details>
@@ -91,3 +89,5 @@ Without those this repository would never been created. Much love.
 > SOFTWARE.
 
 </details>
+
+[repo-url]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity

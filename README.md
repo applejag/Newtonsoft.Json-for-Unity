@@ -15,8 +15,6 @@ Available for installation with
 - ~~Unity Asset packages~~ _(coming soon)_
 - ~~Unity Asset Store~~ _(coming soon)_
 
-[newtonsoft.json.git]: https://github.com/JamesNK/Newtonsoft.Json
-
 ## Versioning format
 
 _Staying with JamesNK's version syntax, but with a twist :dizzy:_
@@ -149,3 +147,4 @@ Copyright (c) 2019 Kalle Jillheden (jilleJr)
 See full copyrights in [LICENSE.md][license.md] inside repository
 
 [license.md]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/blob/master/LICENSE.md
+[newtonsoft.json.git]: https://github.com/JamesNK/Newtonsoft.Json
