@@ -41,11 +41,12 @@ namespace Newtonsoft.Json.Tests.Issues
         [Test]
         public void Test()
         {
-            const string folder =
 #if UNITY_EDITOR_LINUX || UNITY_EDITOR_OSX || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX
-                    "/tmp";
+            const string folder = "/tmp";
+            const string expected = @"{""Bar"":""/tmp""}";
 #else
-                    @"c:\temp";
+            const string folder = @"c:\temp";
+            const string expected = @"{""Bar"":""c:\\temp""}";
 #endif
 
             Foo value = new Foo
@@ -54,7 +55,7 @@ namespace Newtonsoft.Json.Tests.Issues
             };
 
             string json = JsonConvert.SerializeObject(value, new DirectoryInfoJsonConverter());
-            Assert.AreEqual($"{{\"Bar\":\"{folder}\"}}", json);
+            Assert.AreEqual(expected, json);
         }
 
         public class Foo
