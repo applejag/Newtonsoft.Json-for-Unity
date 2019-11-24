@@ -37,8 +37,8 @@ jq2() {
 
 case "$output" in
 FULL)
-    jsonnet=`jq2 -er '(.Major // 0|tostring) + "." + (.Minor // 0|tostring) + "." + (.Patch // 0|tostring)' "$jsonFile"`
-    release=`jq2 -er '.Release // 0' "$jsonFile"`
+    jsonnet=$(jq2 -er '(.Major // 0|tostring) + "." + (.Minor // 0|tostring) + "." + (.Patch // 0|tostring)' "$jsonFile")
+    release=$(jq2 -er '.Release // 0' "$jsonFile")
 
     printf "%s%02d" "$jsonnet" "$release"
     ;;
