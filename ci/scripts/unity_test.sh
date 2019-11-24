@@ -82,16 +82,19 @@ do
 
     while read id
     do
-        name="$(xmlstarlet sel -T -t -v "//test-case[@id=$id]/@name" -n $test_results_file)"
+        name="$(xmlstarlet sel -T -t -v "//test-case[@id=$id]/@fullname" -n $test_results_file)"
         message="$(xmlstarlet sel -T -t -v "//test-case[@id=$id]/failure/message/text()" -n $test_results_file)"
-        echo "Found failed test: $name$(echo $'\n\t')$message"
+        stacktrace="$(xmlstarlet sel -T -t -v "//test-case[@id=$id]/failure/stack-trace/text()" -n $test_results_file)"
+        echo ""
+        echo "[!] Found failed test: $name$(echo $'\n\t')$message$(echo $'\n\t')Stacktrace: $stacktrace"
     done < <(xmlstarlet sel -T -t -m //test-case[failure] -v @id -n $test_results_file)
     
     while read id
     do
-        name="$(xmlstarlet sel -T -t -v "//test-case[@id=$id]/@name" -n $test_results_file)"
+        name="$(xmlstarlet sel -T -t -v "//test-case[@id=$id]/@fullname" -n $test_results_file)"
         message="$(xmlstarlet sel -T -t -v "//test-case[@id=$id]/reason/message/text()" -n $test_results_file)"
-        echo "Found inconclusive test: $name$(echo $'\n\t')$message"
+        echo ""
+        echo "[?] Found inconclusive test: $name$(echo $'\n\t')$message"
     done < <(xmlstarlet sel -T -t -m "//test-case[@result='Inconclusive']" -v @id -n $test_results_file)
 
 done < <(echo -e "$PLATFORMS")
