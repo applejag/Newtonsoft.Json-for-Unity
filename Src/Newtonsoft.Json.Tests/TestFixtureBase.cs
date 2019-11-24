@@ -339,7 +339,8 @@ namespace Newtonsoft.Json.Tests
 
     public static class StringAssert
     {
-        private static readonly Regex Regex = new Regex(@"\r\n|\n\r|\n|\r", RegexOptions.CultureInvariant);
+        private static readonly Regex NewlinesPattern = new Regex(@"\r\n|\n\r|\n|\r", RegexOptions.CultureInvariant);
+        private static readonly Regex TimestampPattern = new Regex(@"^\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\.\d\d\d ", RegexOptions.Multiline);
 
         public static void AreEqual(string expected, string actual)
         {
@@ -361,10 +362,19 @@ namespace Newtonsoft.Json.Tests
         {
             if (s != null)
             {
-                s = Regex.Replace(s, "\r\n");
+                Console.WriteLine("# Normalizing: " + s.Replace("\n", @"\n").Replace("\r", @"\r"));
+                s = NewlinesPattern.Replace(s, "\r\n");
             }
 
             return s;
+        }
+
+        public static void AreEqualExceptTimestamps(string expectedWithTimestamps, string actualWithTimestamps)
+        {
+            string expectedWithoutTimestamps = TimestampPattern.Replace(Normalize(expectedWithTimestamps), string.Empty);
+            string actualWithoutTimestamps = TimestampPattern.Replace(Normalize(actualWithTimestamps), string.Empty);
+
+            Assert.AreEqual(expectedWithoutTimestamps, actualWithoutTimestamps);
         }
     }
 
