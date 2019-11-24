@@ -294,7 +294,7 @@ jobs:
       SCRIPTS: /root/repo/ci/scripts
     
     docker:
-      - image: applejag/newtonsoft.json-for-unity.package-deploy-github:v3
+      - image: applejag/newtonsoft.json-for-unity.package-deploy-github:v4
     
     steps:
       - checkout

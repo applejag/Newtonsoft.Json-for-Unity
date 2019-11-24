@@ -23,5 +23,5 @@ Publish-DockerImage applejag/newtonsoft.json-for-unity.package-builder:latest
 Publish-DockerImage applejag/newtonsoft.json-for-unity.package-deploy-npm:v2
 Publish-DockerImage applejag/newtonsoft.json-for-unity.package-deploy-npm:latest
 
-Publish-DockerImage applejag/newtonsoft.json-for-unity.package-deploy-github:v3
+Publish-DockerImage applejag/newtonsoft.json-for-unity.package-deploy-github:v4
 Publish-DockerImage applejag/newtonsoft.json-for-unity.package-deploy-github:latest
