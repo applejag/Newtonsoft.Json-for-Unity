@@ -362,7 +362,6 @@ namespace Newtonsoft.Json.Tests
         {
             if (s != null)
             {
-                Console.WriteLine("# Normalizing: " + s.Replace("\n", @"\n").Replace("\r", @"\r"));
                 s = NewlinesPattern.Replace(s, "\r\n");
             }
 
