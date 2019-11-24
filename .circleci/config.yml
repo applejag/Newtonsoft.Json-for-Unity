@@ -238,17 +238,36 @@ jobs:
             - /root/.config/unity3d/cache
 
   deploy-cloudsmith:
-    working_directory: /workspace/package
+    working_directory: /root/repo
     
     docker:
       - image: applejag/newtonsoft.json-for-unity.package-deploy-npm:v2
 
     environment:
+      SCRIPTS: /root/repo/ci/scripts
       NPM_REGISTRY: https://npm.cloudsmith.io/jillejr/newtonsoft-json-for-unity/
 
     steps:
+      - checkout
+
       - attach_workspace:
           at: /workspace
+
+      - run:
+          name: Enable permissions on scripts
+          command: chmod +x $SCRIPTS/**.sh -v
+
+      - run:
+          name: Setup Variables
+          command: |
+            env() {
+              echo "export '$1=$2'" >> $BASH_ENV
+              echo "$1='$2'"
+              export "$1=$2"
+            }
+            echo ">>> OBTAINING VERSION FROM $(pwd)/ci/version.json"
+            env VERSION "$($SCRIPTS/get_json_version.sh ./ci/version.json FULL)"
+            echo
 
       - run:
           name: NPM Login
@@ -259,10 +278,20 @@ jobs:
 
       - run:
           name: NPM Publish
-          command: npm publish
+          command: |
+            if [ -z "$(npm view jillejr.newtonsoft.json-for-unity@$VERSION versions)" ]
+            then
+              cd /workspace/package
+              npm publish
+            else
+              echo "Package version $VERSION already existed. Skipping the publish"
+            fi
 
   deploy-github:
     working_directory: /root/repo
+    
+    environment:
+      SCRIPTS: /root/repo/ci/scripts
     
     docker:
       - image: applejag/newtonsoft.json-for-unity.package-deploy-github:v2
