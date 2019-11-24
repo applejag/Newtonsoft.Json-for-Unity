@@ -275,9 +275,6 @@ jobs:
             # GitHub auth SSH
             - "66:2e:95:ff:42:e9:21:9d:79:1f:b6:b5:68:58:a7:bd"
 
-      - attach_workspace:
-          at: /workspace
-
       - run:
           name: Enable permissions on scripts
           command: chmod +x $SCRIPTS/**.sh -v
