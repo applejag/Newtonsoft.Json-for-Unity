@@ -36,7 +36,7 @@ Open `<project>/Packages/manifest.json`, add scope for `jillejr`, then add the p
     }
   ],
   "dependencies": {
-    "jillejr.newtonsoft.json-for-unity": "12.0.1-patch-001",
+    "jillejr.newtonsoft.json-for-unity": "12.0.101",
 
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
