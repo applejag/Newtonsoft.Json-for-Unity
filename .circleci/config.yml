@@ -335,7 +335,7 @@ jobs:
               git tag $VERSION -m "Json.NET $VERSION_JSON_NET, release $VERSION_RELEASE"
               echo "Created tag '$(git tag -l $VERSION -n1)'"
               git push --tags
-              eco "Successfully pushed tag"
+              echo "Successfully pushed tag"
             fi
 
 workflows:
