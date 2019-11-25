@@ -3,10 +3,8 @@
 # Copyright Zifro © 2019
 
 set -e
-set -x
-mkdir -p /root/.cache/unity3d
-mkdir -p /root/.local/share/unity3d/Unity/
-set +x
+mkdir -pv /root/.cache/unity3d
+mkdir -pv /root/.local/share/unity3d/Unity/
 
 if [[ "${UNITY_LICENSE_CONTENT:-}" ]]
 then
