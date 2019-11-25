@@ -11,7 +11,7 @@ set -o pipefail
 : ${GITHUB_USER_EMAIL?}
 : ${GITHUB_GPG_ID?}
 : ${GITHUB_GPG_SEC_B64?}
-: ${GITHUB_SSH_SEC_B64?}
+: ${GITHUB_SSH_SEC_B64:-}
 
 # Load GPG keys
 GITHUB_GPG_SEC=$(base64 -di - <<< "$GITHUB_GPG_SEC_B64")
@@ -32,24 +32,27 @@ echo "Set git tag signing to: true"
 mkdir -p ~/.gnupg
 echo 'no-tty' >> ~/.gnupg/gpg.conf
 
-# Add ssh key
-mkdir -p ~/.ssh
-eval $(ssh-agent) # create the process
-GITHUB_SSH_SEC=$(base64 -di - <<< "${GITHUB_SSH_SEC_B64?}")
-echo "${GITHUB_SSH_SEC?}" > ~/.ssh/id_rsa
-chmod 600 ~/.ssh/id_rsa
-ssh-add -D
-ssh-add ~/.ssh/id_rsa
-
-echo
-echo "Testing connection to GitHub using SSH"
-set +o errexit
-ssh -T git@github.com
-status=$?
-set -o errexit
-
-if [ $status == 255 ]
+if [ -n "${GITHUB_SSH_SEC_B64:-}" ]
 then
-    echo "Error on testing connection to github.com via SSH"
-    exit $status
+    # Add ssh key
+    mkdir -p ~/.ssh
+    eval $(ssh-agent) # create the process
+    GITHUB_SSH_SEC=$(base64 -di - <<< "${GITHUB_SSH_SEC_B64?}")
+    echo "${GITHUB_SSH_SEC?}" > ~/.ssh/id_rsa
+    chmod 600 ~/.ssh/id_rsa
+    ssh-add -D
+    ssh-add ~/.ssh/id_rsa
+
+    echo
+    echo "Testing connection to GitHub using SSH"
+    set +o errexit
+    ssh -T git@github.com
+    status=$?
+    set -o errexit
+
+    if [ $status == 255 ]
+    then
+        echo "Error on testing connection to github.com via SSH"
+        exit $status
+    fi
 fi
