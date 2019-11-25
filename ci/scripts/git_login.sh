@@ -41,9 +41,10 @@ chmod 600 ~/.ssh/id_rsa
 ssh-add -D
 ssh-add ~/.ssh/id_rsa
 
-# test connection
+echo
+echo "Testing connection to GitHub using SSH"
 set +o errexit
-ssh -i ~/.ssh/id_rsa git@github.com
+ssh -T git@github.com
 status=$?
 set -o errexit
 
