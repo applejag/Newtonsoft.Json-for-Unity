@@ -1,44 +1,62 @@
 # How to run tests
 
-This folder, `Newtonsoft.Json-for-Unity.Tests`, contains the folder structure of a Unity project (`v2018.3.13f1`).
+This folder, `Newtonsoft.Json-for-Unity.Tests`, contains the folder structure of a Unity project (`v2019.2.11f1`).
 
 ## Setup
 
 **Copy** all files, except the `bin` and `obj` folders, from `Newtonsoft.Json.Tests` into its folder inside the Assets folder. À la:
 
-```ps
+```ps1
 # Powershell
-> Copy-Item -Recurse $REPO\Src\Newtonsoft.Json.Tests\. $REPO\Src\Newtonsoft.Json-for-Unity.Tests\Assets\Newtonsoft.Json.Tests\
+Copy-Item -Recurse Src\Newtonsoft.Json.Tests\. Src\Newtonsoft.Json-for-Unity.Tests\Assets\Newtonsoft.Json.Tests\
 
-> Remove-Item -Recurse -Force $REPO\Src\Newtonsoft.Json-for-Unity.Tests\Assets\Newtonsoft.Json.Tests\bin
-> Remove-Item -Recurse -Force $REPO\Src\Newtonsoft.Json-for-Unity.Tests\Assets\Newtonsoft.Json.Tests\obj
-
-# Bash/Shell/POSIX
-$ cp -a $REPO/Src/Newtonsoft.Json.Tests/. $REPO/Src/Newtonsoft.Json-for-Unity.Tests/Assets/Newtonsoft.Json.Tests/
-
-$ rm -rf $REPO/Src/Newtonsoft.Json-for-Unity.Tests/Assets/Newtonsoft.Json.Tests/bin
-$ rm -rf $REPO/Src/Newtonsoft.Json-for-Unity.Tests/Assets/Newtonsoft.Json.Tests/obj
+Remove-Item -Recurse -Force Src\Newtonsoft.Json-for-Unity.Tests\Assets\Newtonsoft.Json.Tests\bin
+Remove-Item -Recurse -Force Src\Newtonsoft.Json-for-Unity.Tests\Assets\Newtonsoft.Json.Tests\obj
 ```
 
 **Build** the Unity package by running the script
 
-```ps
+> Make sure to have a Docker machine running.
+> Installation: [docker.com](https://docs.docker.com/docker-for-windows/install/)
+
+```ps1
 # Powershell
-> &$REPO\ci\Scripts\local_build_into_package.ps1
-
-# Bash/Shell/POSIX
-$ $REPO/ci/Scripts/local_build_into_package.ps1
+> ci\local_build_into_package.ps1 -VolumeSource $(pwd)
 ```
 
-## Running from command line
+## Run tests
 
-```ps
-> $PATH_TO_YOUR_PROJECT=$REPO/Src/Newtonsoft.Json-for-Unity.Tests
+### Alt. 1: Using docker image
 
-> Unity.exe -runTests -projectPath $PATH_TO_YOUR_PROJECT -testResults results.xml -testPlatform editmode
+Runs the tests on a Linux machine.
+
+```ps1
+# Powershell
+> ci\local_test_in_unity_container.ps1 -VolumeSource $(pwd)
 ```
 
-`testPlatform` values:
+### Alt. 2: Running using Unity Editor
+
+- Open the folder `Src\Newtonsoft.Json-for-Unity.Tests` using your installed Unity Editor.
+
+- Then open the Test Runner panel, via menu **Window** > **General** > **Test Runner**.
+
+- Enter the **PlayMode** tab
+
+- Press **"Run All"**
+
+### Alt. 3: Running via command line
+
+Find your Unity.exe.
+Usually at: `C:\Program Files\Unity\Hub\Editor\2019.2.11f1\Editor\Unity.exe`
+
+```ps1
+# Powershell
+$Unity = "C:\Program Files\Unity\Hub\Editor\2019.2.11f1\Editor\Unity.exe"
+&$Unity -runTests -batchmode -projectPath Src\Newtonsoft.Json-for-Unity.Tests -testResults results.xml -testPlatform playmode | Out-Default
+```
+
+`testPlatform` parameter values:
 
 - `editmode` _(default)_
 - `playmode`
