@@ -49,6 +49,7 @@ status=$?
 set -o errexit
 
 if [ $status == 255 ]
+then
     echo "Error on testing connection to github.com via SSH"
     exit $status
 fi
