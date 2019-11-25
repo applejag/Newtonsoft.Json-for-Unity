@@ -299,11 +299,6 @@ jobs:
     steps:
       - checkout
 
-      - add_ssh_keys:
-          fingerprints:
-            # GitHub auth SSH
-            - "66:2e:95:ff:42:e9:21:9d:79:1f:b6:b5:68:58:a7:bd"
-
       - run:
           name: Enable permissions on scripts
           command: chmod +x $SCRIPTS/**.sh -v
@@ -334,7 +329,9 @@ jobs:
               echo "Tag $VERSION already existed. Skipping the tagging"
             else
               git tag $VERSION -m "Json.NET $VERSION_JSON_NET, release $VERSION_RELEASE"
+              echo "Created tag '$(git tag -l $VERSION -n1)'"
               git push --tags
+              eco "Successfully pushed tag"
             fi
 
 workflows:
