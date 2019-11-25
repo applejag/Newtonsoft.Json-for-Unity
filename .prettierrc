@@ -1,0 +1,12 @@
+{
+    "overrides": [
+        {
+            "files": [
+                "*.md"
+            ],
+            "options": {
+                "tabWidth": 2
+            }
+        }
+    ]
+}
