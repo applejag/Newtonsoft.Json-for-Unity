@@ -42,4 +42,12 @@ ssh-add -D
 ssh-add ~/.ssh/id_rsa
 
 # test connection
+set +o errexit
 ssh -i ~/.ssh/id_rsa git@github.com
+status=$?
+set -o errexit
+
+if [ $status == 255 ]
+    echo "Error on testing connection to github.com via SSH"
+    exit $status
+fi
