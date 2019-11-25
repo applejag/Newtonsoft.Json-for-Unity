@@ -41,5 +41,7 @@ chmod 600 ~/.ssh/id_rsa
 ssh-add -D
 ssh-add ~/.ssh/id_rsa
 
-# test connection
-ssh -i ~/.ssh/id_rsa git@github.com
+echo
+echo "testing connection to GitHub using SSH"
+
+ssh -T git@github.com
