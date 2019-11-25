@@ -14,7 +14,7 @@ at the same time still being easy to see which version of Json.NET it's based of
 
 ![explanation of version][version-explanation.png]
 
-Where official Json.NET 12.0.1 becomes Newtonsoft.Json-for-Unity 12.0.1*xx*.
+Where official Json.NET 12.0.1 becomes Newtonsoft.Json-for-Unity 12.0.1_xx_.
 
 ## Changelog
 
@@ -98,4 +98,4 @@ See full copyrights in [LICENSE.md][license.md] inside repository
 
 [license.md]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/blob/master/LICENSE.md
 [changelog.md]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/blob/master/LICENSE.md
-[version-explanation]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/raw/ce23d98230673744d73656b4c4f6bc1f9989c37a/Doc/version-explanation.png
+[version-explanation.png]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/raw/ce23d98230673744d73656b4c4f6bc1f9989c37a/Doc/version-explanation.png

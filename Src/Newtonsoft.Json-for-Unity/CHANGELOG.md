@@ -9,8 +9,9 @@
 
 - Fixed building on standalone ([Issue #3][issue3])
 
-## 12.0.1 - Initial release
+## 12.0.1
 
+- Initial release
 - Deployed to [npmjs.com][npm-url]
 
 [readme-url]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity#readme
