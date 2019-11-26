@@ -383,30 +383,36 @@ jobs:
       - run:
           name: Check if release is ready for deploy
           command: |
-            if ! [ -z "$(npm view jillejr.newtonsoft.json-for-unity@$VERSION versions)" ]
+            if [ "$(npm search jillejr.newtonsoft.json-for-unity)" == 'No matches found for "jillejr.newtonsoft.json-for-unity"' ]
             then
-              echo "Package version $VERSION already existed on $NPM_REGISTRY"
-              echo "Make sure to update the /ci/version.json"
-              exit 1
+              echo "> Package jillejr.newtonsoft.json-for-unity does not exist on the registry and is available for publishing, all ok!"
+            elif [ -z "$(npm view jillejr.newtonsoft.json-for-unity@$VERSION versions)" ]
+            then
+              echo "> Package jillejr.newtonsoft.json-for-unity version $VERSION does not exist on the registry and is available for publishing, all ok!"
             else
-              echo "Package version $VERSION is available for publishing, all ok!"
+              echo
+              echo "[!] Package version $VERSION already existed on $NPM_REGISTRY"
+              echo "[!] Make sure to update the /ci/version.json"
+              exit 1
             fi
-            
+
             if git tag --list | egrep -q "^$VERSION$"
             then
-              echo "Tag $VERSION already existed."
-              echo "Make sure to update the /ci/version.json"
+              echo
+              echo "[!] Tag $VERSION already existed."
+              echo "[!] Make sure to update the /ci/version.json"
               exit 2
             else
-              echo "Tag $VERSION is available for publishing, all ok!"
+              echo "> Tag $VERSION is available for publishing, all ok!"
             fi
             
             if cat Src/Newtonsoft.Json-for-Unity/CHANGELOG.md | egrep -q "^## $VERSION$"
             then
-              echo "Changelog has been updated, all ok!"
+              echo "> Changelog has been updated, all ok!"
             else
-              echo "Changelog in Src/Newtonsoft.Json-for-Unity/CHANGELOG.md is missing line '## $VERSION'."
-              echo "Make sure to update the Src/Newtonsoft.Json-for-Unity/CHANGELOG.md"
+              echo
+              echo "[!] Changelog in Src/Newtonsoft.Json-for-Unity/CHANGELOG.md is missing line '## $VERSION'."
+              echo "[!] Make sure to update the Src/Newtonsoft.Json-for-Unity/CHANGELOG.md"
               exit 3
             fi
 
