@@ -11,7 +11,7 @@ preset-filter-deploy: &WORKFLOW_BUILD_TEST_DEPLOY_FILTER
   only:
     - master
 
-preset-filter-test: &WORKFLOW_CHECK_DEPLOY_READY_FILTER
+preset-filter-check: &WORKFLOW_CHECK_DEPLOY_READY_FILTER
   only:
     - /^hotfix.*/
     - /^release.*/
