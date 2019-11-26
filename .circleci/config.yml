@@ -15,6 +15,7 @@ preset-filter-test: &WORKFLOW_CHECK_DEPLOY_READY_FILTER
   only:
     - /^hotfix.*/
     - /^release.*/
+    - /^feature.*/
 
 orbs:
   win: circleci/windows@1.0.0
