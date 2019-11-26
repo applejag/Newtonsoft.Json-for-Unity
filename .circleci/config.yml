@@ -11,6 +11,11 @@ preset-filter-deploy: &WORKFLOW_BUILD_TEST_DEPLOY_FILTER
   only:
     - master
 
+preset-filter-test: &WORKFLOW_CHECK_DEPLOY_READY_FILTER
+  only:
+    - /^hotfix.*/
+    - /^release.*/
+
 orbs:
   win: circleci/windows@1.0.0
 
@@ -338,6 +343,74 @@ jobs:
               echo "Successfully pushed tag"
             fi
 
+  check-deploy-ready:
+    working_directory: /root/repo
+    
+    docker:
+      - image: applejag/newtonsoft.json-for-unity.package-deploy-npm:v2
+
+    environment:
+      SCRIPTS: /root/repo/ci/scripts
+      NPM_REGISTRY: https://npm.cloudsmith.io/jillejr/newtonsoft-json-for-unity/
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: /workspace
+
+      - run:
+          name: Enable permissions on scripts
+          command: chmod +x $SCRIPTS/**.sh -v
+
+      - run:
+          name: Setup Variables
+          command: |
+            env() {
+              echo "export '$1=$2'" >> $BASH_ENV
+              echo "$1='$2'"
+              export "$1=$2"
+            }
+            echo ">>> OBTAINING VERSION FROM $(pwd)/ci/version.json"
+            env VERSION "$($SCRIPTS/get_json_version.sh ./ci/version.json FULL)"
+            echo
+            
+            echo ">>> SETTING UP NPM"
+            echo "registry='$NPM_REGISTRY' >> ~/.npmrc"
+            echo "registry=$NPM_REGISTRY" >> ~/.npmrc
+
+      - run:
+          name: Check if release is ready for deploy
+          command: |
+            if ! [ -z "$(npm view jillejr.newtonsoft.json-for-unity@$VERSION versions)" ]
+            then
+              echo "Package version $VERSION already existed on $NPM_REGISTRY"
+              echo "Make sure to update the /ci/version.json"
+              exit 1
+            else
+              echo "Package version $VERSION is available for publishing, all ok!"
+            fi
+            
+            if git tag --list | egrep -q "^$VERSION$"
+            then
+              echo "Tag $VERSION already existed."
+              echo "Make sure to update the /ci/version.json"
+              exit 2
+            else
+              echo "Tag $VERSION is available for publishing, all ok!"
+            fi
+            
+            if cat Src/Newtonsoft.Json-for-Unity/CHANGELOG.md | egrep -q "^## $VERSION$"
+            then
+              echo "Changelog has been updated, all ok!"
+            else
+              echo "Changelog in Src/Newtonsoft.Json-for-Unity/CHANGELOG.md is missing line '## $VERSION'."
+              echo "Make sure to update the Src/Newtonsoft.Json-for-Unity/CHANGELOG.md"
+              exit 3
+            fi
+
+            echo "Nice work! Happy deploying!"
+
 workflows:
   version: 2
   build-test:
@@ -352,6 +425,12 @@ workflows:
       - test-unity:
           requires:
             - build-package
+  check-deploy-ready:
+    jobs:
+      - check-deploy-ready:
+          filters:
+            branches:
+              <<: *WORKFLOW_CHECK_DEPLOY_READY_FILTER
   build-test-deploy:
     jobs:
       - build-package:
