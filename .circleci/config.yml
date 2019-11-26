@@ -247,7 +247,7 @@ jobs:
     working_directory: /root/repo
     
     docker:
-      - image: applejag/newtonsoft.json-for-unity.package-deploy-npm:v2
+      - image: applejag/newtonsoft.json-for-unity.package-deploy-npm:v3
 
     environment:
       SCRIPTS: /root/repo/ci/scripts
@@ -348,7 +348,7 @@ jobs:
     working_directory: /root/repo
     
     docker:
-      - image: applejag/newtonsoft.json-for-unity.package-deploy-npm:v2
+      - image: applejag/newtonsoft.json-for-unity.package-deploy-npm:v3
 
     environment:
       SCRIPTS: /root/repo/ci/scripts
