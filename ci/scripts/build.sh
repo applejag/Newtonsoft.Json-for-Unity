@@ -11,6 +11,7 @@ BUILD_DESTINATION=${3:-${BUILD_DESTINATION:-"${BUILD_DESTINATION_BASE:?"Build ou
 
 : ${VERSION:?"Full version required."}
 : ${VERSION_JSON_NET:?"Json.NET version required."}
+: ${VERSION_ASSEMBLY:?"Assembly version required."}
 : ${VERSION_SUFFIX:?"Version suffix required."}
 : ${BUILD_CONFIGURATION:="Release"}
 
@@ -40,7 +41,7 @@ msbuild -t:build "$BUILD_SOLUTION" \
     -p:UnityBuild="$BUILD_UNITY" \
     -p:VersionPrefix="$VERSION_JSON_NET" \
     -p:VersionSuffix="$VERSION_SUFFIX" \
-    -p:AssemblyVersion="$VERSION_JSON_NET" \
+    -p:AssemblyVersion="$VERSION_ASSEMBLY" \
     -p:FileVersion="$VERSION"
 
 echo

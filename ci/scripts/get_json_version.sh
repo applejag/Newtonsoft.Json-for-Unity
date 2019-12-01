@@ -45,6 +45,9 @@ FULL)
 JSON_NET)
     jq2 -er '(.Major // 0|tostring) + "." + (.Minor // 0|tostring) + "." + (.Patch // 0|tostring)' "$jsonFile"
     ;;
+ASSEMBLY)
+    jq2 -er '(.Major // 0|tostring) + ".0.0.0"' "$jsonFile"
+    ;;
 SUFFIX)
     release="$(jq2 -er '.Release // empty' "$jsonFile")"
     
@@ -61,7 +64,7 @@ RELEASE)
     ;;
 *)
     error "Error: Unknown output type '$output'
-    Possible values: FULL, JSON_NET, SUFFIX, RELEASE"
+    Possible values: FULL, JSON_NET, ASSEMBLY, SUFFIX, RELEASE"
     exit 3
     ;;
 esac

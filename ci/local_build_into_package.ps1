@@ -70,6 +70,7 @@ try {
     env VERSION "$($SCRIPTS/get_json_version.sh ./ci/version.json FULL)"
     env VERSION_SUFFIX "$($SCRIPTS/get_json_version.sh ./ci/version.json SUFFIX)"
     env VERSION_JSON_NET "$($SCRIPTS/get_json_version.sh ./ci/version.json JSON_NET)"
+    env VERSION_ASSEMBLY "$($SCRIPTS/get_json_version.sh ./ci/version.json ASSEMBLY)"
     echo
     
     echo ">>> UPDATING VERSION IN $(pwd)/Src/Newtonsoft.Json-for-Unity/package.json"
