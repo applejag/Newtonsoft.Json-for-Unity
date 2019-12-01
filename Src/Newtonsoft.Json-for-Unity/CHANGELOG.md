@@ -1,5 +1,9 @@
 # Newtonsoft.Json for Unity changelog
 
+## 12.0.102
+
+- Fixed to use only major version in assembly version (ex: `12.0.0.0`, instead of `12.0.1.0`)
+
 ## 12.0.101
 
 ## Changes
