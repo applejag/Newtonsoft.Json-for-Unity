@@ -1,6 +1,7 @@
 # ![Logo](Doc/icons/logo-with-unity.png) Newtonsoft.Json for Unity
 
 [![Latest Version @ Cloudsmith](https://api-prd.cloudsmith.io/badges/version/jillejr/newtonsoft-json-for-unity/npm/jillejr.newtonsoft.json-for-unity/latest/x/?render=true&badge_token=gAAAAABeClWC7DvHIyN1IvhxcvGYUIO8CFfs-PsrT973U91i_wmUiuhrzsGZgXqecxQgrEMj4p_-UUUz7XaWjxH3NB8DfA2kkQ%3D%3D)](https://cloudsmith.io/~jillejr/repos/newtonsoft-json-for-unity/packages/detail/npm/jillejr.newtonsoft.json-for-unity/latest/)
+[![Financial Contributors on Open Collective](https://opencollective.com/newtonsoftjson-for-unity/all/badge.svg?label=financial+contributors&style=flat-square)](https://opencollective.com/newtonsoftjson-for-unity) 
 [![CircleCI](https://img.shields.io/circleci/build/gh/jilleJr/Newtonsoft.Json-for-Unity/master?logo=circleci&style=flat-square)](https://circleci.com/gh/jilleJr/Newtonsoft.Json-for-Unity)
 [![Codacy grade](https://img.shields.io/codacy/grade/f91156e7066c484588f4dba263c8cf45?logo=codacy&style=flat-square)](https://www.codacy.com/manual/jilleJr/Newtonsoft.Json-for-Unity?utm_source=github.com&utm_medium=referral&utm_content=jilleJr/Newtonsoft.Json-for-Unity&utm_campaign=Badge_Grade)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg?style=flat-square)](/CODE_OF_CONDUCT.md)
@@ -131,3 +132,33 @@ See full copyrights in [LICENSE.md][license.md] inside repository
 [wiki-what-even-is-aot]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/What-even-is-AOT
 [wiki-installation-via-upm]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Installation-via-UPM
 [wiki-installation-via-openupm]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Installation-via-OpenUPM
+
+## Contributors
+
+### Code Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="https://github.com/jilleJr/Newtonsoft.Json-for-Unity/graphs/contributors"><img src="https://opencollective.com/newtonsoftjson-for-unity/contributors.svg?width=890&button=false" /></a>
+
+### Financial Contributors
+
+Become a financial contributor and help us sustain our community. [[Contribute](https://opencollective.com/newtonsoftjson-for-unity/contribute)]
+
+#### Individuals
+
+<a href="https://opencollective.com/newtonsoftjson-for-unity"><img src="https://opencollective.com/newtonsoftjson-for-unity/individuals.svg?width=890"></a>
+
+#### Organizations
+
+Support this project with your organization. Your logo will show up here with a link to your website. [[Contribute](https://opencollective.com/newtonsoftjson-for-unity/contribute)]
+
+<a href="https://opencollective.com/newtonsoftjson-for-unity/organization/0/website"><img src="https://opencollective.com/newtonsoftjson-for-unity/organization/0/avatar.svg"></a>
+<a href="https://opencollective.com/newtonsoftjson-for-unity/organization/1/website"><img src="https://opencollective.com/newtonsoftjson-for-unity/organization/1/avatar.svg"></a>
+<a href="https://opencollective.com/newtonsoftjson-for-unity/organization/2/website"><img src="https://opencollective.com/newtonsoftjson-for-unity/organization/2/avatar.svg"></a>
+<a href="https://opencollective.com/newtonsoftjson-for-unity/organization/3/website"><img src="https://opencollective.com/newtonsoftjson-for-unity/organization/3/avatar.svg"></a>
+<a href="https://opencollective.com/newtonsoftjson-for-unity/organization/4/website"><img src="https://opencollective.com/newtonsoftjson-for-unity/organization/4/avatar.svg"></a>
+<a href="https://opencollective.com/newtonsoftjson-for-unity/organization/5/website"><img src="https://opencollective.com/newtonsoftjson-for-unity/organization/5/avatar.svg"></a>
+<a href="https://opencollective.com/newtonsoftjson-for-unity/organization/6/website"><img src="https://opencollective.com/newtonsoftjson-for-unity/organization/6/avatar.svg"></a>
+<a href="https://opencollective.com/newtonsoftjson-for-unity/organization/7/website"><img src="https://opencollective.com/newtonsoftjson-for-unity/organization/7/avatar.svg"></a>
+<a href="https://opencollective.com/newtonsoftjson-for-unity/organization/8/website"><img src="https://opencollective.com/newtonsoftjson-for-unity/organization/8/avatar.svg"></a>
+<a href="https://opencollective.com/newtonsoftjson-for-unity/organization/9/website"><img src="https://opencollective.com/newtonsoftjson-for-unity/organization/9/avatar.svg"></a>
