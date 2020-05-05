@@ -24,6 +24,7 @@ if [ "$VAR_SOURCE" == "xml" ]; then
     env VERSION_SUFFIX "$(xml VersionSuffix)"
     env VERSION_JSON_NET "$(xml VersionPrefix)"
     env VERSION_ASSEMBLY "$(xml AssemblyVersion)"
+    env VERSION_AUTO_DEPLOY_DRY_RUN 'false'
     echo
 elif [ "$VAR_SOURCE" == "json" ]; then
     json() {
@@ -35,6 +36,7 @@ elif [ "$VAR_SOURCE" == "json" ]; then
     env VERSION_SUFFIX "$(json SUFFIX)"
     env VERSION_JSON_NET "$(json JSON_NET)"
     env VERSION_ASSEMBLY "$(json ASSEMBLY)"
+    env VERSION_AUTO_DEPLOY_DRY_RUN "$(json AUTO_DEPLOY_DRY_RUN)"
     echo
 else
     echo "Invalid argument: '${VAR_SOURCE}'" >&2

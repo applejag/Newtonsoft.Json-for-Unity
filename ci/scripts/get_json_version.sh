@@ -50,7 +50,7 @@ ASSEMBLY)
     ;;
 SUFFIX)
     release="$(jq2 -er '.Release // empty' "$jsonFile")"
-    
+
     if [ -z "$release" ]
     then
         # No suffix
@@ -62,9 +62,12 @@ SUFFIX)
 RELEASE)
     jq2 -er '.Release // 0' "$jsonFile"
     ;;
+AUTO_DEPLOY_DRY_RUN)
+    jq2 -r '.AutoDeployDryRun' "$jsonFile"
+    ;;
 *)
     error "Error: Unknown output type '$output'
-    Possible values: FULL, JSON_NET, ASSEMBLY, SUFFIX, RELEASE"
+    Possible values: FULL, JSON_NET, ASSEMBLY, SUFFIX, RELEASE, AUTO_DEPLOY_DRY_RUN"
     exit 3
     ;;
 esac

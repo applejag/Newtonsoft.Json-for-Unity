@@ -22,9 +22,10 @@ orbs:
 jobs:
   build-package:
     working_directory: ~/repo
-    
+
     environment:
       SCRIPTS: /root/repo/ci/scripts
+      REPO_FOLDER: /root/repo
       BUILD_SOLUTION: /root/repo/Src/Newtonsoft.Json/Newtonsoft.Json.csproj
       TEST_SOLUTION: /root/repo/Src/Newtonsoft.Json.Tests/Newtonsoft.Json.Tests.csproj
       BUILD_DESTINATION_BASE: /root/repo/Src/Newtonsoft.Json-for-Unity/Plugins
@@ -166,7 +167,7 @@ jobs:
           name: Convert NUnit to JUnit xml
           when: always
           command: ci/scripts/nunit2junit.ps1 Tests/NUnit/ Tests/JUnit/
-          
+
       - store_test_results:
           name: Store test results -> ~/Tests/JUnit
           path: Tests/JUnit
@@ -178,7 +179,7 @@ jobs:
 
   test-unity-2018-4-14f1:
     working_directory: ~/repo
-    
+
     environment:
       SCRIPTS: /root/repo/ci/scripts
       ASSETS_FOLDER: /root/repo/Src/Newtonsoft.Json-for-Unity.Tests/Assets
@@ -254,7 +255,7 @@ jobs:
 
   test-unity-2019-2-11f1:
     working_directory: ~/repo
-    
+
     environment:
       SCRIPTS: /root/repo/ci/scripts
       ASSETS_FOLDER: /root/repo/Src/Newtonsoft.Json-for-Unity.Tests/Assets
@@ -320,12 +321,13 @@ jobs:
 
   deploy-cloudsmith:
     working_directory: /root/repo
-    
+
     docker:
       - image: applejag/newtonsoft.json-for-unity.package-deploy-npm:v3
 
     environment:
       SCRIPTS: /root/repo/ci/scripts
+      REPO_FOLDER: /root/repo
       NPM_REGISTRY: https://npm.cloudsmith.io/jillejr/newtonsoft-json-for-unity/
 
     steps:
@@ -340,15 +342,7 @@ jobs:
 
       - run:
           name: Setup Variables
-          command: |
-            env() {
-              echo "export '$1=$2'" >> $BASH_ENV
-              echo "$1='$2'"
-              export "$1=$2"
-            }
-            echo ">>> OBTAINING VERSION FROM $(pwd)/ci/version.json"
-            env VERSION "$($SCRIPTS/get_json_version.sh ./ci/version.json FULL)"
-            echo
+          command: $SCRIPTS/build_setup_variables.sh json false
 
       - run:
           name: NPM Login
@@ -358,27 +352,38 @@ jobs:
             echo "always-auth=true" >> ~/.npmrc
 
       - run:
-          name: NPM Publish
+          name: Deploy
           command: |
             if [ -z "$(npm view jillejr.newtonsoft.json-for-unity@$VERSION versions)" ]
             then
               cd /workspace/package
-              npm publish
+              if [ "${VERSION_AUTO_DEPLOY_DRY_RUN:-}" == "false" ]
+              then
+                npm publish
+              else
+                echo "RUNNING NPM PUBLISH DRY-RUN"
+                npm publish --dry-run
+                echo "RUNNING NPM PUBLISH DRY-RUN"
+            fi
             else
-              echo "Package version $VERSION already existed. Skipping the publish"
+              echo "Package version $VERSION_UPM already existed. Skipping the publish"
             fi
 
   deploy-github:
     working_directory: /root/repo
-    
+
     environment:
       SCRIPTS: /root/repo/ci/scripts
-    
+      REPO_FOLDER: /root/repo
+
     docker:
       - image: applejag/newtonsoft.json-for-unity.package-deploy-github:v4
-    
+
     steps:
       - checkout
+
+      - attach_workspace:
+        at: /workspace
 
       - add_ssh_keys:
           fingerprints:
@@ -394,34 +399,15 @@ jobs:
 
       - run:
           name: Setup Variables
-          command: |
-            env() {
-              echo "export '$1=$2'" >> $BASH_ENV
-              echo "$1='$2'"
-              export "$1=$2"
-            }
-            echo ">>> OBTAINING VERSION FROM $(pwd)/ci/version.json"
-            env VERSION "$($SCRIPTS/get_json_version.sh ./ci/version.json FULL)"
-            env VERSION_RELEASE "$($SCRIPTS/get_json_version.sh ./ci/version.json RELEASE)"
-            env VERSION_JSON_NET "$($SCRIPTS/get_json_version.sh ./ci/version.json JSON_NET)"
-            echo
+          command: $SCRIPTS/build_setup_variables.sh json false
 
       - run:
-          name: Ensure tag exists
-          command: |
-            if git tag --list | egrep -q "^$VERSION$"
-            then
-              echo "Tag $VERSION already existed. Skipping the tagging"
-            else
-              git tag $VERSION -m "Json.NET $VERSION_JSON_NET, release $VERSION_RELEASE"
-              echo "Created tag '$(git tag -l $VERSION -n1)'"
-              git push --tags
-              echo "Successfully pushed tag"
-            fi
+          name: Deploy
+          command: $SCRIPTS/deploy_git.sh /workspace/package
 
   check-deploy-ready:
     working_directory: /root/repo
-    
+
     docker:
       - image: applejag/newtonsoft.json-for-unity.package-deploy-npm:v3
 
@@ -441,57 +427,11 @@ jobs:
 
       - run:
           name: Setup Variables
-          command: |
-            env() {
-              echo "export '$1=$2'" >> $BASH_ENV
-              echo "$1='$2'"
-              export "$1=$2"
-            }
-            echo ">>> OBTAINING VERSION FROM $(pwd)/ci/version.json"
-            env VERSION "$($SCRIPTS/get_json_version.sh ./ci/version.json FULL)"
-            echo
-            
-            echo ">>> SETTING UP NPM"
-            echo "registry='$NPM_REGISTRY' >> ~/.npmrc"
-            echo "registry=$NPM_REGISTRY" >> ~/.npmrc
+          command: $SCRIPTS/build_setup_variables.sh json false
 
       - run:
           name: Check if release is ready for deploy
-          command: |
-            if [ "$(npm search jillejr.newtonsoft.json-for-unity)" == 'No matches found for "jillejr.newtonsoft.json-for-unity"' ]
-            then
-              echo "> Package jillejr.newtonsoft.json-for-unity does not exist on the registry and is available for publishing, all ok!"
-            elif [ -z "$(npm view jillejr.newtonsoft.json-for-unity@$VERSION versions)" ]
-            then
-              echo "> Package jillejr.newtonsoft.json-for-unity version $VERSION does not exist on the registry and is available for publishing, all ok!"
-            else
-              echo
-              echo "[!] Package version $VERSION already existed on $NPM_REGISTRY"
-              echo "[!] Make sure to update the /ci/version.json"
-              exit 1
-            fi
-
-            if git tag --list | egrep -q "^$VERSION$"
-            then
-              echo
-              echo "[!] Tag $VERSION already existed."
-              echo "[!] Make sure to update the /ci/version.json"
-              exit 2
-            else
-              echo "> Tag $VERSION is available for publishing, all ok!"
-            fi
-            
-            if cat CHANGELOG.md | egrep -q "^## $VERSION$"
-            then
-              echo "> Changelog has been updated, all ok!"
-            else
-              echo
-              echo "[!] Changelog in CHANGELOG.md is missing line '## $VERSION'."
-              echo "[!] Make sure to update the CHANGELOG.md"
-              exit 3
-            fi
-
-            echo "Nice work! Happy deploying!"
+          command: $SCRIPTS/check_deploy_ready.sh
 
 workflows:
   version: 2
