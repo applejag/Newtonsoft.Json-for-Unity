@@ -7,6 +7,7 @@ set -o pipefail
 
 VAR_SOURCE="${1:-json}"
 UPDATE_PACKAGE_JSON="${2:-false}"
+FILE_SOURCE="${3:-"$(pwd)/ci/version.json"}"
 
 env() {
     echo "export '$1=$2'" >> $BASH_ENV
@@ -19,7 +20,7 @@ if [ "$VAR_SOURCE" == "xml" ]; then
         xmlstarlet sel -t -v "/Project/PropertyGroup/$1" -n Src/Newtonsoft.Json/Newtonsoft.Json.csproj | head -n 1
     }
 
-    echo ">>> OBTAINING VERSION FROM $(pwd)/Src/Newtonsoft.Json/Newtonsoft.Json.csproj"
+    echo ">>> OBTAINING VERSION FROM $FILE_SOURCE"
     env VERSION "$(xml VersionPrefix)"
     env VERSION_SUFFIX "$(xml VersionSuffix)"
     env VERSION_JSON_NET "$(xml VersionPrefix)"
@@ -31,7 +32,7 @@ elif [ "$VAR_SOURCE" == "json" ]; then
         $SCRIPTS/get_json_version.sh ./ci/version.json "$1"
     }
 
-    echo ">>> OBTAINING VERSION FROM $(pwd)/ci/version.json"
+    echo ">>> OBTAINING VERSION FROM $FILE_SOURCE"
     env VERSION "$(json FULL)"
     env VERSION_SUFFIX "$(json SUFFIX)"
     env VERSION_JSON_NET "$(json JSON_NET)"

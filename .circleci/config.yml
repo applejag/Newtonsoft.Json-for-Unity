@@ -48,7 +48,7 @@ jobs:
 
       - run:
           name: Setup variables
-          command: $SCRIPTS/build_setup_variables.sh json true
+          command: $SCRIPTS/build_setup_variables.sh json true $REPO_FOLDER/ci/version.json
       - run:
           name: NuGet restore
           command: |
@@ -82,7 +82,7 @@ jobs:
 
       - run:
           name: Setup variables for Newtonsoft.Json.Tests
-          command: $SCRIPTS/build_setup_variables.sh xml false
+          command: $SCRIPTS/build_setup_variables.sh xml false $REPO_FOLDER/Src/Newtonsoft.Json/Newtonsoft.Json.csproj
 
       - run:
           name: Build Newtonsoft.Json.Tests for Unity
@@ -342,7 +342,7 @@ jobs:
 
       - run:
           name: Setup Variables
-          command: $SCRIPTS/build_setup_variables.sh json false
+          command: $SCRIPTS/build_setup_variables.sh json false $REPO_FOLDER/ci/version.json
 
       - run:
           name: NPM Login
@@ -399,7 +399,7 @@ jobs:
 
       - run:
           name: Setup Variables
-          command: $SCRIPTS/build_setup_variables.sh json false
+          command: $SCRIPTS/build_setup_variables.sh json false $REPO_FOLDER/ci/version.json
 
       - run:
           name: Deploy
@@ -427,7 +427,7 @@ jobs:
 
       - run:
           name: Setup Variables
-          command: $SCRIPTS/build_setup_variables.sh json false
+          command: $SCRIPTS/build_setup_variables.sh json false $REPO_FOLDER/ci/version.json
 
       - run:
           name: Check if release is ready for deploy
