@@ -47,28 +47,7 @@ jobs:
 
       - run:
           name: Setup variables
-          command: |
-            env() {
-              echo "export '$1=$2'" >> $BASH_ENV
-              echo "$1='$2'"
-              export "$1=$2"
-            }
-            echo ">>> OBTAINING VERSION FROM $(pwd)/ci/version.json"
-            env VERSION "$($SCRIPTS/get_json_version.sh ./ci/version.json FULL)"
-            env VERSION_SUFFIX "$($SCRIPTS/get_json_version.sh ./ci/version.json SUFFIX)"
-            env VERSION_JSON_NET "$($SCRIPTS/get_json_version.sh ./ci/version.json JSON_NET)"
-            env VERSION_ASSEMBLY "$($SCRIPTS/get_json_version.sh ./ci/version.json ASSEMBLY)"
-            echo
-
-            echo ">>> UPDATING VERSION IN $(pwd)/Src/Newtonsoft.Json-for-Unity/package.json"
-            echo "BEFORE:"
-            echo ".version=$(jq ".version" Src/Newtonsoft.Json-for-Unity/package.json)"
-            echo ".displayName=$(jq ".displayName" Src/Newtonsoft.Json-for-Unity/package.json)"
-            echo "$(jq ".version=\"$VERSION\" | .displayName=\"Json.NET $VERSION_JSON_NET for Unity\"" Src/Newtonsoft.Json-for-Unity/package.json)" > Src/Newtonsoft.Json-for-Unity/package.json
-            echo "AFTER:"
-            echo ".version=$(jq ".version" Src/Newtonsoft.Json-for-Unity/package.json)"
-            echo ".displayName=$(jq ".displayName" Src/Newtonsoft.Json-for-Unity/package.json)"
-
+          command: $SCRIPTS/build_setup_variables.sh json true
       - run:
           name: NuGet restore
           command: |
@@ -102,20 +81,7 @@ jobs:
 
       - run:
           name: Setup variables for Newtonsoft.Json.Tests
-          command: |
-            env() {
-                echo "export '$1=$2'" >> $BASH_ENV
-                echo "$1='$2'"
-                export "$1=$2"
-            }
-            xml() {
-                xmlstarlet sel -t -v "/Project/PropertyGroup/$1" -n Src/Newtonsoft.Json/Newtonsoft.Json.csproj | head -n 1
-            }
-            echo ">>> OBTAINING VERSION FROM $(pwd)/Src/Newtonsoft.Json/Newtonsoft.Json.csproj"
-            env VERSION "$(xml VersionPrefix)"
-            env VERSION_SUFFIX "$(xml VersionSuffix)"
-            env VERSION_JSON_NET "$(xml VersionPrefix)"
-            env VERSION_ASSEMBLY "$(xml AssemblyVersion)"
+          command: $SCRIPTS/build_setup_variables.sh xml false
 
       - run:
           name: Build Newtonsoft.Json.Tests for Unity
