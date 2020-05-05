@@ -12,8 +12,7 @@ PACKAGE_FOLDER="${1:-${PACKAGE_FOLDER:?'Package folder required'}}"
 : ${VERSION_RELEASE:?}
 : ${REPO_FOLDER:?}
 
-TAG_UPM="upm/$VERSION"
-TAG_MASTER="$VERSION"
+TAG_UPM="$VERSION"
 
 tag_and_push() {
     local tagName="$1"
@@ -34,19 +33,6 @@ tag_and_push() {
     echo
     echo "Successfully pushed"
 }
-
-#-------------------------------------------------------------------------------
-
-if git tag --list | egrep -q "^$TAG_MASTER$"
-then
-    echo "Tag $TAG_MASTER already existed. Skipping the tagging on master branch"
-else
-    tag_and_push $TAG_MASTER "Json.NET $VERSION_JSON_NET, release $VERSION_RELEASE
-
-Created by CircleCI job
-Build #$CIRCLE_BUILD_NUM
-$CIRCLE_BUILD_URL"
-fi
 
 #-------------------------------------------------------------------------------
 
