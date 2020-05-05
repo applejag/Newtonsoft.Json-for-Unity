@@ -54,7 +54,7 @@ function Start-DockerBuild  {
                 -t ${ImageName}:latest `
                 @ExtraArgs `
                 $PSScriptRoot
-            
+
             if ($LASTEXITCODE -ne 0) {
                 throw "Failed to build with args $ExtraArgs";
             }
@@ -75,7 +75,7 @@ $Builds = [DockerBuild[]] @(
 
     , [DockerBuild]::new('package-deploy-npm', 'v3')
 
-    , [DockerBuild]::new('package-deploy-github', 'v4')
+    , [DockerBuild]::new('package-deploy-github', 'v5')
 )
 
 $Builds | Start-DockerBuild
