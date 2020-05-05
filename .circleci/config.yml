@@ -15,6 +15,7 @@ preset-filter-check: &WORKFLOW_CHECK_DEPLOY_READY_FILTER
   only:
     - /^hotfix.*/
     - /^release.*/
+    - /^feature.*/
 
 orbs:
   win: circleci/windows@2.3.0
@@ -474,13 +475,14 @@ workflows:
       - test-unity-2019-2-11f1:
           requires:
             - build-package
+      - check-deploy-ready:
+          requires:
+            - test-windows
+            - test-unity-2018-4-14f1
+            - test-unity-2019-2-11f1
       - deploy-cloudsmith:
           requires:
-            - test-windows
-            - test-unity-2018-4-14f1
-            - test-unity-2019-2-11f1
+            - check-deploy-ready
       - deploy-github:
           requires:
-            - test-windows
-            - test-unity-2018-4-14f1
-            - test-unity-2019-2-11f1
+            - check-deploy-ready
