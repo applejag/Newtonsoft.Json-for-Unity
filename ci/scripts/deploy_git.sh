@@ -42,6 +42,8 @@ then
 else
     git commit -m "Json.NET $VERSION_JSON_NET, release $VERSION_RELEASE
 
+Based on commit $CIRCLE_SHA1
+
 Created by CircleCI job
 Build #$CIRCLE_BUILD_NUM
 $CIRCLE_BUILD_URL"
@@ -50,6 +52,8 @@ fi
 echo
 
 git tag $VERSION -m "Json.NET $VERSION_JSON_NET, release $VERSION_RELEASE
+
+Based on commit $CIRCLE_SHA1
 
 Created by CircleCI job
 Build #$CIRCLE_BUILD_NUM
