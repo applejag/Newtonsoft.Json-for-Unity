@@ -48,7 +48,10 @@ jobs:
 
       - run:
           name: Setup variables
-          command: $SCRIPTS/build_setup_variables.sh json true $REPO_FOLDER/ci/version.json
+          command: |
+            $SCRIPTS/build_setup_variables.sh json true \
+              $REPO_FOLDER/ci/version.json \
+              $REPO_FOLDER/Src/Newtonsoft.Json-for-Unity/package.json
       - run:
           name: NuGet restore
           command: |

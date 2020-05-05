@@ -7,7 +7,8 @@ set -o pipefail
 
 VAR_SOURCE="${1:-json}"
 UPDATE_PACKAGE_JSON="${2:-false}"
-FILE_SOURCE="${3:-"$(pwd)/ci/version.json"}"
+SOURCE_PATH="${3:-"$(pwd)/ci/version.json"}"
+PACKAGE_JSON_PATH="${4:-"$(pwd)/Src/Newtonsoft.Json-for-Unity/package.json"}"
 
 env() {
     echo "export '$1=$2'" >> $BASH_ENV
@@ -20,7 +21,7 @@ if [ "$VAR_SOURCE" == "xml" ]; then
         xmlstarlet sel -t -v "/Project/PropertyGroup/$1" -n Src/Newtonsoft.Json/Newtonsoft.Json.csproj | head -n 1
     }
 
-    echo ">>> OBTAINING VERSION FROM $FILE_SOURCE"
+    echo ">>> OBTAINING VERSION FROM $SOURCE_PATH"
     env VERSION "$(xml VersionPrefix)"
     env VERSION_SUFFIX "$(xml VersionSuffix)"
     env VERSION_JSON_NET "$(xml VersionPrefix)"
@@ -32,7 +33,7 @@ elif [ "$VAR_SOURCE" == "json" ]; then
         $SCRIPTS/get_json_version.sh ./ci/version.json "$1"
     }
 
-    echo ">>> OBTAINING VERSION FROM $FILE_SOURCE"
+    echo ">>> OBTAINING VERSION FROM $SOURCE_PATH"
     env VERSION "$(json FULL)"
     env VERSION_SUFFIX "$(json SUFFIX)"
     env VERSION_JSON_NET "$(json JSON_NET)"
@@ -46,12 +47,12 @@ else
 fi
 
 if [ "$UPDATE_PACKAGE_JSON" == 'true' ]; then
-    echo ">>> UPDATING VERSION IN $(pwd)/Src/Newtonsoft.Json-for-Unity/package.json"
+    echo ">>> UPDATING VERSION IN $PACKAGE_JSON_PATH"
     echo "BEFORE:"
-    echo ".version=$(jq ".version" Src/Newtonsoft.Json-for-Unity/package.json)"
-    echo ".displayName=$(jq ".displayName" Src/Newtonsoft.Json-for-Unity/package.json)"
-    echo "$(jq ".version=\"$VERSION\" | .displayName=\"Json.NET $VERSION_JSON_NET for Unity\"" Src/Newtonsoft.Json-for-Unity/package.json)" > Src/Newtonsoft.Json-for-Unity/package.json
+    echo ".version=$(jq ".version" $PACKAGE_JSON_PATH)"
+    echo ".displayName=$(jq ".displayName" $PACKAGE_JSON_PATH)"
+    echo "$(jq ".version=\"$VERSION\" | .displayName=\"Json.NET $VERSION_JSON_NET for Unity\"" $PACKAGE_JSON_PATH)" > $PACKAGE_JSON_PATH
     echo "AFTER:"
-    echo ".version=$(jq ".version" Src/Newtonsoft.Json-for-Unity/package.json)"
-    echo ".displayName=$(jq ".displayName" Src/Newtonsoft.Json-for-Unity/package.json)"
+    echo ".version=$(jq ".version" $PACKAGE_JSON_PATH)"
+    echo ".displayName=$(jq ".displayName" $PACKAGE_JSON_PATH)"
 fi
