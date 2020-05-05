@@ -474,15 +474,13 @@ workflows:
       - test-unity-2019-2-11f1:
           requires:
             - build-package
-      - hold:
-          type: approval
+      - deploy-cloudsmith:
           requires:
             - test-windows
             - test-unity-2018-4-14f1
             - test-unity-2019-2-11f1
-      - deploy-cloudsmith:
-          requires:
-            - hold
       - deploy-github:
           requires:
-            - hold
+            - test-windows
+            - test-unity-2018-4-14f1
+            - test-unity-2019-2-11f1
