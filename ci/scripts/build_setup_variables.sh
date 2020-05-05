@@ -38,6 +38,7 @@ elif [ "$VAR_SOURCE" == "json" ]; then
     env VERSION_SUFFIX "$(json SUFFIX)"
     env VERSION_JSON_NET "$(json JSON_NET)"
     env VERSION_ASSEMBLY "$(json ASSEMBLY)"
+    env VERSION_RELEASE "$(json RELEASE)"
     env VERSION_AUTO_DEPLOY_DRY_RUN "$(json AUTO_DEPLOY_DRY_RUN)"
     echo
 else
