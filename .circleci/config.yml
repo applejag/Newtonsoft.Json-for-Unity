@@ -3,13 +3,13 @@ version: 2.1
 preset-filter-test: &WORKFLOW_BUILD_TEST_FILTER
   only:
     - develop
-    - /^feature.*/
     - /^hotfix.*/
     - /^release.*/
 
 preset-filter-deploy: &WORKFLOW_BUILD_TEST_DEPLOY_FILTER
   only:
     - master
+    - /^feature.*/
 
 preset-filter-check: &WORKFLOW_CHECK_DEPLOY_READY_FILTER
   only:
