@@ -386,7 +386,7 @@ jobs:
       - checkout
 
       - attach_workspace:
-        at: /workspace
+          at: /workspace
 
       - add_ssh_keys:
           fingerprints:
