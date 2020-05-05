@@ -49,7 +49,7 @@ ASSEMBLY)
     jq2 -er '(.Major // 0|tostring) + ".0.0.0"' "$jsonFile"
     ;;
 SUFFIX)
-    release="$(jq2 -er '.Release // empty' "$jsonFile")"
+    release="$(jq -er '.Release // empty' "$jsonFile")"
 
     if [ -z "$release" ]
     then
