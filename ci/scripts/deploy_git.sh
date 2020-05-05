@@ -7,14 +7,14 @@ set -o pipefail
 
 PACKAGE_FOLDER="${1:-${PACKAGE_FOLDER:?'Package folder required'}}"
 
-: ${VERSION_UPM:?}
-: ${VERSION_UPM_NO_SUFFIX:?}
-: ${VERSION_SUFFIX:?}
+: ${VERSION:?}
+: ${VERSION_JSON_NET:?}
+: ${VERSION_RELEASE:?}
 : ${REPO_FOLDER:?}
 
-if git tag --list | egrep -q "^$VERSION_UPM$"
+if git tag --list | egrep -q "^$VERSION$"
 then
-    echo "Tag $VERSION_UPM already existed. Skipping the deployment"
+    echo "Tag $VERSION already existed. Skipping the deployment"
     exit 0
 fi
 

@@ -5,8 +5,7 @@ set -o nounset
 set -o errexit
 set -o pipefail
 
-: ${VERSION_UPM:?"Need the version to be checked"}
-: ${VERSION_UPM_NO_SUFFIX:?"Need the version of Newtonsoft.Json.UnityConverters (without suffix) to be checked"}
+: ${VERSION:?"Need the version to be checked"}
 
 OK=1
 
