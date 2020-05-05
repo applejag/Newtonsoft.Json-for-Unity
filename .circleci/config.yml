@@ -382,7 +382,7 @@ jobs:
       REPO_FOLDER: /root/repo
 
     docker:
-      - image: applejag/newtonsoft.json-for-unity.package-deploy-github:v5
+      - image: applejag/newtonsoft.json-for-unity.package-deploy-github:v6
 
     steps:
       - checkout
