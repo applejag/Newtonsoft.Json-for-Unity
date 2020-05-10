@@ -22,7 +22,7 @@ tag_and_push() {
 
     echo "Created tag: '$(git tag -l $tagName -n1))'"
 
-    if [ "${VERSION_AUTO_DEPLOY_DRY_RUN:-}" == "false" ]
+    if [ "${VERSION_AUTO_DEPLOY_LIVE_RUN:-}" == "true" ]
     then
         git push --follow-tags
     else

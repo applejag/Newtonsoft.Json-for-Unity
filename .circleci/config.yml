@@ -362,7 +362,7 @@ jobs:
             if [ -z "$(npm view jillejr.newtonsoft.json-for-unity@$VERSION versions)" ]
             then
               cd /workspace/package
-              if [ "${VERSION_AUTO_DEPLOY_DRY_RUN:-}" == "false" ]
+              if [ "${VERSION_AUTO_DEPLOY_LIVE_RUN:-}" == "true" ]
               then
                 npm publish
               else

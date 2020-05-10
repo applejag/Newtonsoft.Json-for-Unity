@@ -62,12 +62,12 @@ SUFFIX)
 RELEASE)
     jq2 -er '.Release // 0' "$jsonFile"
     ;;
-AUTO_DEPLOY_DRY_RUN)
-    jq2 -r '.AutoDeployDryRun' "$jsonFile"
+AUTO_DEPLOY_LIVE_RUN)
+    jq2 -r '.AutoDeployLiveRun' "$jsonFile"
     ;;
 *)
     error "Error: Unknown output type '$output'
-    Possible values: FULL, JSON_NET, ASSEMBLY, SUFFIX, RELEASE, AUTO_DEPLOY_DRY_RUN"
+    Possible values: FULL, JSON_NET, ASSEMBLY, SUFFIX, RELEASE, AUTO_DEPLOY_LIVE_RUN"
     exit 3
     ;;
 esac

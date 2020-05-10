@@ -5,5 +5,5 @@
 
   "Release": 1,
 
-  "AutoDeployDryRun": true
+  "AutoDeployLiveRun": false
 }
