@@ -32,9 +32,11 @@ and portable .NET **(UWP, WP8)**.
   utility class for resolving common Ahead-Of-Time issues.
   [(Read more about AOT)][wiki-what-even-is-aot]
 
-- Extensive
-  [documentation of solving AOT issues with
-  `link.xml`][wiki-fix-aot-using-link.xml]
+- Extensive [documentation of solving AOT issues with `link.xml`][wiki-fix-aot-using-link.xml]
+
+- `(🌟 new!)` Optional side package [Newtonsoft.Json-for-Unity.Converters][json.net-4-unity.converters]
+  to help with converting Unity types, such as the Vector3, Quaternion, Color,
+  and [many, many more!][json.net-4-unity.converters-compatability]
 
 ## [Installation guide](https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Installation-via-UPM)
 
@@ -48,11 +50,11 @@ the raw url:
 
 ## Newtonsoft.Json-for-Unity specific links
 
-- [Wiki about this project](https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki)
-- [Release Notes on GitHub from this repository](https://github.com/jilleJr/Newtonsoft.Json-for-Unity/releases)
+- [Wiki about this fork](https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki)
+- [Release notes of this fork](https://github.com/jilleJr/Newtonsoft.Json-for-Unity/releases)
 - [Cloudsmith package](https://cloudsmith.io/~jillejr/repos/newtonsoft-json-for-unity/packages/detail/npm/jillejr.newtonsoft.json-for-unity/latest/)
 
-## Official Json.<i></i>NET links
+## Other links
 
 - [Source repository (github.com/JamesNK/Newtonsoft.Json)](https://github.com/JamesNK/Newtonsoft.Json)
 - [Homepage (www.newtonsoft.com/json)](https://www.newtonsoft.com/json)
@@ -62,19 +64,33 @@ the raw url:
 
 ## Contributing
 
-To contribute please read the [CONTRIBUTING.md](/CONTRIBUTING.md)
-guidelines. It contains info about
+Thankful that you're even reading this :)
 
-- How to edit the Src/Newtonsoft.Json projects to remain the ability to merge
-  from JamesNKs repository without difficulties.
+If you want to contribute, here's what you can do:
 
-- Coding style.
+- **Spread the word!** ❤ More users &rarr; more feedback &rarr; I get more
+  will-power to work on this project. This is the best way to contribute!
 
-- Naming style.
+- [Open an issue][issue-create]. Could be a feature request for a new converter,
+  or maybe you've found a bug?
 
-- Our level of usage of "git-flow".
+- [Tackle one of the unassigned issues][issue-list-unassigned]. If it looks like
+  a fun task to solve and no one is assigned, then just comment on it and say
+  that you would like to try it out.
 
-- Keep the repo clean, both code & branches.
+  I realize that few of the issues are trivial, so if you wish to tackle
+  something small then look at the list of unassigned issues over at the
+  [Unity converters package][json.net-4-unity.converters] repoistory.
+
+- Open a PR with some new feature or issue solved. Remember to ask before
+  starting to work on anything, so no two are working on the same thing.
+
+  Having a feature request or issue pop up and having the submitter suggesting
+  themselves to later add a PR for a solution is the absolute greatest gift
+  a repository maintainer could ever receive. 🎁
+
+  I have this [CONTRIBUTING.md](/CONTRIBUTING.md) file that contains some
+  guidelines. It may be good to read it beforehand.
 
 ## Development
 
@@ -134,15 +150,18 @@ Copyright &copy; 2019 Kalle Jillheden (jilleJr)
 
 See full copyrights in [LICENSE.md][license.md] inside repository
 
+[issue-create]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues/new/choose
+[issue-list-unassigned]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/issues?q=is%3Aopen+is%3Aissue+no%3Aassignee
 [json.net-4-unity.converters]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters
+[json.net-4-unity.converters-compatability]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity.Converters/blob/master/Doc/Compatability-table.md
 [license.md]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/blob/master/LICENSE.md
 [newtonsoft.json.git]: https://github.com/JamesNK/Newtonsoft.Json
-[opencollective-url]: https://opencollective.com/newtonsoftjson-for-unity
 [opencollective-img-induvidual]: https://opencollective.com/newtonsoftjson-for-unity/individuals.svg?width=890
-[wiki-workingwithbranches]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Working-with-branches
-[wiki-workingwithbranches#merging]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Working-with-branches#merging-changes-from-jamesnks-repo
+[opencollective-url]: https://opencollective.com/newtonsoftjson-for-unity
 [wiki-fix-aot-using-aothelper]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Fix-AOT-using-AotHelper
 [wiki-fix-aot-using-link.xml]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Fix-AOT-using-link.xml
-[wiki-what-even-is-aot]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/What-even-is-AOT
-[wiki-installation-via-upm]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Installation-via-UPM
 [wiki-installation-via-openupm]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Installation-via-OpenUPM
+[wiki-installation-via-upm]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Installation-via-UPM
+[wiki-what-even-is-aot]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/What-even-is-AOT
+[wiki-workingwithbranches#merging]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Working-with-branches#merging-changes-from-jamesnks-repo
+[wiki-workingwithbranches]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Working-with-branches
