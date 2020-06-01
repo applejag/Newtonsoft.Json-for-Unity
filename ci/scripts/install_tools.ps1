@@ -32,7 +32,7 @@ function Install-AllTheThingsINeed()
 "@ > .\Temp\profile.ps1
 
     Write-Host "----------------"
-    dir C:\Program Files\dotnet\sdk\3.1.300\Sdks
+    dir 'C:\Program Files\dotnet\sdk\3.1.300\Sdks'
     Write-Host "----------------"
 }
 
