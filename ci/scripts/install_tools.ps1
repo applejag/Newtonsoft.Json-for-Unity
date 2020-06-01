@@ -26,6 +26,9 @@ function Install-AllTheThingsINeed()
 `$msbuild = '$msBuildPath'
 `$vswhere = '$(Resolve-Path $vswherePath\tools\vswhere.exe)'
 `$nunit3console = '$(Resolve-Path $nunitConsolePath\tools\nunit3-console.exe)'
+
+# https://github.com/microsoft/msbuild/issues/2532
+`$env:MSBuildSDKsPath = 'C:\Program Files\dotnet\sdk\3.1.300\'
 "@ > .\Temp\profile.ps1
 }
 
