@@ -5,18 +5,17 @@ preset-filter-test: &WORKFLOW_BUILD_TEST_FILTER
     - develop
     - /^hotfix.*/
     - /^release.*/
-    # - /^feature.*/
+    - /^feature.*/
 
 preset-filter-deploy: &WORKFLOW_BUILD_TEST_DEPLOY_FILTER
   only:
     - master
-    - /^feature.*/ #temporarily added here
 
 preset-filter-check: &WORKFLOW_CHECK_DEPLOY_READY_FILTER
   only:
     - /^hotfix.*/
     - /^release.*/
-    # - /^feature.*/
+    - /^feature.*/
 
 orbs:
   win: circleci/windows@2.4.0
