@@ -28,11 +28,11 @@ function Install-AllTheThingsINeed()
 `$nunit3console = '$(Resolve-Path $nunitConsolePath\tools\nunit3-console.exe)'
 
 # https://github.com/microsoft/msbuild/issues/2532
-`$env:MSBuildSDKsPath = 'C:\Program Files\dotnet\sdk\3.1.300\'
+`$env:MSBuildSDKsPath = 'C:\Program Files\dotnet\sdk\3.1.300\Sdks'
 "@ > .\Temp\profile.ps1
 
     Write-Host "----------------"
-    dir C:\Program Files\dotnet\sdk\3.1.300\
+    dir C:\Program Files\dotnet\sdk\3.1.300\Sdks
     Write-Host "----------------"
 }
 
