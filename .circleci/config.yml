@@ -19,7 +19,7 @@ preset-filter-check: &WORKFLOW_CHECK_DEPLOY_READY_FILTER
     # - /^feature.*/
 
 orbs:
-  win: circleci/windows@2.3.0
+  win: circleci/windows@2.4.0
 
 jobs:
   build-package:
