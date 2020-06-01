@@ -30,6 +30,10 @@ function Install-AllTheThingsINeed()
 # https://github.com/microsoft/msbuild/issues/2532
 `$env:MSBuildSDKsPath = 'C:\Program Files\dotnet\sdk\3.1.300\'
 "@ > .\Temp\profile.ps1
+
+    Write-Host "----------------"
+    dir C:\Program Files\dotnet\sdk\3.1.300\
+    Write-Host "----------------"
 }
 
 function EnsureNuGetExists()
