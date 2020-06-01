@@ -155,7 +155,7 @@ jobs:
           name: Run Build step
           command: |
             .'Temp/profile.ps1'
-            &$msbuild -t:build -restore -p:Configuration=Debug -p:TestFrameworks=net46 Src/Newtonsoft.Json.Tests/Newtonsoft.Json.Tests.csproj
+            &$msbuild -t:build -restore -p:Configuration=Debug -p:LibraryFrameworks='netstandard2.0;net46' -p:TestFrameworks=net46 Src/Newtonsoft.Json.Tests/Newtonsoft.Json.Tests.csproj
 
       - run:
           name: Run tests (#1, .NET 4.6)
