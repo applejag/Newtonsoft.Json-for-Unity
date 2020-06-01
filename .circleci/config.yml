@@ -149,11 +149,13 @@ jobs:
             .'Temp/profile.ps1'
             &$nuget restore Src/Newtonsoft.Json.Tests/Newtonsoft.Json.Tests.csproj
 
+      ## Only targeting .NET 4.6 as the .NET 4.5.2 indirectly builds the portable version of Json.NET
+      ## CircleCI Windows Orb is missing the .NET Portable Library targeting pack
       - run:
           name: Run Build step
           command: |
             .'Temp/profile.ps1'
-            &$msbuild -t:build -restore -p:Configuration=Debug Src/Newtonsoft.Json.Tests/Newtonsoft.Json.Tests.csproj
+            &$msbuild -t:build -restore -p:Configuration=Debug -p:TargetFramework=net46 Src/Newtonsoft.Json.Tests/Newtonsoft.Json.Tests.csproj
 
       - run:
           name: Run tests (#1, .NET 4.6)
@@ -162,11 +164,12 @@ jobs:
             New-Item Tests/NUnit -ItemType Directory -ErrorAction SilentlyContinue
             &$nunit3console Src/Newtonsoft.Json.Tests/bin/Debug/net46/Newtonsoft.Json.Tests.dll --framework=net-4.0 --result=Tests/NUnit/net46.xml
 
-      - run:
-          name: Run tests (#2, portable, Profile259)
-          command: |
-            .'Temp/profile.ps1'
-            &$nunit3console Src/Newtonsoft.Json.Tests/bin/Debug/net452/Newtonsoft.Json.Tests.dll --framework=net-4.0 --result=Tests/NUnit/net452.xml
+      ## CircleCI Windows Orb is missing the .NET Portable Library targeting pack
+      # - run:
+      #     name: Run tests (#2, portable, Profile259)
+      #     command: |
+      #       .'Temp/profile.ps1'
+      #       &$nunit3console Src/Newtonsoft.Json.Tests/bin/Debug/net452/Newtonsoft.Json.Tests.dll --framework=net-4.0 --result=Tests/NUnit/net452.xml
 
       - run:
           name: Convert NUnit to JUnit xml
