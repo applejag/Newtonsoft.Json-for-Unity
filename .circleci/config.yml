@@ -139,36 +139,34 @@ jobs:
           keys:
             - test-windows-nuget
 
-      # - run:
-      #     name: Install tools -> Temp/profile.ps1
-      #     command: ci/scripts/install_tools.ps1
+      - run:
+          name: Install tools -> Temp/profile.ps1
+          command: ci/scripts/install_tools.ps1
 
       - run:
           name: NuGet restore
           command: |
-            # .'Temp/profile.ps1'
-            dotnet restore Src/Newtonsoft.Json.Tests/Newtonsoft.Json.Tests.csproj
+            .'Temp/profile.ps1'
+            &$nuget restore Src/Newtonsoft.Json.Tests/Newtonsoft.Json.Tests.csproj
 
       - run:
           name: Run Build step
           command: |
-            # .'Temp/profile.ps1'
-            dotnet build --configuration=Debug Src/Newtonsoft.Json.Tests/Newtonsoft.Json.Tests.csproj
+            .'Temp/profile.ps1'
+            &$msbuild -t:build -restore -p:Configuration=Debug Src/Newtonsoft.Json.Tests/Newtonsoft.Json.Tests.csproj
 
       - run:
           name: Run tests (#1, .NET 4.6)
           command: |
-            # .'Temp/profile.ps1'
+            .'Temp/profile.ps1'
             New-Item Tests/NUnit -ItemType Directory -ErrorAction SilentlyContinue
-            New-Item Tests/NUnit/net46 -ItemType Directory -ErrorAction SilentlyContinue
-            dotnet test Src/Newtonsoft.Json.Tests/bin/Debug/net46/Newtonsoft.Json.Tests.dll --framework=net46 --results-directory=Tests/NUnit/net46/
+            &$nunit3console Src/Newtonsoft.Json.Tests/bin/Debug/net46/Newtonsoft.Json.Tests.dll --framework=net-4.0 --result=Tests/NUnit/net46.xml
 
       - run:
           name: Run tests (#2, portable, Profile259)
           command: |
-            # .'Temp/profile.ps1'
-            New-Item Tests/NUnit/net452 -ItemType Directory -ErrorAction SilentlyContinue
-            dotnet test Src/Newtonsoft.Json.Tests/bin/Debug/net452/Newtonsoft.Json.Tests.dll --framework=net452 --results-directory=Tests/NUnit/net452/
+            .'Temp/profile.ps1'
+            &$nunit3console Src/Newtonsoft.Json.Tests/bin/Debug/net452/Newtonsoft.Json.Tests.dll --framework=net-4.0 --result=Tests/NUnit/net452.xml
 
       - run:
           name: Convert NUnit to JUnit xml
