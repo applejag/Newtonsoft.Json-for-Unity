@@ -394,7 +394,7 @@ jobs:
 
       - add_ssh_keys:
           fingerprints:
-            - "8f:7d:da:4c:7e:a7:85:dc:ed:ef:9c:ba:3e:2b:2e:4a"
+            - "82:cf:73:91:b8:06:21:84:9e:79:98:57:11:03:5f:db"
 
       - run:
           name: Enable permissions on scripts
