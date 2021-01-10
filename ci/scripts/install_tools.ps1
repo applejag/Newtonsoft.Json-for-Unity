@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 # Put together from script originally by JamesNK
 # https://github.com/JamesNK/Newtonsoft.Json/blob/c89d6addf118745c4c14536ce64fd69566ebd644/Build/build.ps1
 $ErrorActionPreference = "Stop"

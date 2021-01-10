@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 param (
     [Parameter(Mandatory = $true)]
     [System.IO.DirectoryInfo]
