@@ -89,10 +89,11 @@ Full installation guide over at the wiki:
 - Newtonsoft.Json-for-Unity Wiki: [Wiki of this fork](https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki)
 - Newtonsoft.Json-for-Unity release notes: [Release notes of this fork](https://github.com/jilleJr/Newtonsoft.Json-for-Unity/releases)
 - Newtonsoft.Json-for-Unity package repo: [Cloudsmith package](https://cloudsmith.io/~jillejr/repos/newtonsoft-json-for-unity/packages/detail/npm/jillejr.newtonsoft.json-for-unity/latest/)
+- Newtonsoft.Json-for-Unity QA: [GitHub discussions](https://github.com/jilleJr/Newtonsoft.Json-for-Unity/discussions/categories/q-a)
 
 ## Newtonsoft.Json links
 
-- Newtonsoft.Json repo: [Source repository (github.com/JamesNK/Newtonsoft.Json)](https://github.com/JamesNK/Newtonsoft.Json)
+- Newtonsoft.Json repo: [github.com/JamesNK/Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
 - Newtonsoft.Json homepage: [www.newtonsoft.com/json](https://www.newtonsoft.com/json)
 - Newtonsoft.Json documentation: [www.newtonsoft.com/json/help](https://www.newtonsoft.com/json/help)
 - Newtonsoft.Json release notes: [Release Notes of source repository](https://github.com/JamesNK/Newtonsoft.Json/releases)
