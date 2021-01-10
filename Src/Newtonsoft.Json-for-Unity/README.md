@@ -17,7 +17,7 @@ it's based of.
 
 ![explanation of version][version-explanation.png]
 
-Where official Json.NET 12.0.1 becomes Newtonsoft.Json-for-Unity 12.0.1_xx_.
+Where official Json.NET 12.0.1 becomes Newtonsoft.Json-for-Unity 12.0.1*xx*.
 
 ## Changelog
 
