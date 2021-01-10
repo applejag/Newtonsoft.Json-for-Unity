@@ -39,6 +39,22 @@ and portable .NET **(UWP, WP8)**.
 
 ## Installation
 
+### Installation via [Package Installer][package-installer] *(experimental)*
+
+1. [Click here to download `Install-jillejr.newtonsoft.json-for-unity-12.0.301.unitypackage`](https://package-installer.glitch.me/v1/installer/Packages%20from%20jilleJr/jillejr.newtonsoft.json-for-unity?registry=https%3A%2F%2Fnpm.cloudsmith.io%2Fjillejr%2Fnewtonsoft-json-for-unity)
+
+2. Open the downloaded `.unitypackage` file in Unity. Easiestly done by
+   drag'n'dropping the file into the Unity window.
+   
+3. Click "Import" to import it all.
+
+4. Once the installer has successfully compiled, it will add the correct UPM
+   registry and package to your project, followed by removing itself.
+
+> The installer does not run until your project can successfully compile.
+> Make sure to resolve all syntax- and other compiling errors, even just
+> temporarily, so that the installer may execute.
+
 ### Installation via [OpenUPM][openupm] ![OpenUPM icon][openupm-icon.png]
 
 ```sh
@@ -200,6 +216,7 @@ See full copyrights in [LICENSE.md][license.md] inside repository
 [opencollective-url]: https://opencollective.com/newtonsoftjson-for-unity
 [openupm]: https://openupm.com/packages/jillejr.newtonsoft.json-for-unity/
 [openupm-icon.png]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/raw/c43046bc4763c0a5d3b0164a4f0a92e40de9d10e/Doc/icons/openupm-icon-16.png
+[package-installer]: https://package-installer.glitch.me/
 [wiki-fix-aot-using-aothelper]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Fix-AOT-using-AotHelper
 [wiki-fix-aot-using-link.xml]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Fix-AOT-using-link.xml
 [wiki-installation-via-openupm]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Installation-via-OpenUPM
