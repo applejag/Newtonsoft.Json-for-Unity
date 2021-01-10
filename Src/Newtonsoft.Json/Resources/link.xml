@@ -26,4 +26,8 @@
 		<type fullname="System.ComponentModel.UInt32Converter" preserve="all"/>
 		<type fullname="System.ComponentModel.UInt64Converter" preserve="all"/>
 	</assembly>
+	<assembly fullname="Newtonsoft.Json">
+		<type fullname="System.Runtime.CompilerServices.NullableAttribute"/>
+		<type fullname="System.Runtime.CompilerServices.NullableContextAttribute"/>
+	</assembly>
 </linker>
