@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 using namespace System.IO
 
 # Run this script to build the

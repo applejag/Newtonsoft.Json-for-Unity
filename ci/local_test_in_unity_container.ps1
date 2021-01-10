@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 
 # Run this script to test all Newtonsoft.Json.Tests
 # using Unity Test Runner

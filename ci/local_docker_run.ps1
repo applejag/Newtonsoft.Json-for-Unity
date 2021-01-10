@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 # Script taken from https://github.com/zifro-playground/car-controller
 # Copyright Zifro © 2019
 
