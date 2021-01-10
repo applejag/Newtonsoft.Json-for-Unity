@@ -86,17 +86,17 @@ Full installation guide over at the wiki:
 
 ## Newtonsoft.Json-for-Unity specific links
 
-- [Wiki about this fork](https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki)
-- [Release notes of this fork](https://github.com/jilleJr/Newtonsoft.Json-for-Unity/releases)
-- [Cloudsmith package](https://cloudsmith.io/~jillejr/repos/newtonsoft-json-for-unity/packages/detail/npm/jillejr.newtonsoft.json-for-unity/latest/)
+- Newtonsoft.Json-for-Unity Wiki: [Wiki of this fork](https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki)
+- Newtonsoft.Json-for-Unity release notes: [Release notes of this fork](https://github.com/jilleJr/Newtonsoft.Json-for-Unity/releases)
+- Newtonsoft.Json-for-Unity package repo: [Cloudsmith package](https://cloudsmith.io/~jillejr/repos/newtonsoft-json-for-unity/packages/detail/npm/jillejr.newtonsoft.json-for-unity/latest/)
 
 ## Other links
 
-- [Source repository (github.com/JamesNK/Newtonsoft.Json)](https://github.com/JamesNK/Newtonsoft.Json)
-- [Homepage (www.newtonsoft.com/json)](https://www.newtonsoft.com/json)
-- [Documentation (www.newtonsoft.com/json/help)](https://www.newtonsoft.com/json/help)
-- [Release Notes on GitHub from source repository](https://github.com/JamesNK/Newtonsoft.Json/releases)
-- [Stack Overflow posts tagged with `json.net`](https://stackoverflow.com/questions/tagged/json.net)
+- Newtonsoft.Json repo: [Source repository (github.com/JamesNK/Newtonsoft.Json)](https://github.com/JamesNK/Newtonsoft.Json)
+- Newtonsoft.Json homepage: [www.newtonsoft.com/json](https://www.newtonsoft.com/json)
+- Newtonsoft.Json documentation: [www.newtonsoft.com/json/help](https://www.newtonsoft.com/json/help)
+- Newtonsoft.Json release notes: [Release Notes of source repository](https://github.com/JamesNK/Newtonsoft.Json/releases)
+- Newtonsoft.Json QA: [Stack Overflow posts tagged with `json.net`](https://stackoverflow.com/questions/tagged/json.net)
 
 ## Contributing
 
