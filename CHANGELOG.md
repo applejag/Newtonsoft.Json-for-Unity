@@ -7,9 +7,7 @@
 - 🐛 Fix: Preserve `NullableAttribute` and `NullableContextAttribute`.
   ([#54][#54])
 
-- 🐛 Fix: Preserve `UnixDateTimeConverter`. ([#8][#8])
-
-- 🐛 Fix: Preserve `IsoDateTimeConverter`. ([#65][#65])
+- 🐛 Fix: Preserve all JSON converters. ([#8][#8], [#65][#65])
 
 ## 12.0.301
 
