@@ -55,7 +55,8 @@ and portable .NET **(UWP, WP8)**.
 > Make sure to resolve all syntax- and other compiling errors, even just
 > temporarily, so that the installer may execute.
 
-Much love :heart: to @Needle for making such a great tool!
+Much love :heart: to [@needle-tools](https://github.com/needle-tools) for
+making such a great tool!
 
 ### Installation via [OpenUPM][openupm] ![OpenUPM icon][openupm-icon.png]
 
@@ -67,7 +68,8 @@ Full installation guide over at the wiki:
 [Installation via OpenUPM
 ![OpenUPM icon][openupm-icon.png]][wiki-installation-via-openupm]
 
-Much love :heart: to @favoyang for making such a great tool!
+Much love :heart: to [@favoyang](https://github.com/favoyang) for making such a
+great tool!
 
 ### Installation via pure UPM
 
