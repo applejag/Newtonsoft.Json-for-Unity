@@ -27,7 +27,11 @@
 		<type fullname="System.ComponentModel.UInt64Converter" preserve="all"/>
 	</assembly>
 	<assembly fullname="Newtonsoft.Json">
+		<!-- https://github.com/jilleJr/Newtonsoft.Json-for-Unity/issues/54 -->
 		<type fullname="System.Runtime.CompilerServices.NullableAttribute"/>
 		<type fullname="System.Runtime.CompilerServices.NullableContextAttribute"/>
+
+		<!-- https://github.com/jilleJr/Newtonsoft.Json-for-Unity/issues/8 -->
+		<type fullname="Newtonsoft.Json.Converters.UnixDateTimeConverter" preserve="all"/>
 	</assembly>
 </linker>
