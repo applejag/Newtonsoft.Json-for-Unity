@@ -23,35 +23,20 @@ Where official Json.NET 12.0.1 becomes Newtonsoft.Json-for-Unity 12.0.1_xx_.
 
 Please see the [CHANGELOG.md][changelog.md] file inside this package.
 
-## Installation via Unity Package Manager
+## Installation via [OpenUPM][openupm] ![OpenUPM icon][openupm-icon.png]
 
-Open `<project>/Packages/manifest.json`, add scope for `jillejr`, then add the
-package in the list of dependencies.
-
-À la:
-
-```json
-{
-  "scopedRegistries": [
-    {
-      "name": "Packages from jillejr",
-      "url": "https://npm.cloudsmith.io/jillejr/newtonsoft-json-for-unity/",
-      "scopes": ["jillejr"]
-    }
-  ],
-  "dependencies": {
-    "jillejr.newtonsoft.json-for-unity": "12.0.101",
-
-    "com.unity.modules.ai": "1.0.0",
-    "com.unity.modules.animation": "1.0.0",
-    "com.unity.modules.assetbundle": "1.0.0",
-    "com.unity.modules.audio": "1.0.0",
-    "com.unity.modules.cloth": "1.0.0",
-    "com.unity.modules.director": "1.0.0",
-    "com.unity.modules.imageconversion": "1.0.0"
-  }
-}
+```sh
+openupm add jillejr.newtonsoft.json-for-unity
 ```
+
+## Other installation options
+
+- [Installation via OpenUPM
+  ![OpenUPM icon][openupm-icon.png]][wiki-installation-via-openupm]
+  
+- [Installation via pure UPM][wiki-installation-via-upm]
+
+- [Installation via Git in UPM][wiki-installation-via-git-in-upm]
 
 ## Updating the package
 
@@ -68,29 +53,7 @@ package
 
 ### Updating via the manifest file
 
-Change the version field. You have to know the new version beforehand.
-
-> Example, with this as old:
->
-> ```json
-> {
->   "dependencies": {
->     "jillejr.newtonsoft.json-for-unity": "12.0.101"
->   }
-> }
-> ```
->
-> New, updated:
->
-> ```json
-> {
->   "dependencies": {
->     "jillejr.newtonsoft.json-for-unity": "12.0.201"
->   }
-> }
-> ```
->
-> _Omitted `scopedRegistries` and Unity packages for readability_
+Visit the wiki: [Installation via UPM][wiki-installation-via-upm]
 
 ---
 
@@ -104,3 +67,8 @@ See full copyrights in [LICENSE.md][license.md] inside repository
 [license.md]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/blob/master/LICENSE.md
 [changelog.md]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/blob/master/CHANGELOG.md
 [version-explanation.png]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/raw/ce23d98230673744d73656b4c4f6bc1f9989c37a/Doc/version-explanation.png
+[openupm]: https://openupm.com/
+[openupm-icon.png]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/raw/c43046bc4763c0a5d3b0164a4f0a92e40de9d10e/Doc/icons/openupm-icon-16.png
+[wiki-installation-via-openupm]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Installation-via-OpenUPM
+[wiki-installation-via-upm]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Installation-via-UPM
+[wiki-installation-via-git-in-upm]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Installation-via-Git-in-UPM
