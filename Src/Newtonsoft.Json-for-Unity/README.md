@@ -67,7 +67,7 @@ See full copyrights in [LICENSE.md][license.md] inside repository
 [license.md]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/blob/master/LICENSE.md
 [changelog.md]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/blob/master/CHANGELOG.md
 [version-explanation.png]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/raw/ce23d98230673744d73656b4c4f6bc1f9989c37a/Doc/version-explanation.png
-[openupm]: https://openupm.com/
+[openupm]: https://openupm.com/packages/jillejr.newtonsoft.json-for-unity/
 [openupm-icon.png]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/raw/c43046bc4763c0a5d3b0164a4f0a92e40de9d10e/Doc/icons/openupm-icon-16.png
 [wiki-installation-via-openupm]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Installation-via-OpenUPM
 [wiki-installation-via-upm]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Installation-via-UPM

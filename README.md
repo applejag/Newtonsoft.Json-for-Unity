@@ -198,7 +198,7 @@ See full copyrights in [LICENSE.md][license.md] inside repository
 [newtonsoft.json.git]: https://github.com/JamesNK/Newtonsoft.Json
 [opencollective-img-induvidual]: https://opencollective.com/newtonsoftjson-for-unity/individuals.svg?width=890
 [opencollective-url]: https://opencollective.com/newtonsoftjson-for-unity
-[openupm]: https://openupm.com/
+[openupm]: https://openupm.com/packages/jillejr.newtonsoft.json-for-unity/
 [openupm-icon.png]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/raw/c43046bc4763c0a5d3b0164a4f0a92e40de9d10e/Doc/icons/openupm-icon-16.png
 [wiki-fix-aot-using-aothelper]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Fix-AOT-using-AotHelper
 [wiki-fix-aot-using-link.xml]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Fix-AOT-using-link.xml
