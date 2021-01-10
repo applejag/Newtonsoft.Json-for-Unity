@@ -1,30 +1,7 @@
 <linker>
 	<assembly fullname="System">
-		<type fullname="System.ComponentModel.ArrayConverter" preserve="all"/>
-		<type fullname="System.ComponentModel.BaseNumberConverter" preserve="all"/>
-		<type fullname="System.ComponentModel.BooleanConverter" preserve="all"/>
-		<type fullname="System.ComponentModel.ByteConverter" preserve="all"/>
-		<type fullname="System.ComponentModel.CharConverter" preserve="all"/>
-		<type fullname="System.ComponentModel.CollectionConverter" preserve="all"/>
-		<type fullname="System.ComponentModel.ComponentConverter" preserve="all"/>
-		<type fullname="System.ComponentModel.CultureInfoConverter" preserve="all"/>
-		<type fullname="System.ComponentModel.DateTimeConverter" preserve="all"/>
-		<type fullname="System.ComponentModel.DecimalConverter" preserve="all"/>
-		<type fullname="System.ComponentModel.DoubleConverter" preserve="all"/>
-		<type fullname="System.ComponentModel.EnumConverter" preserve="all"/>
-		<type fullname="System.ComponentModel.ExpandableObjectConverter" preserve="all"/>
-		<type fullname="System.ComponentModel.Int16Converter" preserve="all"/>
-		<type fullname="System.ComponentModel.Int32Converter" preserve="all"/>
-		<type fullname="System.ComponentModel.Int64Converter" preserve="all"/>
-		<type fullname="System.ComponentModel.NullableConverter" preserve="all"/>
-		<type fullname="System.ComponentModel.SByteConverter" preserve="all"/>
-		<type fullname="System.ComponentModel.SingleConverter" preserve="all"/>
-		<type fullname="System.ComponentModel.StringConverter" preserve="all"/>
-		<type fullname="System.ComponentModel.TimeSpanConverter" preserve="all"/>
-		<type fullname="System.ComponentModel.TypeConverter" preserve="all"/>
-		<type fullname="System.ComponentModel.UInt16Converter" preserve="all"/>
-		<type fullname="System.ComponentModel.UInt32Converter" preserve="all"/>
-		<type fullname="System.ComponentModel.UInt64Converter" preserve="all"/>
+		<!-- No issue on these, though they are quite commonly used. -->
+		<type fullname="System.ComponentModel.*Converter" preserve="all"/>
 	</assembly>
 	<assembly fullname="Newtonsoft.Json">
 		<!-- https://github.com/jilleJr/Newtonsoft.Json-for-Unity/issues/54 -->
@@ -32,9 +9,10 @@
 		<type fullname="System.Runtime.CompilerServices.NullableContextAttribute"/>
 
 		<!-- https://github.com/jilleJr/Newtonsoft.Json-for-Unity/issues/8 -->
-		<type fullname="Newtonsoft.Json.Converters.UnixDateTimeConverter" preserve="all"/>
-
 		<!-- https://github.com/jilleJr/Newtonsoft.Json-for-Unity/issues/65 -->
-		<type fullname="Newtonsoft.Json.Converters.IsoDateTimeConverter" preserve="all"/>
+		<type fullname="Newtonsoft.Json.Converters.*Converter" preserve="all" />
+
+		<!-- No issue on these, though they are quite commonly used. -->
+		<type fullname="Newtonsoft.Json.Serialization.*NamingStrategy" preserve="all" />
 	</assembly>
 </linker>
