@@ -39,44 +39,50 @@ and portable .NET **(UWP, WP8)**.
 
 ## Installation
 
-- Installation via [OpenUPM][openupm] ![OpenUPM icon][openupm-icon.png]
+### Installation via [OpenUPM][openupm] ![OpenUPM icon][openupm-icon.png]
 
-  ```sh
-  openupm add jillejr.newtonsoft.json-for-unity
-  ```
-  
-  Full installation guide over at the wiki:
-  [Installation via OpenUPM
-  ![OpenUPM icon][openupm-icon.png]][wiki-installation-via-openupm]
+```sh
+openupm add jillejr.newtonsoft.json-for-unity
+```
 
-- Pure UPM installation guide: [Installation via UPM][wiki-installation-via-upm]
+Full installation guide over at the wiki:
+[Installation via OpenUPM
+![OpenUPM icon][openupm-icon.png]][wiki-installation-via-openupm]
 
-- You can also install via Git. This assumes you have Git installed on your
-  computer.
-  
-  > This is the least recommended version, but works as a fallback, because:
-  >
-  > - You will not be able to update the package via the Package Manager
-  >   interface if you install via Git.
-  >
-  > - This requires you, your coworkers, and your CI/CD pipelines to have
-  >   Git installed for the project to build.
-  >
-  > - It takes a lot longer to install as UPM will in most version clone the
-  >   entire history of the project.
-  
-  In later versions of Unity, you can import directly via the Package Manager
-  interface.
-  
-  ![UPM, add from Git URL dropdown](Doc/upm-via-git.png)
-  
-  Supply the following URL:
-  
-  ```none
-  https://github.com/jilleJr/Newtonsoft.Json-for-Unity.git#upm
-  ```
-  
-  Full installation guide over at the wiki: [Installation via Git in UPM][wiki-installation-via-git-in-upm]
+### Installation via pure UPM
+
+Full installation guide over at the wiki:
+[Installation via pure UPM][wiki-installation-via-upm]
+
+### Installation via Git in UPM
+
+You can also install via Git. This assumes you have Git installed on your
+computer.
+
+> This is the least recommended version, but works as a fallback, because:
+>
+> - You will not be able to update the package via the Package Manager
+>   interface if you install via Git.
+>
+> - This requires you, your coworkers, and your CI/CD pipelines to have
+>   Git installed for the project to build.
+>
+> - It takes a lot longer to install as UPM will in most version clone the
+>   entire history of the project.
+
+In later versions of Unity, you can import directly via the Package Manager
+interface.
+
+![UPM, add from Git URL dropdown](Doc/upm-via-git.png)
+
+Supply the following URL:
+
+```none
+https://github.com/jilleJr/Newtonsoft.Json-for-Unity.git#upm
+```
+
+Full installation guide over at the wiki:
+[Installation via Git in UPM][wiki-installation-via-git-in-upm]
 
 ## Newtonsoft.Json-for-Unity specific links
 
