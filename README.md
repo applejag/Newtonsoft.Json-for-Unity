@@ -41,7 +41,7 @@ and portable .NET **(UWP, WP8)**.
 
 ### Installation via [Package Installer][package-installer] *(experimental)*
 
-1. [Click here to download `Install-jillejr.newtonsoft.json-for-unity-12.0.301.unitypackage`](https://package-installer.glitch.me/v1/installer/Packages%20from%20jilleJr/jillejr.newtonsoft.json-for-unity?registry=https%3A%2F%2Fnpm.cloudsmith.io%2Fjillejr%2Fnewtonsoft-json-for-unity)
+1. [Click here to download `Install-jillejr.newtonsoft.json-for-unity-12.0.301.unitypackage`](https://package-installer.glitch.me/v1/installer/jilleJr/jillejr.newtonsoft.json-for-unity?registry=https%3A%2F%2Fnpm.cloudsmith.io%2Fjillejr%2Fnewtonsoft-json-for-unity)
 
 2. Open the downloaded `.unitypackage` file in Unity. Easiestly done by
    drag'n'dropping the file into the Unity window.
