@@ -33,5 +33,8 @@
 
 		<!-- https://github.com/jilleJr/Newtonsoft.Json-for-Unity/issues/8 -->
 		<type fullname="Newtonsoft.Json.Converters.UnixDateTimeConverter" preserve="all"/>
+
+		<!-- https://github.com/jilleJr/Newtonsoft.Json-for-Unity/issues/65 -->
+		<type fullname="Newtonsoft.Json.Converters.IsoDateTimeConverter" preserve="all"/>
 	</assembly>
 </linker>
