@@ -36,7 +36,9 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="**\*.orig" />
-    <EmbeddedResource Include="Resources\link.xml" />
+    <EmbeddedResource Include="Resources\link.xml">
+      <LogicalName>Newtonsoft.Json.xml</LogicalName>
+    </EmbeddedResource>
     <None Include="..\..\LICENSE.md" Pack="true" PackagePath="LICENSE.md" />
     <None Include="$(PackageIconFullPath)" Pack="true" PackagePath="\" />
   </ItemGroup>
