@@ -86,7 +86,7 @@ if (-not $DontUseNuGetHttpCache) {
 
 $dockerVolumesArgs
 Write-Host @"
-`$container = docker run -dit ``
+`$container = docker run -dit --rm ``
     $(($dockerVolumes | ForEach-Object {"-v $_ ``"}) -join "`n    ")
     -e SCRIPTS=/root/repo/ci/scripts ``
     -e BUILD_SOLUTION=/root/repo/$RelativeBuildSolution ``
@@ -134,6 +134,9 @@ function Invoke-DockerCommand ([string] $name, [string] $command) {
 }
 
 try {
+    Invoke-DockerCommand "Enable permissions on scripts" `
+          'chmod +x $SCRIPTS/**.sh -v'
+
     if ($UseDefaultAssemblyVersion) {
         Invoke-DockerCommand "Setup default variables" @'
             env() {
