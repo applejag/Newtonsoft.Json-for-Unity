@@ -59,7 +59,7 @@ Full installation guide over at the wiki:
 You can also install via Git. This assumes you have Git installed on your
 computer.
 
-> This is the least recommended version, but works as a fallback, because:
+> This is the least recommended version (but works as a fallback) because:
 >
 > - You will not be able to update the package via the Package Manager
 >   interface if you install via Git.
