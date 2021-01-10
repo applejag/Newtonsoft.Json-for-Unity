@@ -1,5 +1,10 @@
 # Newtonsoft.Json for Unity changelog
 
+## 12.0.302
+
+- ✨ New: Properly embed the link.xml into the DLLs. ([#54][#54])
+- 🐛 Fix: Linker error when using high managed stripping level. ([#54][#54])
+
 ## 12.0.301
 
 - ✨ New: Merged changes from
@@ -77,6 +82,7 @@
 [#18]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/issues/18
 [#29]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/pull/29
 [#37]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/pull/37
+[#54]: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/issues/54
 [circleci-badge]: https://img.shields.io/circleci/build/gh/jilleJr/Newtonsoft.Json-for-Unity/master?logo=circleci&style=flat-square
 [circleci-url]: https://circleci.com/gh/jilleJr/Newtonsoft.Json-for-Unity
 [cloudsmith-badge]: https://api-prd.cloudsmith.io/badges/version/jillejr/newtonsoft-json-for-unity/npm/jillejr.newtonsoft.json-for-unity/latest/x/?render=true&badge_token=gAAAAABd0U7AyWhLGu6xjEAHz70w9zWbSk6ogsTrw3xvVpa2NXe7HJg_ua7r-G2cbWECxfM51y4uYgOdFOquHNoTQti080JM6w%3D%3D
