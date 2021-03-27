@@ -1,0 +1,18 @@
+<linker>
+	<assembly fullname="System">
+		<!-- No issue on these, though they are quite commonly used. -->
+		<type fullname="System.ComponentModel.*Converter" preserve="all"/>
+	</assembly>
+	<assembly fullname="Newtonsoft.Json">
+		<!-- https://github.com/jilleJr/Newtonsoft.Json-for-Unity/issues/54 -->
+		<type fullname="System.Runtime.CompilerServices.NullableAttribute"/>
+		<type fullname="System.Runtime.CompilerServices.NullableContextAttribute"/>
+
+		<!-- https://github.com/jilleJr/Newtonsoft.Json-for-Unity/issues/8 -->
+		<!-- https://github.com/jilleJr/Newtonsoft.Json-for-Unity/issues/65 -->
+		<type fullname="Newtonsoft.Json.Converters.*Converter" preserve="all" />
+
+		<!-- No issue on these, though they are quite commonly used. -->
+		<type fullname="Newtonsoft.Json.Serialization.*NamingStrategy" preserve="all" />
+	</assembly>
+</linker>

@@ -1,7 +1,6 @@
 {
     "plugins": [
         "preset-lint-markdown-style-guide",
-        ["lint-emphasis-marker", "_"],
         ["lint-list-item-indent", "space"],
         ["lint-ordered-list-marker-value", "ordered"],
         ["lint-no-file-name-irregular-characters", "\\.a-zA-Z0-9-_"]

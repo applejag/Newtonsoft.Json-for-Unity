@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Downgrades from Unity 2019.x asmdef to 2018.x asmdef format
 
 # Set error flags

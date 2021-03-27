@@ -1,11 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Set error flags
 set -o nounset
 set -o errexit
 set -o pipefail
 
-BUILD_UNITY=${1:-${BUILD_UNITY:?"Build name required. Possible values: 'Standalone', 'AOT', 'Portable', 'Editor', 'Tests'."}}
+BUILD_UNITY=${1:-${BUILD_UNITY:?"Build name required. Possible values: 'Standalone', 'AOT', 'Editor', 'Tests'."}}
 BUILD_SOLUTION=${2:-${BUILD_SOLUTION:?"Build solution required. Example: .csproj or .sln file."}}
 BUILD_DESTINATION=${3:-${BUILD_DESTINATION:-"${BUILD_DESTINATION_BASE:?"Build output path required."}/Newtonsoft.Json $BUILD_UNITY"}}
 
@@ -36,7 +36,7 @@ echo "$0: ADDITIONAL CONSTANTS '$BUILD_ADDITIONAL_CONSTANTS'"
 echo "############"
 echo
 
-msbuild -t:build "$BUILD_SOLUTION" \
+dotnet msbuild -t:build "$BUILD_SOLUTION" \
     -p:Configuration="$BUILD_CONFIGURATION" \
     -p:LibraryFrameworks="$BUILD_FRAMEWORK" \
     -p:TestFrameworks="$BUILD_FRAMEWORK" \

@@ -1,0 +1,11 @@
+{
+	"upstream": "jilleJr/Newtonsoft.Json-for-Unity",
+	"targetBranchChoices": [
+		{ "name": "backport/12.0.3", "checked": true },
+		{ "name": "backport/11.0.2", "checked": true },
+		{ "name": "backport/10.0.3", "checked": true }
+	],
+	"targetPRLabels": [ "backport" ],
+	"autoAssign": true,
+	"prTitle": "{targetBranch}: {commitMessages}"
+}

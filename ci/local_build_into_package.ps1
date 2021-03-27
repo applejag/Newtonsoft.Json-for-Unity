@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 using namespace System.IO
 
 # Run this script to build the
@@ -9,14 +10,14 @@ param (
     [ValidateSet('Release', 'Debug', IgnoreCase = $false)]
     [string] $Configuration = "Release",
 
-    [ValidateSet('Standalone','AOT','Portable','Editor','Tests')]
+    [ValidateSet('Standalone','AOT','Editor','Tests')]
     [string[]] $UnityBuilds = @(
-        'AOT', 'Portable', 'Editor'
+        'AOT', 'Editor'
     ),
 
     [string] $VolumeSource = ([Path]::GetFullPath("$PSScriptRoot/..")),
 
-    [string] $DockerImage = "applejag/newtonsoft.json-for-unity.package-builder:v2",
+    [string] $DockerImage = "applejag/newtonsoft.json-for-unity.package-builder:v3",
 
     [string] $WorkingDirectory = "/root/repo",
 
@@ -85,7 +86,7 @@ if (-not $DontUseNuGetHttpCache) {
 
 $dockerVolumesArgs
 Write-Host @"
-`$container = docker run -dit ``
+`$container = docker run -dit --rm ``
     $(($dockerVolumes | ForEach-Object {"-v $_ ``"}) -join "`n    ")
     -e SCRIPTS=/root/repo/ci/scripts ``
     -e BUILD_SOLUTION=/root/repo/$RelativeBuildSolution ``
@@ -133,6 +134,9 @@ function Invoke-DockerCommand ([string] $name, [string] $command) {
 }
 
 try {
+    Invoke-DockerCommand "Enable permissions on scripts" `
+          'chmod +x $SCRIPTS/**.sh -v'
+
     if ($UseDefaultAssemblyVersion) {
         Invoke-DockerCommand "Setup default variables" @'
             env() {
@@ -177,7 +181,7 @@ try {
     
     foreach ($build in $UnityBuilds) {
         Invoke-DockerCommand "NuGet restore for build '$build'" `
-            "msbuild -t:restore `"`$BUILD_SOLUTION`" -p:UnityBuild=$build"
+            "dotnet restore `"`$BUILD_SOLUTION`" -p:UnityBuild=$build"
 
         Invoke-DockerCommand "Build '$build'" @"
             mkdir -p Temp/Build

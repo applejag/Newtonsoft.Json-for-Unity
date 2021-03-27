@@ -7,25 +7,9 @@ assignees: ''
 
 ---
 
-<!--
-
-If you have questions about how to use Json.NET, please read the Json.NET documentation or ask on Stack Overflow.
-There are thousands of Json.NET questions on Stack Overflow with the json.net tag.
-
-https://www.newtonsoft.com/json/help
-https://stackoverflow.com/questions/tagged/json.net
-
-These GitHub issues are only for reporting bugs with the package itself.
-
-⚠ Please note that this project is released with a Contributor Code of Conduct.
-By participating in this project you agree to abide by its terms.
-Read more: https://github.com/jilleJr/Newtonsoft.Json-for-Unity/blob/master/CODE_OF_CONDUCT.md
-
--->
-
 ## Expected behavior
 
-<!-- Ex: To read this json on iOS: /followed by code block/ -->
+<!-- Ex: To read this json on iOS: /followed by JSON code block/ -->
 
 ## Actual behavior
 

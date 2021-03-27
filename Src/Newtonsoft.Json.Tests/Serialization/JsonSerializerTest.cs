@@ -2262,7 +2262,7 @@ keyword such as type of business.""
             string json = JsonConvert.SerializeObject(new ConverableMembers(), Formatting.Indented);
 
             string expected = null;
-#if NETSTANDARD2_0
+#if (NETSTANDARD2_0)
             expected = @"{
   ""String"": ""string"",
   ""Int32"": 2147483647,
@@ -2279,7 +2279,23 @@ keyword such as type of business.""
   ""Bool"": true,
   ""Char"": ""\u0000""
 }";
-#elif !(PORTABLE || DNXCORE50)
+#elif NETSTANDARD1_3
+            expected = @"{
+  ""String"": ""string"",
+  ""Int32"": 2147483647,
+  ""UInt32"": 4294967295,
+  ""Byte"": 255,
+  ""SByte"": 127,
+  ""Short"": 32767,
+  ""UShort"": 65535,
+  ""Long"": 9223372036854775807,
+  ""ULong"": 9223372036854775807,
+  ""Double"": 1.7976931348623157E+308,
+  ""Float"": 3.4028235E+38,
+  ""Bool"": true,
+  ""Char"": ""\u0000""
+}";
+#elif !(PORTABLE || DNXCORE50) || NETSTANDARD1_3
             expected = @"{
   ""String"": ""string"",
   ""Int32"": 2147483647,
@@ -3503,15 +3519,9 @@ Path '', line 1, position 1.");
         {
             string json = @"[]";
 
-            ExceptionAssert.Throws<InvalidCastException>(
+            ExceptionAssert.Throws<JsonSerializationException>(
                 () => { JsonConvert.DeserializeObject<JObject>(json); },
-                new[]
-                {
-                    "Unable to cast object of type 'Newtonsoft.Json.Linq.JArray' to type 'Newtonsoft.Json.Linq.JObject'.",
-                    "Cannot cast from source type to destination type.", // mono
-                    "Specified cast is not valid.", // mono 2nd format
-                    "Unable to cast object of type 'JArray' to type 'JObject'." // il2cpp format
-                });
+                "Deserialized JSON type 'Newtonsoft.Json.Linq.JArray' is not compatible with expected type 'Newtonsoft.Json.Linq.JObject'. Path '', line 1, position 2.");
         }
 
         [Test]
@@ -4538,7 +4548,22 @@ Path '', line 1, position 1.");
         {
             string json = @"{""First"":""First"",""Second"":2,""Ignored"":{""Name"":""James""},""AdditionalContent"":{""LOL"":true}}";
 
-            ConstructorCompexIgnoredProperty cc = JsonConvert.DeserializeObject<ConstructorCompexIgnoredProperty>(json);
+            var cc = JsonConvert.DeserializeObject<ConstructorCompexIgnoredProperty>(json);
+            Assert.AreEqual("First", cc.First);
+            Assert.AreEqual(2, cc.Second);
+            Assert.AreEqual(null, cc.Ignored);
+        }
+        
+        [Test]
+        public void DeserializeIgnoredPropertyInConstructorWithoutThrowingMissingMemberError()
+        {
+            string json = @"{""First"":""First"",""Second"":2,""Ignored"":{""Name"":""James""}}";
+
+            var cc = JsonConvert.DeserializeObject<ConstructorCompexIgnoredProperty>(
+                json, new JsonSerializerSettings
+                {
+                    MissingMemberHandling = MissingMemberHandling.Error
+                });
             Assert.AreEqual("First", cc.First);
             Assert.AreEqual(2, cc.Second);
             Assert.AreEqual(null, cc.Ignored);
@@ -6322,8 +6347,8 @@ Path '', line 1, position 1.");
         {
             IDictionary<DateTime, int> dic1 = new Dictionary<DateTime, int>
             {
-                { new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc), 1 },
-                { new DateTime(2013, 12, 12, 12, 12, 12, DateTimeKind.Utc), 2 }
+                { new DateTime(2020, 12, 12, 12, 12, 12, DateTimeKind.Utc), 1 },
+                { new DateTime(2023, 12, 12, 12, 12, 12, DateTimeKind.Utc), 2 }
             };
 
             string json = JsonConvert.SerializeObject(dic1, Formatting.Indented, new JsonSerializerSettings
@@ -6341,8 +6366,8 @@ Path '', line 1, position 1.");
             });
 
             Assert.AreEqual(2, dic2.Count);
-            Assert.AreEqual(1, dic2[new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc)]);
-            Assert.AreEqual(2, dic2[new DateTime(2013, 12, 12, 12, 12, 12, DateTimeKind.Utc)]);
+            Assert.AreEqual(1, dic2[new DateTime(2020, 12, 12, 12, 12, 12, DateTimeKind.Utc)]);
+            Assert.AreEqual(2, dic2[new DateTime(2023, 12, 12, 12, 12, 12, DateTimeKind.Utc)]);
         }
 
         [Test]
@@ -7977,6 +8002,47 @@ This is just junk, though.";
             ExceptionAssert.Throws<JsonReaderException>(
                 () => JsonConvert.DeserializeObject<EmptyJsonValueTestClass>("{ A: \"\", B: 1, C: 123, D: 1.23, E: , F: null }"),
                 "Unexpected character encountered while parsing value: ,. Path 'E', line 1, position 36.");
+        }
+
+        [Test]
+        public void SetMaxDepth_DepthExceeded()
+        {
+            JsonTextReader reader = new JsonTextReader(new StringReader("[[['text']]]"));
+            Assert.AreEqual(64, reader.MaxDepth);
+
+            JsonSerializerSettings settings = new JsonSerializerSettings();
+            Assert.AreEqual(64, settings.MaxDepth);
+            Assert.AreEqual(false, settings._maxDepthSet);
+
+            // Default should be the same
+            Assert.AreEqual(reader.MaxDepth, settings.MaxDepth);
+
+            settings.MaxDepth = 2;
+            Assert.AreEqual(2, settings.MaxDepth);
+            Assert.AreEqual(true, settings._maxDepthSet);
+
+            JsonSerializer serializer = JsonSerializer.Create(settings);
+            Assert.AreEqual(2, serializer.MaxDepth);
+
+            ExceptionAssert.Throws<JsonReaderException>(
+                () => serializer.Deserialize(reader),
+                "The reader's MaxDepth of 2 has been exceeded. Path '[0][0]', line 1, position 3.");
+        }
+
+        [Test]
+        public void SetMaxDepth_DepthNotExceeded()
+        {
+            JsonTextReader reader = new JsonTextReader(new StringReader("['text']"));
+            JsonSerializerSettings settings = new JsonSerializerSettings();
+
+            settings.MaxDepth = 2;
+
+            JsonSerializer serializer = JsonSerializer.Create(settings);
+            Assert.AreEqual(2, serializer.MaxDepth);
+
+            serializer.Deserialize(reader);
+
+            Assert.AreEqual(64, reader.MaxDepth);
         }
     }
 }

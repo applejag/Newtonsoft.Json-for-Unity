@@ -62,7 +62,7 @@ $Unity = "C:\Program Files\Unity\Hub\Editor\2019.2.11f1\Editor\Unity.exe"
 
 `testPlatform` parameter values:
 
-- `editmode` _(default)_
+- `editmode` *(default)*
 - `playmode`
 - `StandaloneWindows`
 - `StandaloneWindows64`

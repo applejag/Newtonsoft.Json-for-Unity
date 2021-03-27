@@ -7,30 +7,17 @@
   "targets": {
     ".NETStandard,Version=v2.0": {},
     ".NETStandard,Version=v2.0/": {
-      "Newtonsoft.Json/12.0.301": {
+      "Newtonsoft.Json/13.0.102": {
         "dependencies": {
-          "Microsoft.CodeAnalysis.FxCopAnalyzers": "2.9.2",
-          "Microsoft.Net.Compilers.Toolset": "3.3.1",
+          "Microsoft.CodeAnalysis.NetAnalyzers": "5.0.3",
           "NETStandard.Library": "2.0.3"
         },
         "runtime": {
           "Newtonsoft.Json.dll": {}
         }
       },
-      "Microsoft.CodeAnalysis.FxCopAnalyzers/2.9.2": {
-        "dependencies": {
-          "Microsoft.CodeAnalysis.VersionCheckAnalyzer": "2.9.2",
-          "Microsoft.CodeQuality.Analyzers": "2.9.2",
-          "Microsoft.NetCore.Analyzers": "2.9.2",
-          "Microsoft.NetFramework.Analyzers": "2.9.2"
-        }
-      },
-      "Microsoft.CodeAnalysis.VersionCheckAnalyzer/2.9.2": {},
-      "Microsoft.CodeQuality.Analyzers/2.9.2": {},
-      "Microsoft.Net.Compilers.Toolset/3.3.1": {},
-      "Microsoft.NetCore.Analyzers/2.9.2": {},
+      "Microsoft.CodeAnalysis.NetAnalyzers/5.0.3": {},
       "Microsoft.NETCore.Platforms/1.1.0": {},
-      "Microsoft.NetFramework.Analyzers/2.9.2": {},
       "NETStandard.Library/2.0.3": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0"
@@ -39,45 +26,17 @@
     }
   },
   "libraries": {
-    "Newtonsoft.Json/12.0.301": {
+    "Newtonsoft.Json/13.0.102": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.CodeAnalysis.FxCopAnalyzers/2.9.2": {
+    "Microsoft.CodeAnalysis.NetAnalyzers/5.0.3": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-/FET7my2lb3TfKZwP0VipAH19N8y2p7CRGLIxtRYXaBBpOoG0fDCWvF8IaOtipcgZ8/xFmFqVVxjmdEeZFEBBw==",
-      "path": "microsoft.codeanalysis.fxcopanalyzers/2.9.2",
-      "hashPath": "microsoft.codeanalysis.fxcopanalyzers.2.9.2.nupkg.sha512"
-    },
-    "Microsoft.CodeAnalysis.VersionCheckAnalyzer/2.9.2": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-CqOQrIghQLgd+qS6fv/DcL1//9c142npvQ0VrdHFO30hA6zBs1M+alLXsNM2VzqKTvXhSOQbj8/pZ8Wel2itcw==",
-      "path": "microsoft.codeanalysis.versioncheckanalyzer/2.9.2",
-      "hashPath": "microsoft.codeanalysis.versioncheckanalyzer.2.9.2.nupkg.sha512"
-    },
-    "Microsoft.CodeQuality.Analyzers/2.9.2": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-RXI6ymLMEjxEFBaDFYDj0K5PdfEQETqxEv1Gum6ieL0BHPqsre2po+X8Dq2FnL/5b2mESxNtgRX/rhwGlD7MFQ==",
-      "path": "microsoft.codequality.analyzers/2.9.2",
-      "hashPath": "microsoft.codequality.analyzers.2.9.2.nupkg.sha512"
-    },
-    "Microsoft.Net.Compilers.Toolset/3.3.1": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-2AjN0WJfTnazrp9iTDhZjcEao5+4/HkKQ3PqM/gaQyWd+zXW9bub8B7NDTLfXllYBl+pICODo2C2peNTtBLPag==",
-      "path": "microsoft.net.compilers.toolset/3.3.1",
-      "hashPath": "microsoft.net.compilers.toolset.3.3.1.nupkg.sha512"
-    },
-    "Microsoft.NetCore.Analyzers/2.9.2": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-SLCvjexhfwWzlyHYDQ6zMAOgC0gXTLe4kc02LhZ4GTqx7HQ7FXwX1DZrcFZ4AGYLqjCAvJKPpxBF+4jxh1rdkQ==",
-      "path": "microsoft.netcore.analyzers/2.9.2",
-      "hashPath": "microsoft.netcore.analyzers.2.9.2.nupkg.sha512"
+      "sha512": "sha512-7rw0JUPSAVGR0HPekQiQvwGPor44p/Ek21+wZABraG4bVYNrSkx98ZZsxSxG5jJ4oqjACJxea8E62UO0dsKDBw==",
+      "path": "microsoft.codeanalysis.netanalyzers/5.0.3",
+      "hashPath": "microsoft.codeanalysis.netanalyzers.5.0.3.nupkg.sha512"
     },
     "Microsoft.NETCore.Platforms/1.1.0": {
       "type": "package",
@@ -85,13 +44,6 @@
       "sha512": "sha512-kz0PEW2lhqygehI/d6XsPCQzD7ff7gUJaVGPVETX611eadGsA3A877GdSlU0LRVMCTH/+P3o2iDTak+S08V2+A==",
       "path": "microsoft.netcore.platforms/1.1.0",
       "hashPath": "microsoft.netcore.platforms.1.1.0.nupkg.sha512"
-    },
-    "Microsoft.NetFramework.Analyzers/2.9.2": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-EPRERBljfESjfx/DFCzqAVwkVu2bqvbX79/CxcAEpQiVIFjfdqwC9wkdtg/3lM4xshG4DZfaUwH/RkR8hbchsQ==",
-      "path": "microsoft.netframework.analyzers/2.9.2",
-      "hashPath": "microsoft.netframework.analyzers.2.9.2.nupkg.sha512"
     },
     "NETStandard.Library/2.0.3": {
       "type": "package",

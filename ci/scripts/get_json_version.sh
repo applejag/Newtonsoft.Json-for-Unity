@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Set error flags
 set -o nounset
@@ -49,8 +49,8 @@ ASSEMBLY)
     jq2 -er '(.Major // 0|tostring) + ".0.0.0"' "$jsonFile"
     ;;
 SUFFIX)
-    release="$(jq2 -er '.Release // empty' "$jsonFile")"
-    
+    release="$(jq -er '.Release // empty' "$jsonFile")"
+
     if [ -z "$release" ]
     then
         # No suffix
@@ -62,9 +62,12 @@ SUFFIX)
 RELEASE)
     jq2 -er '.Release // 0' "$jsonFile"
     ;;
+AUTO_DEPLOY_LIVE_RUN)
+    jq2 -r '.AutoDeployLiveRun' "$jsonFile"
+    ;;
 *)
     error "Error: Unknown output type '$output'
-    Possible values: FULL, JSON_NET, ASSEMBLY, SUFFIX, RELEASE"
+    Possible values: FULL, JSON_NET, ASSEMBLY, SUFFIX, RELEASE, AUTO_DEPLOY_LIVE_RUN"
     exit 3
     ;;
 esac

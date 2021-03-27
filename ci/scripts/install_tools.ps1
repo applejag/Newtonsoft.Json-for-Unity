@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 # Put together from script originally by JamesNK
 # https://github.com/JamesNK/Newtonsoft.Json/blob/c89d6addf118745c4c14536ce64fd69566ebd644/Build/build.ps1
 $ErrorActionPreference = "Stop"
@@ -26,6 +27,9 @@ function Install-AllTheThingsINeed()
 `$msbuild = '$msBuildPath'
 `$vswhere = '$(Resolve-Path $vswherePath\tools\vswhere.exe)'
 `$nunit3console = '$(Resolve-Path $nunitConsolePath\tools\nunit3-console.exe)'
+
+# https://github.com/microsoft/msbuild/issues/2532
+`$env:MSBuildSDKsPath = 'C:\Program Files\dotnet\sdk\3.0.100\Sdks'
 "@ > .\Temp\profile.ps1
 }
 

@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks Condition="'$(LibraryFrameworks)'==''">netstandard2.0;net46;portable-net45+win8+wpa81+wp8</TargetFrameworks>
+    <TargetFrameworks Condition="'$(LibraryFrameworks)'==''">netstandard2.0;net46</TargetFrameworks>
     <TargetFrameworks Condition="'$(LibraryFrameworks)'!=''">$(LibraryFrameworks)</TargetFrameworks>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
     <!-- version numbers will be updated by build -->
     <AssemblyVersion>11.0.0.0</AssemblyVersion>
     <FileVersion>11.0.1</FileVersion>
@@ -36,13 +36,14 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="**\*.orig" />
+    <EmbeddedResource Include="Resources\link.xml">
+      <LogicalName>Newtonsoft.Json.xml</LogicalName>
+    </EmbeddedResource>
     <None Include="..\..\LICENSE.md" Pack="true" PackagePath="LICENSE.md" />
-    <None Include="$(PackageIconFullPath)" Pack="true" PackagePath="\"/>
+    <None Include="$(PackageIconFullPath)" Pack="true" PackagePath="\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="$(MicrosoftCodeAnalysisFxCopAnalyzersPackageVersion)" PrivateAssets="All" />
-    <!-- Compiler to support nullable in non-preview VS2019 -->
-    <PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="$(MicrosoftNetCompilersToolsetPackageVersion)" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="$(MicrosoftCodeAnalysisNetAnalyzersPackageVersion)" PrivateAssets="All" />
   </ItemGroup> 
   <PropertyGroup Condition="'$(UnityBuild)'=='Tests' OR ('$(UnityBuild)'=='' AND '$(TargetFramework)'=='net46')">
     <!-- Only used in Unity Tests & Newtonsoft.Json.Tests -->
@@ -71,17 +72,5 @@
     <AssemblyTitle>Json.NET for Unity AOT (IL2CPP)</AssemblyTitle>
     <DefineConstants>NETSTANDARD2_0;UNITY_LTS;HAVE_ADO_NET;HAVE_APP_DOMAIN;HAVE_ASYNC;HAVE_BIG_INTEGER;HAVE_BINARY_EXCEPTION_SERIALIZATION;HAVE_BINARY_FORMATTER;HAVE_BINARY_SERIALIZATION;HAVE_CHAR_TO_LOWER_WITH_CULTURE;HAVE_CHAR_TO_STRING_WITH_CULTURE;HAVE_COM_ATTRIBUTES;HAVE_COMPONENT_MODEL;HAVE_CONCURRENT_COLLECTIONS;HAVE_CONCURRENT_DICTIONARY;HAVE_COVARIANT_GENERICS;HAVE_DATA_CONTRACTS;HAVE_DATE_TIME_OFFSET;HAVE_DB_NULL_TYPE_CODE;HAVE_DYNAMIC;HAVE_EMPTY_TYPES;HAVE_ENTITY_FRAMEWORK;HAVE_EXPRESSIONS;HAVE_FAST_REVERSE;HAVE_FSHARP_TYPES;HAVE_FULL_REFLECTION;HAVE_GUID_TRY_PARSE;HAVE_HASH_SET;HAVE_ICLONEABLE;HAVE_ICONVERTIBLE;HAVE_IGNORE_DATA_MEMBER_ATTRIBUTE;HAVE_INOTIFY_COLLECTION_CHANGED;HAVE_INOTIFY_PROPERTY_CHANGING;HAVE_ISET;HAVE_LINQ;HAVE_MEMORY_BARRIER;HAVE_METHOD_IMPL_ATTRIBUTE;HAVE_NON_SERIALIZED_ATTRIBUTE;HAVE_READ_ONLY_COLLECTIONS;HAVE_SECURITY_SAFE_CRITICAL_ATTRIBUTE;HAVE_SERIALIZATION_BINDER_BIND_TO_NAME;HAVE_STREAM_READER_WRITER_CLOSE;HAVE_STRING_JOIN_WITH_ENUMERABLE;HAVE_TIME_SPAN_PARSE_WITH_CULTURE;HAVE_TIME_SPAN_TO_STRING_WITH_CULTURE;HAVE_TIME_ZONE_INFO;HAVE_TRACE_WRITER;HAVE_TYPE_DESCRIPTOR;HAVE_UNICODE_SURROGATE_DETECTION;HAVE_VARIANT_TYPE_PARAMETERS;HAVE_VERSION_TRY_PARSE;HAVE_XLINQ;HAVE_XML_DOCUMENT;HAVE_XML_DOCUMENT_TYPE;$(AdditionalConstants)</DefineConstants>
     <OutputPath>bin\$(Configuration)\unity-aot</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(UnityBuild)'=='Portable' OR '$(TargetFramework)'=='portable-net45+win8+wpa81+wp8'">
-    <!-- Unity portable (WP8, UWP, ...) build -->
-    <TargetFramework>portable-net45+win8+wpa81+wp8</TargetFramework>
-    <AssemblyTitle>Json.NET for Unity portable (wp8)</AssemblyTitle>
-    <DefineConstants>PORTABLE;HAVE_ASYNC;HAVE_COVARIANT_GENERICS;HAVE_DATA_CONTRACTS;HAVE_DATE_TIME_OFFSET;HAVE_DYNAMIC;HAVE_EXPRESSIONS;HAVE_FAST_REVERSE;HAVE_FSHARP_TYPES;HAVE_GUID_TRY_PARSE;HAVE_IGNORE_DATA_MEMBER_ATTRIBUTE;HAVE_INOTIFY_COLLECTION_CHANGED;HAVE_ISET;HAVE_LINQ;HAVE_METHOD_IMPL_ATTRIBUTE;HAVE_OBSOLETE_FORMATTER_ASSEMBLY_STYLE;HAVE_READ_ONLY_COLLECTIONS;HAVE_REFLECTION_BINDER;HAVE_SERIALIZATION_BINDER_BIND_TO_NAME;HAVE_STRING_JOIN_WITH_ENUMERABLE;HAVE_TIME_SPAN_PARSE_WITH_CULTURE;HAVE_TIME_SPAN_TO_STRING_WITH_CULTURE;HAVE_TIME_ZONE_INFO;HAVE_VARIANT_TYPE_PARAMETERS;HAVE_VERSION_TRY_PARSE;HAVE_XLINQ;$(AdditionalConstants)</DefineConstants>
-    <TargetFrameworkIdentifier>.NETPortable</TargetFrameworkIdentifier>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
-    <NugetTargetMoniker>.NETPortable,Version=v0.0,Profile=Profile259</NugetTargetMoniker>
-    <LanguageTargets>$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets</LanguageTargets>
-    <OutputPath>bin\$(Configuration)\unity-portable-net45</OutputPath>
   </PropertyGroup>
 </Project>

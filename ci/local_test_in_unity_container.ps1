@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 
 # Run this script to test all Newtonsoft.Json.Tests
 # using Unity Test Runner
@@ -59,7 +60,7 @@ $UnityLicenseB64 = [Convert]::ToBase64String($UnityLicenseBytes)
 
 if (-not $SkipPackageRebuild) {
     &$PSScriptRoot\local_build_into_test_project.ps1 `
-        -UnityBuilds @('Tests')
+        -UnityBuild Tests
     if ($LASTEXITCODE -ne 0) {
         throw "Failed to complete debug build"
     }
@@ -68,7 +69,7 @@ if (-not $SkipPackageRebuild) {
 Write-Host ">> Starting $DockerImage" -BackgroundColor DarkRed
 $watch = [System.Diagnostics.Stopwatch]::StartNew()
 
-$container = docker run -dit `
+$container = docker run -dit --rm `
     -v "${VolumeSource}:/root/repo" `
     -e SCRIPTS=/root/repo/ci/scripts `
     -e PACKAGE_FOLDER=/root/repo/Src/Newtonsoft.Json-for-Unity `
@@ -105,6 +106,9 @@ function Invoke-DockerCommand ([string] $name, [string] $command) {
 }
 
 try {
+    Invoke-DockerCommand "Enable permissions on scripts" `
+          'chmod +x $SCRIPTS/**.sh -v'
+
     if ($UnityVersion.StartsWith("2018.")) {
         # Unity will regenerate the removed files
         Invoke-DockerCommand "Downgrade Unity project to 2018.x" @'

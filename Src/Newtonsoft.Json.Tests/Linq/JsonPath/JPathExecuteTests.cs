@@ -31,6 +31,9 @@ using System.Numerics;
 #endif
 using Newtonsoft.Json.Linq.JsonPath;
 using Newtonsoft.Json.Tests.Bson;
+#if HAVE_REGEX_TIMEOUTS
+using System.Text.RegularExpressions;
+#endif
 #if DNXCORE50
 using Xunit;
 using Test = Xunit.FactAttribute;
@@ -44,7 +47,6 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Utilities.LinqBridge;
 #else
 using System.Linq;
-
 #endif
 
 namespace Newtonsoft.Json.Tests.Linq.JsonPath
@@ -70,6 +72,27 @@ namespace Newtonsoft.Json.Tests.Linq.JsonPath
             var dd = jObj.SelectToken("$..[?(@.usingmem>21438)]");//null,21,438
             Assert.AreEqual(jObj, dd);
         }
+
+#if HAVE_REGEX_TIMEOUTS
+        [Test]
+        public void BacktrackingRegex_SingleMatch_TimeoutRespected()
+        {
+            const string RegexBacktrackingPattern = "(?<a>(.*?))[|].*(?<b>(.*?))[|].*(?<c>(.*?))[|].*(?<d>[1-3])[|].*(?<e>(.*?))[|].*[|].*[|].*(?<f>(.*?))[|].*[|].*(?<g>(.*?))[|].*(?<h>(.*))";
+
+            var regexBacktrackingData = new JArray();
+            regexBacktrackingData.Add(new JObject(new JProperty("b", @"15/04/2020 8:18:03 PM|1|System.String[]|3|Libero eligendi magnam ut inventore.. Quaerat et sit voluptatibus repellendus blanditiis aliquam ut.. Quidem qui ut sint in ex et tempore.|||.\iste.cpp||46018|-1")));
+
+            ExceptionAssert.Throws<RegexMatchTimeoutException>(() =>
+            {
+                regexBacktrackingData.SelectTokens(
+                    $"[?(@.b =~ /{RegexBacktrackingPattern}/)]",
+                    new JsonSelectSettings
+                    {
+                        RegexMatchTimeout = TimeSpan.FromSeconds(0.01)
+                    }).ToArray();
+            });
+        }
+#endif
 
         [Test]
         public void GreaterThanWithIntegerParameterAndStringValue()

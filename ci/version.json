@@ -1,7 +1,9 @@
 {
-  "Major": 12,
+  "Major": 13,
   "Minor": 0,
-  "Patch": 3,
+  "Patch": 1,
 
-  "Release": 1
+  "Release": 2,
+
+  "AutoDeployLiveRun": false
 }
