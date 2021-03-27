@@ -21,6 +21,27 @@ preset-filter-check: &WORKFLOW_CHECK_DEPLOY_READY_FILTER
 orbs:
   win: circleci/windows@2.4.0
 
+commands:
+  checkout-and-setup:
+    parameters:
+      setup-variables:
+        type: boolean
+        default: false
+      update-package-json:
+        type: boolean
+        default: false
+    steps:
+      - checkout
+      - run:
+          name: Enable permissions on scripts
+          command: chmod +x $SCRIPTS/**.sh -v
+      - when:
+          condition: <<parameters.setup-variables>>
+          steps:
+            - run:
+                name: Setup Variables
+                command: $SCRIPTS/build_setup_variables.sh json <<parameters.update-package-json>> $REPO_FOLDER/ci/version.json
+
 jobs:
   build-package:
     working_directory: ~/repo
@@ -38,22 +59,14 @@ jobs:
 
     steps:
       # Checkout repo -> ~/repo
-      - checkout
+      - checkout-and-setup:
+          setup-variables: true
+          update-package-json: true
 
       - restore_cache:
           keys:
             - build-package-nuget
 
-      - run:
-          name: Enable permissions on scripts
-          command: chmod +x $SCRIPTS/**.sh -v
-
-      - run:
-          name: Setup variables
-          command: |
-            $SCRIPTS/build_setup_variables.sh json true \
-              $REPO_FOLDER/ci/version.json \
-              $REPO_FOLDER/Src/Newtonsoft.Json-for-Unity/package.json
       - run:
           name: NuGet restore
           command: |
@@ -196,7 +209,7 @@ jobs:
 
     steps:
       # Checkout repo -> ~/repo
-      - checkout
+      - checkout-and-setup
 
       - restore_cache:
           keys:
@@ -205,10 +218,6 @@ jobs:
       - restore_cache:
           keys:
             - test-unity-upm-global-<<parameters.unity-version>>
-
-      - run:
-          name: Enable permissions on scripts
-          command: chmod +x $SCRIPTS/**.sh -v
 
       - run:
           name: Setup Unity license
@@ -272,18 +281,11 @@ jobs:
       NPM_REGISTRY: https://npm.cloudsmith.io/jillejr/newtonsoft-json-for-unity/
 
     steps:
-      - checkout
+      - checkout-and-setup:
+          setup-variables: true
 
       - attach_workspace:
           at: /workspace
-
-      - run:
-          name: Enable permissions on scripts
-          command: chmod +x $SCRIPTS/**.sh -v
-
-      - run:
-          name: Setup Variables
-          command: $SCRIPTS/build_setup_variables.sh json false $REPO_FOLDER/ci/version.json
 
       - run:
           name: NPM Login
@@ -321,7 +323,8 @@ jobs:
       - image: applejag/newtonsoft.json-for-unity.package-deploy-github:v6
 
     steps:
-      - checkout
+      - checkout-and-setup:
+          setup-variables: true
 
       - attach_workspace:
           at: /workspace
@@ -331,16 +334,8 @@ jobs:
             - "82:cf:73:91:b8:06:21:84:9e:79:98:57:11:03:5f:db"
 
       - run:
-          name: Enable permissions on scripts
-          command: chmod +x $SCRIPTS/**.sh -v
-
-      - run:
           name: Git Login
           command: $SCRIPTS/git_login.sh
-
-      - run:
-          name: Setup Variables
-          command: $SCRIPTS/build_setup_variables.sh json false $REPO_FOLDER/ci/version.json
 
       - run:
           name: Deploy
@@ -357,18 +352,11 @@ jobs:
       NPM_REGISTRY: https://npm.cloudsmith.io/jillejr/newtonsoft-json-for-unity/
 
     steps:
-      - checkout
+      - checkout-and-setup:
+          setup-variables: true
 
       - attach_workspace:
           at: /workspace
-
-      - run:
-          name: Enable permissions on scripts
-          command: chmod +x $SCRIPTS/**.sh -v
-
-      - run:
-          name: Setup Variables
-          command: $SCRIPTS/build_setup_variables.sh json false $REPO_FOLDER/ci/version.json
 
       - run:
           name: Check if release is ready for deploy
