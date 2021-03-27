@@ -213,7 +213,7 @@ jobs:
       - run:
           name: Setup Unity license
           command: |
-            UNITY_LICENSE_CONTENT_B64="<<parameters.unity-license-b64>>" $SCRIPTS/unity_login.sh
+            UNITY_LICENSE_CONTENT_B64="${<<parameters.unity-license-b64>>}" $SCRIPTS/unity_login.sh
 
       - attach_workspace:
           at: /workspace
