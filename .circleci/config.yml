@@ -41,6 +41,9 @@ commands:
             - run:
                 name: Setup Variables
                 command: $SCRIPTS/build_setup_variables.sh json <<parameters.update-package-json>> $REPO_FOLDER/ci/version.json
+      - run:
+          name: Store Unity version to file
+          command: echo "$UNITY_VERSION" > /unity-version.txt
 
 executors:
   unity-2018-4-14f1: &unity-2018-4-14f1-executor
@@ -227,11 +230,13 @@ jobs:
 
       - restore_cache:
           keys:
-            - test-unity-upm-manifest-{{ .Environment.UNITY_VERSION }}
+            - test-unity-upm-manifest-{{ checksum "/root/repo/Src/Newtonsoft.Json-for-Unity/Packages/manifest.json" }}
+            - test-unity-upm-manifest
 
       - restore_cache:
           keys:
-            - test-unity-upm-global-{{ .Environment.UNITY_VERSION }}
+            - test-unity-upm-global-{{ checksum "/unity-version.txt" }}
+            - test-unity-upm-global
 
       - run:
           name: Setup Unity license
@@ -275,12 +280,12 @@ jobs:
           path: ~/tests/junit
 
       - save_cache:
-          key: test-unity-upm-manifest-{{ .Environment.UNITY_VERSION }}
+          key: test-unity-upm-manifest-{{ checksum "/root/repo/Src/Newtonsoft.Json-for-Unity/Packages/manifest.json" }}
           paths:
             - /root/repo/Src/Newtonsoft.Json-for-Unity.Tests/Library/PackageCache
 
       - save_cache:
-          key: test-unity-upm-global-{{ .Environment.UNITY_VERSION }}
+          key: test-unity-upm-global-{{ checksum "/unity-version.txt" }}
           paths:
             - /root/.config/unity3d/cache
 
