@@ -230,7 +230,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - test-unity-upm-manifest-{{ checksum "/root/repo/Src/Newtonsoft.Json-for-Unity/Packages/manifest.json" }}
+            - test-unity-upm-manifest-{{ checksum "/root/repo/Src/Newtonsoft.Json-for-Unity.Tests/Packages/manifest.json" }}
             - test-unity-upm-manifest
 
       - restore_cache:
@@ -280,7 +280,7 @@ jobs:
           path: ~/tests/junit
 
       - save_cache:
-          key: test-unity-upm-manifest-{{ checksum "/root/repo/Src/Newtonsoft.Json-for-Unity/Packages/manifest.json" }}
+          key: test-unity-upm-manifest-{{ checksum "/root/repo/Src/Newtonsoft.Json-for-Unity.Tests/Packages/manifest.json" }}
           paths:
             - /root/repo/Src/Newtonsoft.Json-for-Unity.Tests/Library/PackageCache
 
