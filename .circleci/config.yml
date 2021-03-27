@@ -48,18 +48,21 @@ executors:
       - image: applejag/newtonsoft.json-for-unity.package-unity-tester:v1-2018.4.14f1
     environment:
       UNITY_LICENSE_CONTENT_B64_ENV: UNITY_2018_4_14F1_LICENSE_CONTENT_B64
+      UNITY_VERSION: 2018.4.14f1
 
   unity-2019-2-11f1:
     docker:
       - image: applejag/newtonsoft.json-for-unity.package-unity-tester:v1-2019.2.11f1
     environment:
       UNITY_LICENSE_CONTENT_B64_ENV: UNITY_2019_2_11F1_LICENSE_CONTENT_B64
+      UNITY_VERSION: 2019.2.11f1
 
   unity-2020-1-0b6:
     docker:
       - image: applejag/newtonsoft.json-for-unity.package-unity-tester:v1-2020.1.0b6-linux-il2cpp
     environment:
       UNITY_LICENSE_CONTENT_B64_ENV: UNITY_2020_1_0B6_LICENSE_CONTENT_B64
+      UNITY_VERSION: 2020.1.0b6
 
 jobs:
   build-package:
@@ -224,11 +227,11 @@ jobs:
 
       - restore_cache:
           keys:
-            - test-unity-upm-manifest-<<parameters.unity-version>>
+            - test-unity-upm-manifest-$UNITY_VERSION
 
       - restore_cache:
           keys:
-            - test-unity-upm-global-<<parameters.unity-version>>
+            - test-unity-upm-global-$UNITY_VERSION
 
       - run:
           name: Setup Unity license
@@ -272,12 +275,12 @@ jobs:
           path: ~/tests/junit
 
       - save_cache:
-          key: test-unity-upm-manifest-<<parameters.unity-version>>
+          key: test-unity-upm-manifest-$UNITY_VERSION
           paths:
             - /root/repo/Src/Newtonsoft.Json-for-Unity.Tests/Library/PackageCache
 
       - save_cache:
-          key: test-unity-upm-global-<<parameters.unity-version>>
+          key: test-unity-upm-global-$UNITY_VERSION
           paths:
             - /root/.config/unity3d/cache
 
