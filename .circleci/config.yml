@@ -47,19 +47,19 @@ executors:
     docker:
       - image: applejag/newtonsoft.json-for-unity.package-unity-tester:v1-2018.4.14f1
     environment:
-      UNITY_LICENSE_CONTENT_B64: $UNITY_2018_4_14F1_LICENSE_CONTENT_B64
+      UNITY_LICENSE_CONTENT_B64_ENV: UNITY_2018_4_14F1_LICENSE_CONTENT_B64
 
   unity-2019-2-11f1:
     docker:
       - image: applejag/newtonsoft.json-for-unity.package-unity-tester:v1-2019.2.11f1
     environment:
-      UNITY_LICENSE_CONTENT_B64: $UNITY_2019_2_11F1_LICENSE_CONTENT_B64
+      UNITY_LICENSE_CONTENT_B64_ENV: UNITY_2019_2_11F1_LICENSE_CONTENT_B64
 
   unity-2020-1-0b6:
     docker:
       - image: applejag/newtonsoft.json-for-unity.package-unity-tester:v1-2020.1.0b6-linux-il2cpp
     environment:
-      UNITY_LICENSE_CONTENT_B64: $UNITY_2020_1_0B6_LICENSE_CONTENT_B64
+      UNITY_LICENSE_CONTENT_B64_ENV: UNITY_2020_1_0B6_LICENSE_CONTENT_B64
 
 jobs:
   build-package:
@@ -233,7 +233,7 @@ jobs:
       - run:
           name: Setup Unity license
           command: |
-            UNITY_LICENSE_CONTENT_B64="$UNITY_LICENSE_CONTENT_B64" $SCRIPTS/unity_login.sh
+            UNITY_LICENSE_CONTENT_B64="${$UNITY_LICENSE_CONTENT_B64_ENV}" $SCRIPTS/unity_login.sh
 
       - attach_workspace:
           at: /workspace
