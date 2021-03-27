@@ -31,7 +31,7 @@ and portable .NET **(UWP, WP8)**.
 
 - Precompiled as DLLs for faster builds
 
-- [_Newtonsoft.Json.Utility_.**AotHelper**][wiki-fix-aot-using-aothelper]
+- [*Newtonsoft.Json.Utility*.**AotHelper**][wiki-fix-aot-using-aothelper]
   utility class for resolving common Ahead-Of-Time issues.
   [(Read more about AOT)][wiki-what-even-is-aot]
 

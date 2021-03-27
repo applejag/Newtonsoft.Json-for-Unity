@@ -1,4 +1,4 @@
-<sup>_Yes, this is the same content as the [How to contribute][wiki-contributing] page on the wiki._</sup>
+<sup>*Yes, this is the same content as the [How to contribute][wiki-contributing] page on the wiki.*</sup>
 
 # How to contribute
 Any help given on this project is massively appreciated! ❤

@@ -8,7 +8,7 @@ standalone, portable (UWP, WP8), and AOT targets such as all IL2CPP builds
 
 ## Versioning format
 
-_Staying with JamesNK's version syntax, but with a twist :dizzy:_
+*Staying with JamesNK's version syntax, but with a twist :dizzy:*
 
 Based off JamesNK's versioning, but with the addition of two digits on the last
 segment. This is for Newtonsoft.Json-for-Unity to be able to have independent

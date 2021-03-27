@@ -74,7 +74,7 @@
 
 - 🔄 Change: Better versioning format. For more info see
   [the wiki page][wiki-versioning]. Changes are based of off `12.0.1`
-  version _(in previous format)._
+  version *(in previous format).*
 
 - 🐛 Fix: Building on standalone causes plugin collision ([#3][#3])
 
