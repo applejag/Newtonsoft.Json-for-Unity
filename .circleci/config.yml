@@ -43,19 +43,19 @@ commands:
                 command: $SCRIPTS/build_setup_variables.sh json <<parameters.update-package-json>> $REPO_FOLDER/ci/version.json
 
 executors:
-  unity-2018.4.14f1: &unity-2018.4.14f1-executor
+  unity-2018-4-14f1: &unity-2018-4-14f1-executor
     docker:
       - image: applejag/newtonsoft.json-for-unity.package-unity-tester:v1-2018.4.14f1
     environment:
       UNITY_LICENSE_CONTENT_B64: $UNITY_2018_4_14F1_LICENSE_CONTENT_B64
 
-  unity-2019.2.11f1:
+  unity-2019-2-11f1:
     docker:
       - image: applejag/newtonsoft.json-for-unity.package-unity-tester:v1-2019.2.11f1
     environment:
       UNITY_LICENSE_CONTENT_B64: $UNITY_2019_2_11F1_LICENSE_CONTENT_B64
 
-  unity-2020.1.0b6:
+  unity-2020-1-0b6:
     docker:
       - image: applejag/newtonsoft.json-for-unity.package-unity-tester:v1-2020.1.0b6-linux-il2cpp
     environment:
@@ -246,7 +246,7 @@ jobs:
 
       - when:
           condition:
-            equal: [ *unity-2018.4.14f1-executor, <<parameters.unity-version>> ]
+            equal: [ *unity-2018-4-14f1-executor, <<parameters.unity-version>> ]
           steps:
             - run:
                 name: Downgrade Unity project to 2018.x
@@ -388,7 +388,7 @@ workflows:
       - test-unity:
           matrix:
             parameters:
-              unity-version: [ 2018.4.14f1, 2019.2.11f1, 2020.1.0b6 ]
+              unity-version: [ 2018-4-14f1, 2019-2-11f1, 2020-1-0b6 ]
           requires:
             - build-package
   check-deploy-ready:
@@ -409,7 +409,7 @@ workflows:
       - test-unity:
           matrix:
             parameters:
-              unity-version: [ 2018.4.14f1, 2019.2.11f1, 2020.1.0b6 ]
+              unity-version: [ 2018-4-14f1, 2019-2-11f1, 2020-1-0b6 ]
           requires:
             - build-package
       - check-deploy-ready:
