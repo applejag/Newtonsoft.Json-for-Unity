@@ -227,11 +227,11 @@ jobs:
 
       - restore_cache:
           keys:
-            - test-unity-upm-manifest-$UNITY_VERSION
+            - test-unity-upm-manifest-{{ .Environment.UNITY_VERSION }}
 
       - restore_cache:
           keys:
-            - test-unity-upm-global-$UNITY_VERSION
+            - test-unity-upm-global-{{ .Environment.UNITY_VERSION }}
 
       - run:
           name: Setup Unity license
@@ -275,12 +275,12 @@ jobs:
           path: ~/tests/junit
 
       - save_cache:
-          key: test-unity-upm-manifest-$UNITY_VERSION
+          key: test-unity-upm-manifest-{{ .Environment.UNITY_VERSION }}
           paths:
             - /root/repo/Src/Newtonsoft.Json-for-Unity.Tests/Library/PackageCache
 
       - save_cache:
-          key: test-unity-upm-global-$UNITY_VERSION
+          key: test-unity-upm-global-{{ .Environment.UNITY_VERSION }}
           paths:
             - /root/.config/unity3d/cache
 
