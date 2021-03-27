@@ -210,7 +210,7 @@ jobs:
           paths:
             - C:\Users\circleci\.nuget\packages
 
-  test-unity:
+  test:
     parameters:
       unity-version:
         type: executor
@@ -393,7 +393,7 @@ workflows:
       - test-windows:
           requires:
             - build-package
-      - test-unity:
+      - test:
           matrix:
             parameters:
               unity-version: [ unity-2018-4-14f1, unity-2019-2-11f1, unity-2020-1-0b6 ]
@@ -414,7 +414,7 @@ workflows:
       - test-windows:
           requires:
             - build-package
-      - test-unity:
+      - test:
           matrix:
             parameters:
               unity-version: [ unity-2018-4-14f1, unity-2019-2-11f1, unity-2020-1-0b6 ]
@@ -423,7 +423,7 @@ workflows:
       - check-deploy-ready:
           requires:
             - test-windows
-            - test-unity
+            - test
       - deploy-cloudsmith:
           requires:
             - check-deploy-ready
