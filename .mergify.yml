@@ -1,0 +1,10 @@
+pull_request_rules:
+  - name: Automatic merge on approval
+    conditions:
+      - "base~=backport/.*"
+      - "label=backport"
+      - "check-success=build-test-deploy"
+      - "check-success=Codacy Static Code Analysis"
+    actions:
+      merge:
+        method: merge
