@@ -12,7 +12,7 @@
 The scripts in this directory are used to build and test the package using
 Docker images.
 
-### Prerequisites
+## Prerequisites
 
 - **Powershell**:
 
@@ -35,7 +35,7 @@ Docker images.
   :warning: It was a while since I (@jilleJr) used these files so they may not
   work any more. They are starting to show their age, so to speak.
 
-### Building
+## Building
 
 ``` sh
 ./ci/local_build_into_package.ps1
@@ -44,7 +44,7 @@ Docker images.
 This script will compile the project into the
 `Src/Newtonsoft.Json-for-Unity/Plugins` directory using Docker images.
 
-### Testing
+## Testing
 
 ``` sh
 ./ci/local_test_in_unity_container.ps1
