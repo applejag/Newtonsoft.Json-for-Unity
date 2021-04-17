@@ -18,8 +18,8 @@ and portable .NET **(UWP, WP8)**.
 
 ## Features
 
-- *(🌟 new!)* Backported! Provides Newtonsoft.Json v10.0.3, v11.0.2, v12.0.3, and
-  v13.0.1 alternatives.
+- *(🌟 new!)* Backported! Provides Newtonsoft.Json v10.0.3, v11.0.2, v12.0.3,
+  and v13.0.1 alternatives.
 
 - [Newtonsoft.Json-for-Unity.Converters][json.net-4-unity.converters]
   package for converting Unity types, such as the Vector3, Quaternion, Color,
