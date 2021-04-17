@@ -157,38 +157,9 @@ If you want to contribute, here's what you can do:
 
 ## Development
 
-### Edit code
-
-Open the `Src/Newtonsoft.Json.sln` solution file in Visual Studio and start
-hacking.
-
-Rule of thumb: Don't commit edits of the `Src/Newtonsoft.Json/`,
-`Src/Newtonsoft.Json.Tests/`, or `Src/Newtonsoft.Json.TestConsole/` folders
-for forking reasons. Exception is when doing a new release, as explained in
-a section little further down below.
-
-### Prerequisites
-
-- **Powershell**:
-
-  For Linux users, install the `dotnet` CLI and then install the `powershell`
-  tool:
-
-  ```sh
-  # This will install the command `pwsh`
-  dotnet tool install --global powershell
-  ```
-  
-- **Docker**
-
 ### Building
 
-``` sh
-./ci/local_build_into_package.ps1
-```
-
-This script will compile the project into the
-`Src/Newtonsoft.Json-for-Unity/Plugins` directory using Docker images.
+These docs have been moved to [./ci/README.md](./ci/README.md).
 
 ### Linting markdown
 
